@@ -31,8 +31,7 @@ class ArticlesController extends Controller
   }
   
   public function store(ArticleRequest $request) {
-    $article = Auth::user()->articles()->create($request->validated());
-    $article->tags()->attach($request->input('tags'));
+    Article::create($request->validated());
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
     
