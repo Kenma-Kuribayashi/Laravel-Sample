@@ -1,6 +1,11 @@
 @extends('layout')
  
 @section('content')
+  
+  <figure>
+    <img src="/storage/{{ $article->id }}.jpg" width="300px" height="300px">
+  </figure>
+
   <h1>{{ $article->title }}</h1>
  
   <hr/>

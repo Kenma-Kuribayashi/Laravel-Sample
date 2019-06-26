@@ -12,19 +12,19 @@
  
   @foreach($articles as $article)
     <article>
-      <ul>
-        <li class="news-li">
-          <a href="{{ url('articles', $article->id) }}">{{ $article->title }}</a>
-          <div class="created-time">
-            {{ $article->created_at->format('n/d') }}
-            <?php
-              $week = ['日','月','火','水', '木', '金', '土', ];
-              $date = date('w');
-              echo '(' . $week[$date] . ')';?>
-            {{ $article->created_at->format('H:i') }}
-          </div>
-        </li>
-      </ul>
+        <figure>
+          <img src="/storage/{{ $article->id }}.jpg" class="news-image" width="50px" height="50px">
+        </figure>
+        <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
+        <div class="created-time">
+          {{ $article->created_at->format('n/d') }}
+          <?php
+            $week = ['日','月','火','水', '木', '金', '土', ];
+            $date = date('w');
+            echo '(' . $week[$date] . ')';
+          ?>
+          {{ $article->created_at->format('H:i') }}
+        </div>
     </article>
   @endforeach
 @endsection
