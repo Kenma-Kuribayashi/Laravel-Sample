@@ -19,13 +19,15 @@
 
 body {
   background-color: white;
+  width:1000px;
 }
 .header {
-  padding:20px 0 0 20px;
+  width:900px;
+  margin:20px 0px 50px 200px;
 }
 .main-logo {
   color: red;
-  
+  float: left;
 }
 .sub-logo {
   font-size: 20px;
@@ -35,20 +37,25 @@ body {
 }
 .login {
   color: black;
-  padding-left: 800px;
+  margin-left: 500px;
 }
 .register {
   color: black;
 }
 .logout {
   color: black;
-  padding-left: 800px;
+  margin-left: 500px;
+}
+.container {
+  padding:0;
+  width:900px;
+  margin-left:200px;
 }
 
 /*showページ*/
 
-article {
-  
+.new-article {
+  width:900px;
 }
 .news-image {
   float: left;
@@ -56,8 +63,9 @@ article {
 .news-li {
   font-size: 20px;
 }
-
 .created-time {
   font-size: 14px;
   color: gray;
 }
+
+

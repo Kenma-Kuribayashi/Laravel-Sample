@@ -1,14 +1,47 @@
 @extends('layout')
  
 @section('content')
-  <h1>
+  <h1 class="new-article">
     @auth
       {{-- ログインしている時だけ表示 --}}
       <a href="{{ route('articles.create') }}" class="btn btn-primary float-right">新規作成</a>
     @endauth
   </h1>
   
-  <hr/>
+<div class="nav-body">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">主要</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">国内</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">国際</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">経済</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">エンタメ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">スポーツ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">IT</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">科学</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">ライフ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">地域</a>
+    </li>
+  </ul>
+</div>
  
   @foreach($articles as $article)
     <article>

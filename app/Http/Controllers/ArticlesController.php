@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Tag;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
@@ -21,7 +22,6 @@ class ArticlesController extends Controller
   }
  
   public function show(Article $article) {
-
     return view('articles.show', compact('article'));
   }
   
@@ -48,8 +48,34 @@ class ArticlesController extends Controller
   }
   
   public function destroy(Article $article) {
+    
     $article->delete();
  
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
+  
+  public function upload(Request $request,Article $article){
+    $this->validate($request, [
+      'image' => [
+        'required',
+        'file',
+        'image',
+        'mimes:jpeg,png',]
+    ]);
+    $image = base64_encode(file_get_contents($request->image->getRealPath()));
+    Article::insert([
+      "image" => $image
+    ]);
+    return view('dashboard');
+    // if ($request->file('file')->isValid([])) {
+    //   $path = $request->file('file')->store('public');
+    //   return view('articles.show', compact('article'))->with('filename', basename($path));
+    // } else {
+    //   return redirect()
+    //     ->back()
+    //     ->withInput()
+    //     ->withErrors();
+    // }
+  }
+  
 }

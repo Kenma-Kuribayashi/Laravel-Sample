@@ -16,6 +16,7 @@
 Route::get('contact', 'PagesController@contact')->name('contact');
 Route::get('about', 'PagesController@about')->name('about');
 
+Route::post('/upload', 'ArticlesController@upload');
 Route::get('/', 'ArticlesController@index')->name('home');
 Route::resource('articles', 'ArticlesController');
 

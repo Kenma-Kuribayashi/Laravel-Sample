@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>My Blog</title>
+    <title>Sample News</title>
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/app.js" defer></script>
 </head>
@@ -35,5 +35,6 @@
     {{-- コンテンツの表示 --}}
     @yield('content')
   </div>
+  
 </body>
 </html>
