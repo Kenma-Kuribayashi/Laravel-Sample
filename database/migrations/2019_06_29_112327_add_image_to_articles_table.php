@@ -14,7 +14,7 @@ class AddImageToArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-             $table->text('image');
+             //$table->text('image');
         });
     }
 

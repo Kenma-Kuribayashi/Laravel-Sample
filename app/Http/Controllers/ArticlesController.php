@@ -6,6 +6,7 @@ use App\Article;
 use App\Tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -32,7 +33,7 @@ class ArticlesController extends Controller
   }
   
   public function store(ArticleRequest $request) {
-    Article::create($request->validated());
+    Auth::user()->articles()->create($request->validated());
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
     
