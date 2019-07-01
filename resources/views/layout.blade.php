@@ -8,7 +8,10 @@
 </head>
 <body>
   {{-- ナビゲーションバーの Partial を使用 --}}
-  {{-- @include('navbar') --}}
+  @guest
+  @else
+    @include('navbar')
+  @endguest
   <div class="header">
     <h1><a class="main-logo" href="{{ route('home') }}">Sample!</a></h1>
     <a class="sub-logo" href="{{ route('home') }}">ニュース</a>
@@ -16,14 +19,14 @@
       <a class="login" href="{{ route('login') }}">ログイン</a>
       <a class="register" href="{{ route('register') }}">新規登録</a>
     @else <!-- ログインしている時のメニュー -->
-      <a class="logout" href="#"
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        ログアウト
-      </a>
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-      </form>
-        @endguest
+      <!--<a class="logout" href="#"-->
+      <!--  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">-->
+      <!--  ログアウト-->
+      <!--</a>-->
+      <!--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">-->
+      <!--  @csrf-->
+      <!--</form>-->
+      <!--  @endguest-->
   </div>
   
   <div class="container">

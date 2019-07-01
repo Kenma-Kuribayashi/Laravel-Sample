@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
+  <div class="nav-container">
     <!-- ブランド表示 -->
-    <a class="navbar-brand" href="{{ route('home') }}">My Blog</a>
+    <a class="navbar-brand" href="{{ route('home') }}">Sampleニュース</a>
  
     <!-- スマホやタブレットで表示した時のメニューボタン -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,33 +10,15 @@
  
     <!-- メニュー -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- 左寄せメニュー -->
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('home') }}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('about') }}">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('contact') }}">Contact</a>
-        </li>
-      </ul>
- 
       <!-- 右寄せメニュー -->
       <ul class="navbar-nav">
-        @guest
-          <!-- ログインしていない時のメニュー -->
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">Register</a>
-          </li>
-        @else
+        @auth
           <!-- ログインしている時のメニュー -->
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+            <a class="nav-link" href="{{ route('dashboard') }}">ユーザー一覧</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('dashboard') }}">タグ作成</a>
           </li>
  
         <!-- ドロップダウンメニュー -->
@@ -57,7 +39,7 @@
             </form>
           </div>
         </li>
-        @endguest
+        @endauth
       </ul>
     </div>
   </div>

@@ -20,5 +20,7 @@ Route::post('/upload', 'ArticlesController@upload');
 Route::get('/', 'ArticlesController@index')->name('home');
 Route::resource('articles', 'ArticlesController');
 
+
 Auth::routes();
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+// Route::get('/dashboard', 'ArticlesController@index');
