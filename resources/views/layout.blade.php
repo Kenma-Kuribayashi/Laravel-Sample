@@ -18,7 +18,7 @@
     @guest <!-- ログインしていない時のメニュー -->
       <a class="login" href="{{ route('login') }}">ログイン</a>
       <a class="register" href="{{ route('register') }}">新規登録</a>
-    @else <!-- ログインしている時のメニュー -->
+    @else 
       <!--<a class="logout" href="#"-->
       <!--  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">-->
       <!--  ログアウト-->
@@ -26,7 +26,7 @@
       <!--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">-->
       <!--  @csrf-->
       <!--</form>-->
-      <!--  @endguest-->
+    @endguest
   </div>
   
   <div class="container">
