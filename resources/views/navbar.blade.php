@@ -18,7 +18,7 @@
             <a class="nav-link" href="{{ route('dashboard') }}">ユーザー一覧</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">タグ作成</a>
+            <a class="nav-link" href="/tags/create">タグ作成</a>
           </li>
  
         <!-- ドロップダウンメニュー -->
