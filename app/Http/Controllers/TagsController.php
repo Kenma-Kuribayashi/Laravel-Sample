@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class TagsController extends Controller
 {
+  
+  public function index() {
+    $tags = Tag::all();
+    return view('tags.index', compact('tags'));
+  }
+  
   public function create(){
     return view('tags.create');
   }
@@ -14,7 +20,12 @@ class TagsController extends Controller
   public function store() {
     $inputs = \Request::all();
     Tag::create($inputs);
-    // return redirect('articles');
-    return view('tags.create');
+    return redirect('tags');
+  }
+  
+  public function destroy($id) {
+    $tag = Tag::findOrFail($id);
+    $tag->delete();
+    return redirect('tags');
   }
 }

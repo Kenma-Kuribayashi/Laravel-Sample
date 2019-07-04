@@ -87,4 +87,12 @@ body {
   color: gray;
 }
 
+/*タグ一覧ページ*/
 
+.tag-name {
+  float:left;
+}
+.tag-delete {
+  /*float: right;*/
+  margin-left: 50px;
+}

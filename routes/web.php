@@ -24,5 +24,7 @@ Route::resource('articles', 'ArticlesController');
 Auth::routes();
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+Route::get('tags', 'TagsController@index');
 Route::get('tags/create', 'TagsController@create');
 Route::post('tags', 'TagsController@store');
+Route::delete('tags/{id}', 'TagsController@destroy');

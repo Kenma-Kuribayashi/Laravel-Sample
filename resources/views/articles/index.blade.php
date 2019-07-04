@@ -60,4 +60,6 @@
         </div>
     </article>
   @endforeach
+  <br>
+  {{ $articles->links() }}
 @endsection
