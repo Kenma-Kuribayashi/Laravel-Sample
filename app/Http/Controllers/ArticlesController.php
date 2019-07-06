@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Tag;
+use App\Article_tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ class ArticlesController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth')->except(['index', 'show']);
+    $this->middleware('auth')->except(['index', 'show', 'domestic']);
   }
   
   public function index() {
@@ -33,7 +34,8 @@ class ArticlesController extends Controller
   }
   
   public function store(ArticleRequest $request) {
-    Auth::user()->articles()->create($request->validated());
+    $article = Auth::user()->articles()->create($request->validated());
+    $article->tags()->attach($request->input('tags'));
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
     
@@ -77,6 +79,13 @@ class ArticlesController extends Controller
     //     ->withInput()
     //     ->withErrors();
     // }
+  }
+  
+  public function domestic($id) { //タグのid
+    $articles = Article::latest('published_at')->latest('created_at') //全記事を取り出してる
+      ->published()
+      ->paginate(10);
+    return view('articles.domestic', compact('articles','id'));
   }
   
 }

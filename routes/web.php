@@ -18,6 +18,7 @@ Route::get('about', 'PagesController@about')->name('about');
 
 Route::post('/upload', 'ArticlesController@upload');
 Route::get('/', 'ArticlesController@index')->name('home');
+Route::get('/articles/tags/{id}', 'ArticlesController@domestic'); //特定タグのindex idでタグを判別してる
 Route::resource('articles', 'ArticlesController');
 
 

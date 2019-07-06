@@ -8,40 +8,7 @@
     @endauth
   </h1>
   
-<div class="nav-body">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">主要</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">国内</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">国際</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">経済</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">エンタメ</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">スポーツ</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">IT</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">科学</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">ライフ</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">地域</a>
-    </li>
-  </ul>
-</div>
+  @include('nav-tab')
  
   @foreach($articles as $article)
     <article>
