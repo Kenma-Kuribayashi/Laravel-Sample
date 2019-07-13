@@ -20,7 +20,7 @@ class ArticlesController extends Controller
   public function index() {
     $articles = Article::latest('published_at')->latest('created_at')
       ->published()
-      ->paginate(10);
+      ->paginate(8);
     $bbs = Bb::all();  //画像テーブルから全て取り出してる
     return view('articles.index', compact('articles', 'bbs'));
   }
