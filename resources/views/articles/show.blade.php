@@ -4,6 +4,8 @@
   
   @include('nav-tab')
   
+  <br>
+  
   @if ($errors->any())
   <ul>
     @foreach($errors->all() as $error)
@@ -12,28 +14,24 @@
   </ul>
   @endif
   
-  
-  
-   <form action="{{ url('upload') }}" method="POST" enctype="multipart/form-data">
-    <!-- アップロードした画像。なければ表示しない -->
-    @isset ($filename)
-    <div>
-      <img src="{{ asset('storage/' . $filename) }}">  
+    <div class="panel panel-default">
+      @if (!empty($bb->image)) <!--imageカラムが空じゃなかったら-->
+        <figure>
+          <img src='data:img/png;base64,{{$bb->image}}' width="700px" height="300px">　<!--base64でエンコードされた画像を表示するという記法-->
+        </figure>
+      @else
+        <form action="/welcome" method="POST" enctype="multipart/form-data" class="post_form">
+          <div class="form_parts">
+        <label for="photo">画像ファイル:</label>
+        <input type="file" class="form-control" name="image">
+        <br>
+        {{ csrf_field() }}
+        <button class="btn btn-success">投稿</button>
+      </div>
+    </form>
+      @endif
     </div>
-    @endisset
-
-    <label for="photo">画像ファイル:</label>
-    <input type="file" class="form-control" name="image">
-    <br>
-    <hr>
-    {{ csrf_field() }}
-    <button class="btn btn-success"> Upload </button>
-  </form>
   
-  <figure>
-    <img src="/storage/{{ $article->id }}.jpg" width="300px" height="300px">
-  </figure>
-
   <h1>{{ $article->title }}</h1>
  
   <article>

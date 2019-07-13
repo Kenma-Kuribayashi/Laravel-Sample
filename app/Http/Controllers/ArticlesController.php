@@ -8,6 +8,7 @@ use App\Article_tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Bb;
 
 class ArticlesController extends Controller
 {
@@ -20,11 +21,13 @@ class ArticlesController extends Controller
     $articles = Article::latest('published_at')->latest('created_at')
       ->published()
       ->paginate(10);
-    return view('articles.index', compact('articles'));
+    $bbs = Bb::all();  //画像テーブルから全て取り出してる
+    return view('articles.index', compact('articles', 'bbs'));
   }
  
   public function show(Article $article) {
-    return view('articles.show', compact('article'));
+    $bb = Bb::findOrFail($article->id);
+    return view('articles.show', compact('article', 'bb'));
   }
   
   public function create()

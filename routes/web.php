@@ -12,7 +12,7 @@
 */
 
 Route::get('/welcome', 'WelcomeController@index');
-Route::post('welcome', 'WelcomeController@store');
+Route::post('/welcome', 'WelcomeController@store');
 
 Route::get('contact', 'PagesController@contact')->name('contact');
 Route::get('about', 'PagesController@about')->name('about');

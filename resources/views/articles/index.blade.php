@@ -12,9 +12,15 @@
  
   @foreach($articles as $article)
     <article>
-        <figure>
-          <img src="/storage/{{ $article->id }}.jpg" class="news-image" width="50px" height="50px">
-        </figure>
+       @foreach($bbs as $bb) <!--Bbsテーブルから1つずつ取り出してる→無駄-->
+         @if (!empty($bb->image)) 
+           @if ($article->id == $bb->id)  <!--記事のidと画像のidがあったときだけ表示する-->
+             <figure>
+               <img src='data:img/png;base64,{{$bb->image}}' class="news-image" width="50px" height="50px">
+             </figure>
+           @endif
+         @endif
+       @endforeach
         <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
         <div class="created-time">
           {{ $article->created_at->format('n/d') }}

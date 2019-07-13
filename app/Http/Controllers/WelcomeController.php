@@ -28,7 +28,7 @@ class WelcomeController extends Controller
     if ($request->file('image')->isValid([])) {
       $image = base64_encode(file_get_contents($request->image->getRealPath()));
       Bb::insert(["image" => $image]);
-      return redirect('welcome')->with('message', '画像を投稿しました。');
+      return redirect('/welcome')->with('message', '画像を投稿しました。');
         } else {
             return redirect()
                 ->back()
