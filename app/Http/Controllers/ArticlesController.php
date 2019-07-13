@@ -65,20 +65,10 @@ class ArticlesController extends Controller
         'image',
         'mimes:jpeg,png',]
     ]);
-    $image = base64_encode(file_get_contents($request->image->getRealPath()));
-    Article::insert([
-      "image" => $image
-    ]);
+    // $image = base64_encode(file_get_contents($request->image->getRealPath()));
+    $image = "aaa";
+    Article::insert(["image" => $image]);
     return view('dashboard');
-    // if ($request->file('file')->isValid([])) {
-    //   $path = $request->file('file')->store('public');
-    //   return view('articles.show', compact('article'))->with('filename', basename($path));
-    // } else {
-    //   return redirect()
-    //     ->back()
-    //     ->withInput()
-    //     ->withErrors();
-    // }
   }
   
   public function domestic($id) { //タグのid

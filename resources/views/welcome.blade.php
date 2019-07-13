@@ -95,5 +95,24 @@
                 </div>
             </div>
         </div>
+        <form action="welcome" method="POST" enctype="multipart/form-data" class="post_form">
+          <div class="form_parts">
+            <input type="file" name="image">
+            <br>
+            <br>
+            <textarea name="comment" rows="4" cols="40"></textarea>
+            <br>
+            {{ csrf_field() }}
+            <button class="btn btn-success">投稿</button>
+          </div>
+        </form>
+        
+        @foreach($bbs as $bb)
+          <div class="panel panel-default">
+            @if (!empty($bb->image)) <!--imageカラムが空じゃなかったら-->
+              <img src='data:img/png;base64,{{$bb->image}}'>　<!--base64でエンコードされた画像を表示するという記法-->
+            @endif
+          </div>
+        @endforeach
     </body>
 </html>

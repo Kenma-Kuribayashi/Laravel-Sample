@@ -14,7 +14,7 @@
   
   
   
-  <form action="{{ url('upload') }}" method="POST" enctype="multipart/form-data">
+   <form action="{{ url('upload') }}" method="POST" enctype="multipart/form-data">
     <!-- アップロードした画像。なければ表示しない -->
     @isset ($filename)
     <div>
