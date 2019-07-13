@@ -4,8 +4,6 @@
   
   @include('nav-tab')
   
-  <br>
-  
   @if ($errors->any())
   <ul>
     @foreach($errors->all() as $error)
@@ -14,7 +12,9 @@
   </ul>
   @endif
   
-    <div class="panel panel-default">
+  
+  
+   <div class="panel panel-default">
       @if (!empty($bb->image)) <!--imageカラムが空じゃなかったら-->
         <figure>
           <img src='data:img/png;base64,{{$bb->image}}' width="700px" height="300px">　<!--base64でエンコードされた画像を表示するという記法-->
@@ -31,7 +31,7 @@
     </form>
       @endif
     </div>
-  
+
   <h1>{{ $article->title }}</h1>
  
   <article>

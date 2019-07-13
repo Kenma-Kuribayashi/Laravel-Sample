@@ -26,7 +26,7 @@ class ArticlesController extends Controller
   }
  
   public function show(Article $article) {
-    $bb = Bb::findOrFail($article->id);
+    $bb = Bb::find($article->id);
     return view('articles.show', compact('article', 'bb'));
   }
   
