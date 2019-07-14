@@ -21,13 +21,11 @@ class ArticlesController extends Controller
     $articles = Article::latest('published_at')->latest('created_at')
       ->published()
       ->paginate(10);
-    $bbs = Bb::all();  //画像テーブルから全て取り出してる
-    return view('articles.index', compact('articles', 'bbs'));
+    return view('articles.index', compact('articles'));
   }
  
   public function show(Article $article) {
-    $bb = Bb::find($article->id);
-    return view('articles.show', compact('article', 'bb'));
+    return view('articles.show', compact('article'));
   }
   
   public function create()
@@ -68,10 +66,16 @@ class ArticlesController extends Controller
         'image',
         'mimes:jpeg,png',]
     ]);
-    // $image = base64_encode(file_get_contents($request->image->getRealPath()));
-    $image = "aaa";
-    Article::insert(["image" => $image]);
-    return view('dashboard');
+    if ($request->file('image')->isValid([])) {
+      $image = base64_encode(file_get_contents($request->image->getRealPath()));
+      Bb::insert(["image" => $image]);
+      return view('dashboard');
+    } else {
+      return redirect()
+        ->back()
+        ->withInput()
+        ->withErrors();
+    }
   }
   
   public function domestic($id) { //タグのid

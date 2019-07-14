@@ -12,23 +12,11 @@
   </ul>
   @endif
   
-  
-  
    <div class="panel panel-default">
-      @if (!empty($bb->image)) <!--imageカラムが空じゃなかったら-->
+      @if (!empty($article->image)) <!--imageカラムが空じゃなかったら-->
         <figure>
-          <img src='data:img/png;base64,{{$bb->image}}' width="700px" height="300px">　<!--base64でエンコードされた画像を表示するという記法-->
+          <img src='data:img/png;base64,{{$article->image}}' width="700px" height="300px">　<!--base64でエンコードされた画像を表示するという記法-->
         </figure>
-      @else
-        <form action="/welcome" method="POST" enctype="multipart/form-data" class="post_form">
-          <div class="form_parts">
-        <label for="photo">画像ファイル:</label>
-        <input type="file" class="form-control" name="image">
-        <br>
-        {{ csrf_field() }}
-        <button class="btn btn-success">投稿</button>
-      </div>
-    </form>
       @endif
     </div>
 
@@ -61,4 +49,14 @@
       一覧へ戻る
     </a>
   </div>
+  
+  <form action="/upload" method="POST" enctype="multipart/form-data" class="post_form">
+    <div class="form_parts">
+      <label for="photo">画像ファイル:</label>
+      <input type="file" class="form-control" name="image">
+      <br>
+      {{ csrf_field() }}
+      <button class="btn btn-success">投稿</button>
+    </div>
+  </form>
 @endsection

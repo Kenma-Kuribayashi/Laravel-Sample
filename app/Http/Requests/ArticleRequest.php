@@ -27,6 +27,7 @@ class ArticleRequest extends FormRequest
           'title' => 'required|min:3',
           'body' => 'required',
           'published_at' => 'required|date',
+          'image' => 'nullable',
         ];
     }
 }

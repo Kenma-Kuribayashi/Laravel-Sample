@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-  protected $fillable = ['title', 'body','user_id', 'published_at'];
+  protected $fillable = ['title', 'body','user_id', 'published_at', 'image'];
   protected $dates = ['published_at'];
   
   public function scopePublished($query) {
