@@ -21,7 +21,7 @@
           @endif
         @endif
       @endforeach
-      <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
+      <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}{{ $article->id }}</a>
       <div class="created-time">
         {{ $article->created_at->format('n/d') }}
         <?php
