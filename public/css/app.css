@@ -38,6 +38,9 @@ body {
 .navbar-nav {
   margin-left: 400px;
 }
+.nav-body {
+  background: #D0B0FF;
+}
 
 /*ヘッダー*/
 .header {
@@ -66,15 +69,27 @@ body {
   margin-left: 500px;
 }
 .container {
-  padding:0;
+  padding: 0;
   width:900px;
+  height: 1000px;
   margin-left:200px;
+}
+
+/*indexページ*/
+
+.articles {
+  width: 80%;
+  float: left;
+}
+.weather {
+  width: 180px;
+  margin: 0 0 0 auto;
 }
 
 /*showページ*/
 
 .new-article {
-  width:900px;
+  width: 900px;
 }
 .news-image {
   float: left;

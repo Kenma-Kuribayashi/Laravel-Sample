@@ -15,7 +15,7 @@
    <div class="panel panel-default">
       @if (!empty($article->image)) <!--imageカラムが空じゃなかったら-->
         <figure>
-          <img src='data:img/png;base64,{{$article->image}}' width="700px" height="300px">　<!--base64でエンコードされた画像を表示するという記法-->
+          <img src='data:img/png;base64,{{$article->image}}' width="533px" height="400px">　<!--base64でエンコードされた画像を表示するという記法-->
         </figure>
       @endif
     </div>

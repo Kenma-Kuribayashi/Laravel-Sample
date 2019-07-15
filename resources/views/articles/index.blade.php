@@ -10,10 +10,11 @@
   
   @include('nav-tab')
  
+ <div class="articles">
   @foreach($articles as $article)
     <article>
       <figure>
-        <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="50px" height="50px">
+        <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="75px" height="50px">
       </figure>
       <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
       <div class="created-time">
@@ -27,6 +28,18 @@
       </div>
     </article>
   @endforeach
-  <br>
-  {{ $articles->links() }}
+  </div>
+  
+  <div class="weather">
+    <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/20.js"></script>
+    <br>
+    <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/13.js"></script>
+    <br>
+    <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/33.js"></script>
+  </div>
+  
+  <?php
+$res = file_get_contents('http://weather.livedoor.com/forecast/webservice/json/v1?city=130010');
+$weather = json_decode($res, true);
+?>
 @endsection
