@@ -58,7 +58,7 @@ class ArticlesController extends Controller
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
   
-  public function upload(Request $request,Article $article){
+  public function upload(Request $request, $id){
     $this->validate($request, [
       'image' => [
         'required',
@@ -66,10 +66,11 @@ class ArticlesController extends Controller
         'image',
         'mimes:jpeg,png',]
     ]);
+    $article = Article::find($id);  //更新する記事を特定できないので、idから記事を特定
     if ($request->file('image')->isValid([])) {
       $image = base64_encode(file_get_contents($request->image->getRealPath()));
-      Bb::insert(["image" => $image]);
-      return view('dashboard');
+      $article->update(["image" => $image]); 
+      return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
     } else {
       return redirect()
         ->back()

@@ -17,7 +17,7 @@ Route::post('/welcome', 'WelcomeController@store');
 Route::get('contact', 'PagesController@contact')->name('contact');
 Route::get('about', 'PagesController@about')->name('about');
 
-Route::post('/upload', 'ArticlesController@upload');
+Route::post('/upload/{id}', 'ArticlesController@upload');
 Route::get('/', 'ArticlesController@index')->name('home');
 Route::get('/articles/tags/{id}', 'ArticlesController@domestic'); //特定タグのindex idでタグを判別してる
 Route::resource('articles', 'ArticlesController');
