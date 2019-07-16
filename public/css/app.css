@@ -45,7 +45,7 @@ body {
 /*ヘッダー*/
 .header {
   width:900px;
-  margin:20px 0px 50px 200px;
+  margin:20px 0px 0px 200px;
 }
 .main-logo {
   color: red;
@@ -74,9 +74,25 @@ body {
   height: 1000px;
   margin-left:200px;
 }
+.sns-icon {
+  text-align: right;
+}
+.fa {
+  font-size: 2em;
+  margin-right: 15px;
+}
+.fa-twitter {
+  color: skyblue;
+}
+.fa-facebook {
+  color: navy;
+}
 
 /*indexページ*/
 
+article {
+  background: #f8f8f8;
+}
 .articles {
   width: 80%;
   float: left;
@@ -108,6 +124,5 @@ body {
   float:left;
 }
 .tag-delete {
-  /*float: right;*/
   margin-left: 50px;
 }

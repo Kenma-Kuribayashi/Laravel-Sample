@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Sample News</title>
     <link rel="stylesheet" href="/css/app.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <script src="/js/app.js" defer></script>
 </head>
 <body>
@@ -34,6 +35,11 @@
     @if (Session::has('flash_message'))
       <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
     @endif
+ 
+   <div class="sns-icon">
+     <a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
+     <a href="https://ja-jp.facebook.com/login/" target="_blank"><i class="fa fa-facebook"></i></a>
+   </div>
  
     {{-- コンテンツの表示 --}}
     @yield('content')
