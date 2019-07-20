@@ -49,15 +49,16 @@
       一覧へ戻る
     </a>
   </div>
-
-  <form action="/upload/{{$article->id}}" method="POST" enctype="multipart/form-data" class="post_form"> <!--uploadメソッドは更新する記事を特定できないので、idを渡す-->
-    <div class="form_parts">
-      <label for="photo">画像ファイル:</label>
-      <input type="file" class="form-control" name="image">
-      <br>
-      {{ csrf_field() }}
-      <button class="btn btn-success">投稿</button>
-    </div>
-   </form>
   
+  @auth
+    <form action="/upload/{{$article->id}}" method="POST" enctype="multipart/form-data" class="post_form"> <!--uploadメソッドは更新する記事を特定できないので、idを渡す-->
+      <div class="form_parts">
+        <label for="photo">画像ファイル:</label>
+        <input type="file" class="form-control" name="image">
+        <br>
+        {{ csrf_field() }}
+        <button class="btn btn-success">投稿</button>
+      </div>
+    </form>
+  @endauth
 @endsection

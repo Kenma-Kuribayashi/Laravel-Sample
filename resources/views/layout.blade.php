@@ -16,17 +16,11 @@
   <div class="header">
     <h1><a class="main-logo" href="{{ route('home') }}">Sample!</a></h1>
     <a class="sub-logo" href="{{ route('home') }}">ニュース</a>
+   
     @guest <!-- ログインしていない時のメニュー -->
+      <a class="about" href="/about">利用方法</a>
       <a class="login" href="{{ route('login') }}">ログイン</a>
       <a class="register" href="{{ route('register') }}">新規登録</a>
-    @else 
-      <!--<a class="logout" href="#"-->
-      <!--  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">-->
-      <!--  ログアウト-->
-      <!--</a>-->
-      <!--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">-->
-      <!--  @csrf-->
-      <!--</form>-->
     @endguest
   </div>
   
@@ -36,10 +30,16 @@
       <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
     @endif
  
-   <div class="sns-icon">
-     <a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
-     <a href="https://ja-jp.facebook.com/login/" target="_blank"><i class="fa fa-facebook"></i></a>
-   </div>
+    <h1 class="new-article-btn">
+      @auth {{-- ログインしている時だけ表示 --}}
+        <a href="{{ route('articles.create') }}" class="btn btn-primary ">新規作成</a>
+      @endauth
+    </h1>
+ 
+    <div class="sns-icon">
+      <a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
+      <a href="https://ja-jp.facebook.com/login/" target="_blank"><i class="fa fa-facebook"></i></a>
+    </div>
  
     {{-- コンテンツの表示 --}}
     @yield('content')

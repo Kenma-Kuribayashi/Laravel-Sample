@@ -19,6 +19,9 @@ body {
   background-color: white;
   width:1000px;
 }
+.red {
+  color: red;
+}
 
 /*navバー*/
 .navbar {
@@ -39,7 +42,10 @@ body {
   margin-left: 400px;
 }
 .nav-body {
-  background: #D0B0FF;
+  background: #44739c;
+}
+.nav-link {
+  color: white;
 }
 
 /*ヘッダー*/
@@ -57,22 +63,23 @@ body {
   padding-top: 10px;
   color: black;
 }
-.login {
+.about, .login, .register, .logout {
   color: black;
-  margin-left: 500px;
+} 
+.about, .logout {
+  margin-left: 490px;
 }
-.register {
-  color: black;
-}
-.logout {
-  color: black;
-  margin-left: 500px;
+.login, .register {
+  margin-left: 5px;
 }
 .container {
   padding: 0;
   width:900px;
   height: 1000px;
   margin-left:200px;
+}
+.new-article-btn {
+  text-align: right;
 }
 .sns-icon {
   text-align: right;
@@ -86,6 +93,11 @@ body {
 }
 .fa-facebook {
   color: navy;
+}
+
+/*aboutページ*/
+.about-article {
+  border: solid 1px #000000;
 }
 
 /*indexページ*/
@@ -116,6 +128,9 @@ article {
 .created-time {
   font-size: 14px;
   color: gray;
+}
+.pagination {
+  margin-top: 220px;
 }
 
 /*タグ一覧ページ*/
