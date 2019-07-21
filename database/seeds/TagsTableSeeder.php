@@ -15,8 +15,6 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         DB::table('tags')->delete();
-        
-        // $faker = Faker::create('en_US');
  
         for ($i = 0; $i < 9; $i++) {
             switch ($i) {
