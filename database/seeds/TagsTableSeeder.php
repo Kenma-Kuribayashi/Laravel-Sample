@@ -1,30 +1,28 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
-use App\Article;
-use Illuminate\Support\Facades\DB;
 
-class ArticlesTableSeeder extends Seeder
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+use App\Tag;
+
+class TagsTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
-        DB::table('articles')->delete();
+        DB::table('tags')->delete();
+        
+        // $faker = Faker::create('en_US');
  
-        $user = App\User::first(); 
- 
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             switch ($i) {
                 case 0:
-                    Article::create([
-                        'title' => "aaa",
-                        'body' => "aaa",
-                        'published_at' => Carbon::today(),
-                        'user_id' => $user -> id,
-                        // 'user_id' => function () {
-                        //     return factory(App\User::class)->create()->id;
-                        // },
-                    ]);
+                    Tag::create(['name' => "国内"]);
                     break;
                 case 1:
                     Tag::create(['name' => "国際"]);
@@ -51,6 +49,7 @@ class ArticlesTableSeeder extends Seeder
                     Tag::create(['name' => "地域"]);
                     break;
             }
+
+        }
     }
 }
-
