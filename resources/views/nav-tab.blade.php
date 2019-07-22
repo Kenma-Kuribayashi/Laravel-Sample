@@ -6,31 +6,31 @@
         <a class="nav-link active" href="{{ route('home') }}">主要</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/1">国内</a>
+        <a class="nav-link" href="/articles/tags/国内">国内</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/2">国際</a>
+        <a class="nav-link" href="/articles/tags/国際">国際</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/3">経済</a>
+        <a class="nav-link" href="/articles/tags/経済">経済</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/4">エンタメ</a>
+        <a class="nav-link" href="/articles/tags/エンタメ">エンタメ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/5">スポーツ</a>
+        <a class="nav-link" href="/articles/tags/スポーツ">スポーツ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/5">IT</a>
+        <a class="nav-link" href="/articles/tags/スポーツ">IT</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/6">科学</a>
+        <a class="nav-link" href="/articles/tags/科学">科学</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/7">ライフ</a>
+        <a class="nav-link" href="/articles/tags/ライフ">ライフ</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/8">地域</a>
+        <a class="nav-link" href="/articles/tags/地域">地域</a>
       </li>
     @else
       <li class="nav-item">
@@ -45,7 +45,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/1">国内
+        href="/articles/tags/国内">国内
       </a>
     </li>
     <li class="nav-item">
@@ -57,7 +57,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/2">国際
+        href="/articles/tags/国際">国際
       </a>
     </li>
     <li class="nav-item">
@@ -69,7 +69,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/3">経済
+        href="/articles/tags/経済">経済
       </a>
     </li>
     <li class="nav-item">
@@ -81,7 +81,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/4">エンタメ
+        href="/articles/tags/エンタメ">エンタメ
       </a>
     </li>
     <li class="nav-item">
@@ -93,7 +93,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/5">スポーツ
+        href="/articles/tags/スポーツ">スポーツ
       </a>
     </li>
     <li class="nav-item">
@@ -105,7 +105,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/6">IT
+        href="/articles/tags/IT">IT
       </a>
     </li>
     <li class="nav-item">
@@ -117,7 +117,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/7">科学
+        href="/articles/tags/科学">科学
       </a>
     </li>
     <li class="nav-item">
@@ -129,7 +129,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/8">ライフ
+        href="/articles/tags/ライフ">ライフ
       </a>
     </li>
     <li class="nav-item">
@@ -141,7 +141,7 @@
             echo '"';
           }
         ?>
-        href="/articles/tags/9">地域
+        href="/articles/tags/地域">地域
       </a>
     </li>
     @endempty

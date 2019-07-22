@@ -6,10 +6,10 @@
 
   @foreach($articles as $article)
       @foreach($article->tags as $tag) <!-- 1つの記事に対してタグを1つずつ取り出してる /-->
-        @if ($tag->id == $id) <!--記事のタグのidとコントローラから持ってきたidが合ったとき-->
+        @if ($tag->name == $tagname) <!--記事のタグの名前とコントローラから持ってきたtagnameが合ったとき-->
           <article>
             <figure>
-              <img src="/storage/{{ $article->id }}.jpg" class="news-image" width="50px" height="50px">
+              <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="75px" height="50px">
             </figure>
             <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
             <div class="created-time">

@@ -79,11 +79,11 @@ class ArticlesController extends Controller
     }
   }
   
-  public function domestic($id) { //タグのid
+  public function domestic($tagname) { //タグのid
     $articles = Article::latest('published_at')->latest('created_at') //全記事を取り出してる
       ->published()
       ->paginate(10);
-    return view('articles.domestic', compact('articles','id'));
+    return view('articles.domestic', compact('articles','tagname'));
   }
   
 }

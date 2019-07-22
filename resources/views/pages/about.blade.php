@@ -11,7 +11,7 @@
   <div class="about-article">
     <h3>記事投稿</h3>
     <h5 class="red">※記事のタイトルは50文字までです。</h5> 
-    <h5 class="red">※記事の本文は100分字までです。</h5> 
+    <h5 class="red">※記事の本文は100文字までです。</h5> 
   </div>
   
 @endsection
