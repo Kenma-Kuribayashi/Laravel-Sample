@@ -28,10 +28,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = '/home';
-    protected function redirectTo (){
-      return route('dashboard');
-    }
+
+    protected $redirectTo = '/articles'; //vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsersで新規登録後、リダイレクト
 
     /**
      * Create a new controller instance.

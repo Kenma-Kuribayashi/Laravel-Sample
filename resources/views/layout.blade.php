@@ -14,8 +14,8 @@
     @include('navbar')
   @endguest
   <div class="header">
-    <h1><a class="main-logo" href="{{ route('home') }}">Sample!</a></h1>
-    <a class="sub-logo" href="{{ route('home') }}">ニュース</a>
+    <h1><a class="main-logo" href="/articles">Sample!</a></h1>
+    <a class="sub-logo" href="/articles">ニュース</a>
    
     @guest <!-- ログインしていない時のメニュー -->
       <a class="about" href="/about">利用方法</a>

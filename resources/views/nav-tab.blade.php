@@ -3,7 +3,7 @@
     
     @empty($tagname) <!--ホーム画面や主要ページのとき(idを受け取ってないとき)-->
       <li class="nav-item">
-        <a class="nav-link active" href="{{ route('home') }}">主要</a>
+        <a class="nav-link active" href="/articles">主要</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/articles/tags/国内">国内</a>
@@ -34,7 +34,7 @@
       </li>
     @else
       <li class="nav-item">
-      <a class="nav-link" href="{{ route('home') }}">主要</a>
+      <a class="nav-link" href="/articles">主要</a>
     </li>
      <li class="nav-item">
       <a class="nav-link

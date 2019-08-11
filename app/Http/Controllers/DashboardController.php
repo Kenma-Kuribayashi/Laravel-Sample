@@ -11,9 +11,9 @@ class DashboardController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct()  //初期化
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +23,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return redirect('/');
+        return redirect('/articles');
     }
 }

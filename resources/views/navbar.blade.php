@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="nav-container">
     <!-- ブランド表示 -->
-    <a class="navbar-brand" href="{{ route('home') }}">Sampleニュース</a>
+    <a class="navbar-brand" href="/articles">Sampleニュース</a>
  
     <!-- スマホやタブレットで表示した時のメニューボタン -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

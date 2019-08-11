@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -25,9 +27,30 @@ class LoginController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = '/home';
-    protected function redirectTo (){
-      return route('dashboard');
+    // protected $redirectTo = '/home';
+    // protected $redirectTo = '/articles';
+    // protected function redirectTo () {
+    // //   return route('dashboard');
+    //   $this->middleware('auth');
+    //   return redirect('/articles');
+    // }
+    
+    public function login(Request $request)
+    {
+      $this->validate($request,[
+      'email' => 'email|required',
+      'password' => 'required|min:4'
+      ]);
+ 
+      if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+      return redirect('/articles');
+      }
+      return redirect()->back();
+    }
+    
+    protected function loggedOut()
+    {
+      return redirect('/articles');
     }
 
     /**
@@ -35,8 +58,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+    public function __construct() {
+      $this->middleware('guest')->except('logout'); //except～以外
     }
 }

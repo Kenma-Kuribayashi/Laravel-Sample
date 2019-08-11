@@ -8,18 +8,16 @@ use App\Article_tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Bb;
 
 class ArticlesController extends Controller
 {
-  public function __construct()
-  {
+  public function __construct() {
     $this->middleware('auth')->except(['index', 'show', 'domestic']);
   }
   
   public function index() {
-    $articles = Article::latest('published_at')->latest('created_at')
-      ->published()
+    $articles = Article::latest('published_at')->latest('created_at') //公開日が新しく、作成日が新しい
+      ->published() //今より前の投稿(未来のpublished_atは表示されない)
       ->paginate(10);
     return view('articles.index', compact('articles'));
   }
@@ -28,8 +26,7 @@ class ArticlesController extends Controller
     return view('articles.show', compact('article'));
   }
   
-  public function create()
-  {
+  public function create() {
     $tag_list = Tag::pluck('name', 'id');
     return view('articles.create', compact('tag_list'));
   }
@@ -52,19 +49,13 @@ class ArticlesController extends Controller
   }
   
   public function destroy(Article $article) {
-    
     $article->delete();
- 
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
   
-  public function upload(Request $request, $id){
+  public function upload(Request $request, $id) {
     $this->validate($request, [
-      'image' => [
-        'required',
-        'file',
-        'image',
-        'mimes:jpeg,png',]
+      'image' => ['required', 'file', 'image', 'mimes:jpeg, png',]
     ]);
     $article = Article::find($id);  //更新する記事を特定できないので、idから記事を特定
     if ($request->file('image')->isValid([])) {
@@ -72,10 +63,7 @@ class ArticlesController extends Controller
       $article->update(["image" => $image]); 
       return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
     } else {
-      return redirect()
-        ->back()
-        ->withInput()
-        ->withErrors();
+      return redirect()->back()->withInput()->withErrors();
     }
   }
   
