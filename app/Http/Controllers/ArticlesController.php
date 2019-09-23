@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Auth;
 class ArticlesController extends Controller
 {
   public function __construct() {
-    $this->middleware('auth')->except(['index', 'show', 'domestic']);
+    $this->middleware('auth')->except(['index', 'show', 'domestic']); //ログインしなくてもみれる
   }
   
   public function index() {
     $articles = Article::latest('published_at')->latest('created_at') //公開日が新しく、作成日が新しい
       ->published() //今より前の投稿(未来のpublished_atは表示されない)
       ->paginate(10);
-    return view('articles.index', compact('articles'));
+    return view('articles.index', compact('articles')); 
   }
  
   public function show(Article $article) {
@@ -27,18 +27,19 @@ class ArticlesController extends Controller
   }
   
   public function create() {
-    $tag_list = Tag::pluck('name', 'id');
+    $tag_list = Tag::orderBy('id')->pluck('name', 'id'); //tagテーブルをid順に並べ替えてnameキーとidキーを配列に入れて全て取り出す
     return view('articles.create', compact('tag_list'));
   }
   
   public function store(ArticleRequest $request) {
-    $article = Auth::user()->articles()->create($request->validated());
+    //Auth::user()のような形で Auth ファサードを使うとログイン中のユーザーの情報を取得できる。articlesメソッドはArticleモデルとTagモデルが多対多の構造をつくる。
+    $article = Auth::user()->articles()->create($request->validated());  //ArticleRequestのrulesに基づいて送られてきた値をチェックする。
     $article->tags()->attach($request->input('tags'));
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
     
   public function edit(Article $article) {
-    $tag_list = Tag::pluck('name', 'id');
+    $tag_list = Tag::orderBy('id')->pluck('name', 'id');
     return view('articles.edit', compact('article', 'tag_list'));
   }
  

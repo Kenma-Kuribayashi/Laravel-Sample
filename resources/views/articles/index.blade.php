@@ -1,3 +1,7 @@
+<?php
+    $week = ['日','月','火','水', '木', '金', '土', ]; //ただの配列
+?>
+        
 @extends('layout')
  
 @section('content')
@@ -13,11 +17,7 @@
       <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
       <div class="created-time">
         {{ $article->created_at->format('n/d') }}
-        <?php
-          $week = ['日','月','火','水', '木', '金', '土', ]; //ただの配列
-          $date = $article->created_at->format('w'); //曜日の数字を取り出してる
-          echo '(' . $week[$date] . ')';
-        ?>
+        <?php echo '(' . $week[$article->created_at->format('w')] . ')'; //曜日の数字を取り出してる?>
         {{ $article->created_at->format('H:i') }}
       </div>
     </article>

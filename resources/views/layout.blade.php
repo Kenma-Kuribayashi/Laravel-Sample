@@ -44,6 +44,5 @@
     {{-- コンテンツの表示 --}}
     @yield('content')
   </div>
-  
 </body>
 </html>

@@ -1,3 +1,7 @@
+<?php
+  $tag_defaults = array("国内", "国際", "経済", "エンタメ", "スポーツ", "IT", "科学", "ライフ", "地域");
+?>
+
 <div class="nav-body">
   <ul class="nav nav-tabs">
     
@@ -5,145 +9,24 @@
       <li class="nav-item">
         <a class="nav-link active" href="/articles">主要</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/国内">国内</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/国際">国際</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/経済">経済</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/エンタメ">エンタメ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/スポーツ">スポーツ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/IT">IT</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/科学">科学</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/ライフ">ライフ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/articles/tags/地域">地域</a>
-      </li>
+      @foreach($tag_defaults as $tag_default)
+        <li class="nav-item">
+          <!-- 配列$tag_defaultsから取り出してる -->
+          <a class="nav-link" href="/articles/tags/<?php echo $tag_default ?>"><?php echo $tag_default ?></a>
+        </li>
+      @endforeach
     @else
       <li class="nav-item">
-      <a class="nav-link" href="/articles">主要</a>
-    </li>
-     <li class="nav-item">
-      <a class="nav-link
-        <?php  //idを受けとったら、activeをクラスに入れる
-          if ($tagname == "国内"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/国内">国内
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "国際"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/国際">国際
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "経済"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/経済">経済
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "エンタメ"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/エンタメ">エンタメ
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "スポーツ"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/スポーツ">スポーツ
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "IT"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/IT">IT
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "科学"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/科学">科学
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "ライフ"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/ライフ">ライフ
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link
-        <?php
-          if ($tagname == "地域"){
-            echo 'active"';
-          }else{
-            echo '"';
-          }
-        ?>
-        href="/articles/tags/地域">地域
-      </a>
-    </li>
+        <a class="nav-link" href="/articles">主要</a>
+      </li>
+      @foreach($tag_defaults as $tag_default)
+        <li class="nav-item">
+          <!--//URL経由で送られてきた$tagnameと、配列の$tag_defaultsが同じとき、その同じタグのクラスにactiveをクラスに入れる 三項演算子で表記 echoだとエラー-->
+          <a class="nav-link <?php $tagname == $tag_default ? print 'active"' :  print '"'; ?>
+            href="/articles/tags/<?php echo $tag_default ?>"><?php echo $tag_default ?>
+          </a>
+       </li>
+      @endforeach
     @endempty
   </ul>
 </div>

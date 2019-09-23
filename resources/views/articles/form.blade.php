@@ -1,18 +1,19 @@
 <div class="form-group">
-  {!! Form::label('title', 'Title:') !!}
+  {!! Form::label('title', 'タイトル:') !!}
   {!! Form::text('title', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
-  {!! Form::label('body', 'Body:') !!}
+  {!! Form::label('body', '本文:') !!}
   {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
-  {!! Form::label('published_at', 'Publish On:') !!}
+  {!! Form::label('published_at', '記事の公開日:') !!}
   {!! Form::input('date', 'published_at', $published_at, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
-  {!! Form::label('tags', 'Tags:') !!}
+  {!! Form::label('tags', 'タグ:') !!}
   {!! Form::select('tags[]', $tag_list, null, ['class' => 'form-control', 'multiple']) !!}
+  <?php // Form::select('選択したタグを入れる配列', タグの配列, null, [divタグのオプション]) ?>
 </div>
  
 <div class="form-group">

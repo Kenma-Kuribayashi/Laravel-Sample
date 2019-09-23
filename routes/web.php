@@ -11,16 +11,10 @@
 |
 */
 
-Route::get('/about', 'PagesController@about')->name('about');
+Route::get('/about', 'PagesController@about')->name('about'); //利用方法ページ
 
-Route::post('/upload/{id}', 'ArticlesController@upload');
+Route::post('/upload/{id}', 'ArticlesController@upload'); //画像アップロード
 Route::get('/articles/tags/{id}', 'ArticlesController@domestic'); //特定タグのindex idでタグを判別してる
 Route::resource('articles', 'ArticlesController');
 
 Auth::routes();
-// Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-
-Route::get('tags', 'TagsController@index');
-Route::get('tags/create', 'TagsController@create');
-Route::post('tags', 'TagsController@store');
-Route::delete('tags/{id}', 'TagsController@destroy');
