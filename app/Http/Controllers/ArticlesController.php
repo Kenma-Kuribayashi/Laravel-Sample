@@ -35,7 +35,6 @@ class ArticlesController extends Controller
     //Auth::user()のような形で Auth ファサードを使うとログイン中のユーザーの情報を取得できる。articlesメソッドはArticleモデルとTagモデルが多対多の構造をつくる。
     $article = Auth::user()->articles()->create($request->validated());  //ArticleRequestのrulesに基づいて送られてきた値をチェックする。
     $article->tags()->attach($request->input('tags')); //attach多対対のとき 
-    //$article->tags()->associate($request->input('tags'));
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
     
@@ -46,7 +45,8 @@ class ArticlesController extends Controller
  
   public function update(ArticleRequest $request, Article $article) {
     $article->update($request->validated());
-    $article->tags()->sync($request->input('tags'));
+    //引数で渡された id の物だけになるように、追加と削除を行っている。attachだと元のタグにどんどん追加されてしまう。
+    //$article->tags()->sync($request->input('tags'));
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
   
