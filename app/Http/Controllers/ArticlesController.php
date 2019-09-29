@@ -46,7 +46,7 @@ class ArticlesController extends Controller
   public function update(ArticleRequest $request, Article $article) {
     $article->update($request->validated());
     //引数で渡された id の物だけになるように、追加と削除を行っている。attachだと元のタグにどんどん追加されてしまう。
-    //$article->tags()->sync($request->input('tags'));
+    $article->tags()->sync($request->input('tags'));
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
   
@@ -56,12 +56,10 @@ class ArticlesController extends Controller
   }
   
   public function upload(Request $request, $id) {
-    $this->validate($request, [
-      'image' => ['required', 'file', 'image', 'mimes:jpeg, png',]
-    ]);
+    $this->validate($request, ['image' => ['required', 'file', 'image', 'mimes:jpeg,png']]); //入力必須,ファイルがjpegやpngの画像かどうか
     $article = Article::find($id);  //更新する記事を特定できないので、idから記事を特定
-    if ($request->file('image')->isValid([])) {
-      $image = base64_encode(file_get_contents($request->image->getRealPath()));
+    if ($request->file('image')->isValid([])) { //問題なくアップロードできたのかを確認
+      $image = base64_encode(file_get_contents($request->image->getRealPath())); //base64 でエンコードする。
       $article->update(["image" => $image]); 
       return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
     } else {
