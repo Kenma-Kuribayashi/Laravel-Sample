@@ -39,8 +39,6 @@ class ArticlesController extends Controller
 
   public function store(ArticleRequest $request) {
     $service = new StoreArticle();
-    // var_dump($request->input('tags'));
-    // exit;
     $service->store($request->validated(), $request->input('tags'));
 
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
@@ -68,22 +66,17 @@ class ArticlesController extends Controller
   }
 
   public function upload(Request $request, $article_id) {
-
-    //入力必須,ファイルがjpegやpngの画像かどうか
-    $this->validate($request, ['image' => ['required', 'file', 'image', 'mimes:jpeg,png']]); 
-
     $store_image = new StoreImage();
     $successful_upload = $store_image->store_image($request, $article_id);
 
     if ($successful_upload === TRUE) {
-      return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
-    } elseif ($successful_upload === FALSE) {
-      return redirect()->back()->withInput()->withErrors();
+      return redirect()->route('articles.show', [$article_id])->with('message', '記事を更新しました。');
+    } else {
+      return redirect()->back()->with('message', '画像の投稿に失敗しました。');
     }
   }
 
   public function domestic($tag_name) {
-    
     $get_articles_by_tag = new GetArticlesByTag();
     $articles = $get_articles_by_tag->get_articles_by_tag();
  
