@@ -15,6 +15,7 @@ Route::get('/about', 'PagesController@about')->name('about'); //利用方法ペ�
 
 Route::post('/upload/{id}', 'ArticlesController@upload'); //画像アップロード
 Route::get('/articles/tags/{id}', 'ArticlesController@domestic'); //特定タグのindex idでタグを判別してる
+Route::get('/', 'ArticlesController@index');
 Route::resource('articles', 'ArticlesController');
 
 Auth::routes();
