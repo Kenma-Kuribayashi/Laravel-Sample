@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use App\Services\StoreArticle;
@@ -12,6 +11,7 @@ use App\Services\UpdateArticle;
 use App\Services\DestroyArticle;
 use App\Services\StoreImage;
 use App\Services\GetArticlesByTag;
+use App\Services\GetArticle;
 
 class ArticlesController extends Controller
 {
@@ -26,7 +26,10 @@ class ArticlesController extends Controller
     return view('articles.index', compact('articles'));
   }
 
-  public function show(Article $article) {
+  public function show(int $article_id) {
+    $get_article = new GetArticle();
+    $article = $get_article->get_article($article_id);
+
     return view('articles.show', compact('article'));
   }
 
@@ -44,28 +47,30 @@ class ArticlesController extends Controller
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
 
-  public function edit(Article $article) {
+  public function edit(int $article_id) {
+    $get_article = new GetArticle();
+    $article = $get_article->get_article($article_id);
     $get_tag_list = new GetTagList();
     $tag_list = $get_tag_list->get_tag_list();
 
     return view('articles.edit', compact('article', 'tag_list'));
   }
 
-  public function update(ArticleRequest $request, Article $article) {
+  public function update(ArticleRequest $request, int $article_id) {
     $update_article = new UpdateArticle();
-    $update_article->update_article($request->validated(), $request->input('tags'),$article);
+    $article = $update_article->update_article($request->validated(), $request->input('tags'),$article_id);
 
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
 
-  public function destroy(Article $article) {
+  public function destroy(int $article_id) {
     $destroy_article = new DestroyArticle();
-    $destroy_article->destroy_article($article);
+    $destroy_article->destroy_article($article_id);
 
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
 
-  public function upload(Request $request, $article_id) {
+  public function upload(Request $request,int $article_id) {
     $store_image = new StoreImage();
     $successful_upload = $store_image->store_image($request, $article_id);
 

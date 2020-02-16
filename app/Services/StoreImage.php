@@ -10,7 +10,7 @@ use Exception;
 class StoreImage {
 
   
-  public function store_image($request, string $article_id) {
+  public function store_image($request, int $article_id) {
 
     $request->validate([
       'image' => 'required|file|image|max:50|mimes:jpeg,png'
