@@ -36,32 +36,31 @@
   @endunless
  
   <div>
-    {{-- ログインしている時だけ表示 --}}
-    @auth
-      <a href="{{ action('ArticlesController@edit', [$article->id]) }}"
-        class="btn btn-primary"
-      >
-        編集
+    {{-- 投稿したユーザーのidとログインユーザーのidが一致する場合表示 --}}
+    @if ($article->user_id == session('user_id'))
+      <a href="{{ action('ArticlesController@edit', [$article->id]) }}" 
+        class="btn btn-primary">
+        編集{{ session('user_id') }}
       </a>
       {!! delete_form(['articles', $article->id]) !!}
-    @endauth
+
+      <br>
+      <br>
+      <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
+        <form action="/upload/{{ $article->id }}" method="POST" enctype="multipart/form-data" class="post_form"> 
+          <div class="form_parts">
+            <label for="photo">画像ファイル:</label>
+            <input type="file" class="form-control" name="image">
+            <br>
+            {{ csrf_field() }}
+            <button class="btn btn-success">投稿</button>
+          </div>
+        </form>
+      </div>
+    @endif
+
     <a href="{{ action('ArticlesController@index') }}"class="btn btn-secondary float-right">
       一覧へ戻る
     </a>
-  </div>
-  
-  @auth
-    
-    <br>
-    <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
-    <form action="/upload/{{ $article->id }}" method="POST" enctype="multipart/form-data" class="post_form"> <!--uploadメソッドは更新する記事を特定できないので、idを渡す-->
-      <div class="form_parts">
-        <label for="photo">画像ファイル:</label>
-        <input type="file" class="form-control" name="image">
-        <br>
-        {{ csrf_field() }}
-        <button class="btn btn-success">投稿</button>
-      </div>
-    </form>
-  @endauth
+
 @endsection
