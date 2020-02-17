@@ -16,6 +16,15 @@ Route::get('/about', 'PagesController@about')->name('about'); //利用方法ペ�
 Route::post('/upload/{id}', 'ArticlesController@upload'); //画像アップロード
 Route::get('/articles/tags/{tag_name}', 'ArticlesController@domestic'); //特定タグのindex idでタグを判別してる
 Route::get('/', 'ArticlesController@index');
-Route::resource('articles', 'ArticlesController');
+
+Route::prefix('articles')->name('articles.')->group(function () {
+  Route::get('/', 'ArticlesController@index')->name('index');
+  Route::post('/', 'ArticlesController@store')->name('store');
+  Route::get('/create', 'ArticlesController@create')->name('create');
+  Route::get('/{article}', 'ArticlesController@show')->name('show');
+  Route::patch('/{article}', 'ArticlesController@update')->name('update');
+  Route::delete('/{article}', 'ArticlesController@destroy');
+  Route::get('/{article}/edit', 'ArticlesController@edit')->name('edit');
+});
 
 Auth::routes();
