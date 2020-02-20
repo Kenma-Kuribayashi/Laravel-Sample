@@ -22,7 +22,7 @@ Route::prefix('articles')->name('articles.')->group(function () {
   Route::post('/', 'ArticlesController@store')->name('store');
   Route::get('/create', 'ArticlesController@create')->name('create');
   Route::get('/{article}', 'ArticlesController@show')->name('show');
-  Route::patch('/{article}', 'ArticlesController@update')->name('update');
+  Route::post('/{article}', 'ArticlesController@update')->middleware('can:update,article')->name('update');
   Route::delete('/{article}', 'ArticlesController@destroy');
   Route::get('/{article}/edit', 'ArticlesController@edit')->name('edit');
 });
