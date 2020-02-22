@@ -12,7 +12,7 @@
           <!--  <a class="nav-link" href="#">ユーザー一覧</a>-->
           <!--</li>-->
           <li class="nav-item">
-             <div class="white nav-name">{{ Auth::user()->name }}さん</div>
+             <div class="white nav-name">{{ $currentUser->name }}さん</div>
           </li>
           <li class="nav-item">             
             <a class="white logout-bottom" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
