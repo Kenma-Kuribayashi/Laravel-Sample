@@ -40,12 +40,19 @@
     @if ($article->user_id == session('user_id'))
       <a href="{{ action('ArticlesController@edit', [$article->id]) }}" 
         class="btn btn-primary">
-        編集{{ session('user_id') }}
+        編集
       </a>
+    @endif
+
+    {{-- 管理者がログインしている場合でも表示されるように要修正 --}}
+    @if ($article->user_id == session('user_id'))
       {!! delete_form(['articles', $article->id]) !!}
+    @endif
 
       <br>
       <br>
+
+    @if ($article->user_id == session('user_id'))
       <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
         <form action="/upload/{{ $article->id }}" method="POST" enctype="multipart/form-data" class="post_form"> 
           <div class="form_parts">
