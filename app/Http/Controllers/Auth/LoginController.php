@@ -44,10 +44,6 @@ class LoginController extends Controller
  
       if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
 
-        //sessionにログインユーザーのidを保存
-        $auths = Auth::user();
-        session(['user_id' => $auths->id]);
-
         return redirect('/articles');
       }
       return redirect()->back();
