@@ -23,7 +23,8 @@
         <li class="nav-item">
           <!--//URL経由で送られてきた$tagnameと、配列の$tag_defaultsが同じとき、その同じタグのクラスにactiveをクラスに入れる 三項演算子で表記 echoだとエラー-->
           <a class="nav-link <?php $tagname == $tag_default ? print 'active"' :  print '"'; ?>
-            href="/articles/tags/<?php echo $tag_default ?>"><?php echo $tag_default ?>
+            href="/articles/tags/<?php echo $tag_default ?>">
+            <?php echo $tag_default ?>
           </a>
        </li>
       @endforeach
