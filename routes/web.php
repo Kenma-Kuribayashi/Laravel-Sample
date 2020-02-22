@@ -23,8 +23,8 @@ Route::prefix('articles')->name('articles.')->group(function () {
   Route::get('/create', 'ArticlesController@create')->name('create');
   Route::get('/{article}', 'ArticlesController@show')->name('show');
   Route::post('/{article}', 'ArticlesController@update')->middleware('can:update,article')->name('update');
-  Route::delete('/{article}', 'ArticlesController@destroy');
-  Route::get('/{article}/edit', 'ArticlesController@edit')->name('edit');
+  Route::delete('/{article}', 'ArticlesController@destroy')->middleware('can:delete,article');
+  Route::get('/{article}/edit', 'ArticlesController@edit')->middleware('can:showEdit,article')->name('edit');
 });
 
 Auth::routes();
