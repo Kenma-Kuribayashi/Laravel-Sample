@@ -45,7 +45,7 @@
     @endif
 
     {{-- 管理者の場合は投稿者でなくても表示 --}}
-    @if ($article->user_id === $currentUser->id || $currentUser->admin)
+    @if ($article->user_id === $currentUser->id || $currentUser->is_admin)
       {!! delete_form(['articles', $article->id]) !!}
     @endif
 
