@@ -35,6 +35,7 @@
     </ul>
   @endunless
  
+  @auth
   <div>
     {{-- 投稿したユーザーのidとログインユーザーのidが一致する場合表示 --}}
     @if ($article->user_id === $currentUser->id)
@@ -66,6 +67,8 @@
       </div>
     @endif
 
+    @endauth
+    
     <a href="{{ action('ArticlesController@index') }}"class="btn btn-secondary float-right">
       一覧へ戻る
     </a>
