@@ -24,10 +24,11 @@
     @endguest
   </div>
   
+  <br>
   <div class="container">
     {{-- フラッシュメッセージの表示 --}}
-    @if (Session::has('flash_message'))
-      <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
+    @if (session('message'))
+      <div class="alert alert-success">{{ session('message') }}</div>
     @endif
  
     <h1 class="new-article-btn">

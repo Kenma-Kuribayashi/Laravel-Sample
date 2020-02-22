@@ -51,7 +51,10 @@
   </div>
   
   @auth
-    <form action="/upload/{{$article->id}}" method="POST" enctype="multipart/form-data" class="post_form"> <!--uploadメソッドは更新する記事を特定できないので、idを渡す-->
+    
+    <br>
+    <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
+    <form action="/upload/{{ $article->id }}" method="POST" enctype="multipart/form-data" class="post_form"> <!--uploadメソッドは更新する記事を特定できないので、idを渡す-->
       <div class="form_parts">
         <label for="photo">画像ファイル:</label>
         <input type="file" class="form-control" name="image">

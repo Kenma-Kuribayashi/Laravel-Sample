@@ -6,7 +6,7 @@
 
   @foreach($articles as $article)
       @foreach($article->tags as $tag) <!-- 1つの記事に対してタグを1つずつ取り出してる /-->
-        @if ($tag->name == $tagname) <!--記事のタグの名前とコントローラから持ってきたtagnameが合ったとき-->
+        @if ($tag->name == $tag_name) <!--記事のタグの名前とコントローラから持ってきたtagnameが合ったとき-->
           <article>
             <figure>
               <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="75px" height="50px">
