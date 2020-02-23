@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use App\Services\StoreArticle;
@@ -23,14 +24,22 @@ class ArticlesController extends Controller
     $get_articles = new GetArticles();
     $articles = $get_articles->get();
 
-    return view('articles.index', compact('articles'));
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
+
+    $week = ['日','月','火','水', '木', '金', '土', ];
+
+    return view('articles.index', compact('articles','week','tag_lists'));
   }
 
   public function show(int $article_id) {
     $get_article = new GetArticle();
     $article = $get_article->get_article($article_id);
 
-    return view('articles.show', compact('article'));
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
+
+    return view('articles.show', compact('article','tag_lists'));
   }
 
   public function create() {
@@ -47,25 +56,23 @@ class ArticlesController extends Controller
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
 
-  public function edit(int $article_id) {
-    $get_article = new GetArticle();
-    $article = $get_article->get_article($article_id);
+  public function edit(Article $article) {
     $get_tag_list = new GetTagList();
     $tag_list = $get_tag_list->get_tag_list();
 
     return view('articles.edit', compact('article', 'tag_list'));
   }
 
-  public function update(ArticleRequest $request, int $article_id) {
+  public function update(ArticleRequest $request, Article $article) {
     $update_article = new UpdateArticle();
-    $article = $update_article->update_article($request->validated(), $request->input('tags'),$article_id);
+    $update_article->update_article($request->validated(), $request->input('tags'),$article);
 
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
 
-  public function destroy(int $article_id) {
+  public function destroy(Article $article) {
     $destroy_article = new DestroyArticle();
-    $destroy_article->destroy_article($article_id);
+    $destroy_article->destroy_article($article);
 
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
@@ -81,11 +88,16 @@ class ArticlesController extends Controller
     }
   }
 
-  public function domestic($tag_name) {
+  public function domestic(string $tag_name) {
     $get_articles_by_tag = new GetArticlesByTag();
-    $articles = $get_articles_by_tag->get_articles_by_tag();
+    $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_name);
+
+    $week = ['日','月','火','水', '木', '金', '土', ];
+
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
  
-    return view('articles.domestic', compact('articles','tag_name'));
+    return view('articles.domestic', compact('articles_by_tag','tag_name','week','tag_lists'));
   }
 
 }

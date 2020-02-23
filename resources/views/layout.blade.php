@@ -20,7 +20,7 @@
     @guest <!-- ログインしていない時のメニュー -->
       <a class="about" href="/about">利用方法</a>
       <a class="login" href="{{ route('login') }}">ログイン</a>
-      <a class="register" href="{{ route('register') }}">新規登録</a>
+      {{-- <a class="register" href="{{ route('register') }}">新規登録</a> --}}
     @endguest
   </div>
   

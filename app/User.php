@@ -11,6 +11,17 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
+     * is_adminに必ずfalseを設定
+     *
+     * @param
+     * @return void
+     */
+    public function setIsAdminAttribute()
+    {
+        $this->attributes['is_admin'] = 0;
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

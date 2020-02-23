@@ -17,12 +17,12 @@ class UpdateTest extends TestCase
     {
         //認証用のユーザーを作成
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         //3文字のランダムの文字列
         $new_title = str_random(3);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => 'aaaaa',
             'published_at' => now(),
@@ -41,11 +41,11 @@ class UpdateTest extends TestCase
     public function test_success_title_length_max()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(50);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => 'aaaaa',
             'published_at' => now(),
@@ -64,11 +64,11 @@ class UpdateTest extends TestCase
     public function test_success_body_length_max()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_body = str_random(100);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => 'aaaaa',
             'body' => $new_body,
             'published_at' => now(),
@@ -87,11 +87,11 @@ class UpdateTest extends TestCase
     public function test_failure_title_null()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_body = str_random(10);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => '',
             'body' => $new_body,
             'published_at' => now(),
@@ -110,11 +110,11 @@ class UpdateTest extends TestCase
     public function test_failure_title_length_min()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_body = str_random(10);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => 'aa',
             'body' => $new_body,
             'published_at' => now(),
@@ -133,12 +133,12 @@ class UpdateTest extends TestCase
     public function test_failure_title_length_max()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(51);
         $new_body = str_random(10);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => $new_body,
             'published_at' => now(),
@@ -157,11 +157,11 @@ class UpdateTest extends TestCase
     public function test_failure_body_null()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(5);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => '',
             'published_at' => now(),
@@ -180,12 +180,12 @@ class UpdateTest extends TestCase
     public function test_failure_body_length_max()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(5);
         $new_body = str_random(101);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => $new_body,
             'published_at' => now(),
@@ -204,11 +204,11 @@ class UpdateTest extends TestCase
     public function test_failure_published_at_null()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(5);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => 'aaa',
             'published_at' => '',
@@ -227,11 +227,11 @@ class UpdateTest extends TestCase
     public function test_failure_published_at_date()
     {
         $user = factory(User::class)->create();
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create(['user_id' => $user->id]);
         $new_title = str_random(5);
 
         $response = $this->actingAs($user)
-          ->patch("/articles/{$article->id}", [
+          ->post("/articles/{$article->id}", [
             'title' => $new_title,
             'body' => 'aaa',
             'published_at' => 'aaaa-aa',
