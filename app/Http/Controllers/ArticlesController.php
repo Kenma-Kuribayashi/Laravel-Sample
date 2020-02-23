@@ -24,14 +24,22 @@ class ArticlesController extends Controller
     $get_articles = new GetArticles();
     $articles = $get_articles->get();
 
-    return view('articles.index', compact('articles'));
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
+
+    $week = ['日','月','火','水', '木', '金', '土', ];
+
+    return view('articles.index', compact('articles','week','tag_lists'));
   }
 
   public function show(int $article_id) {
     $get_article = new GetArticle();
     $article = $get_article->get_article($article_id);
 
-    return view('articles.show', compact('article'));
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
+
+    return view('articles.show', compact('article','tag_lists'));
   }
 
   public function create() {
@@ -85,9 +93,11 @@ class ArticlesController extends Controller
     $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_name);
 
     $week = ['日','月','火','水', '木', '金', '土', ];
-    $date = date('w');
+
+    $get_tag_list = new GetTagList();
+    $tag_lists = $get_tag_list->get_tag_list();
  
-    return view('articles.domestic', compact('articles_by_tag','tag_name','week','date'));
+    return view('articles.domestic', compact('articles_by_tag','tag_name','week','tag_lists'));
   }
 
 }

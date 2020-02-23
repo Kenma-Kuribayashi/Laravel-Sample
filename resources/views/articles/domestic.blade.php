@@ -12,7 +12,7 @@
         </figure>
         <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
         <div class="created-time">
-          {{ $article->created_at->format('n/d') . ' (' . $week[$date] . ')' }}
+          {{ $article->created_at->format('n/d') . ' (' . $week[$article->created_at->format('w')] . ')' }}
           {{ $article->created_at->format('H:i') }}
         </div>
       </article>
