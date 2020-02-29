@@ -88,16 +88,16 @@ class ArticlesController extends Controller
     }
   }
 
-  public function domestic(string $tag_name) {
+  public function domestic(int $tag_id) {
     $get_articles_by_tag = new GetArticlesByTag();
-    $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_name);
+    $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_id);
 
     $week = ['日','月','火','水', '木', '金', '土', ];
 
     $get_tag_list = new GetTagList();
     $tag_lists = $get_tag_list->get_tag_list();
  
-    return view('articles.domestic', compact('articles_by_tag','tag_name','week','tag_lists'));
+    return view('articles.domestic', compact('articles_by_tag','tag_id','week','tag_lists'));
   }
 
 }

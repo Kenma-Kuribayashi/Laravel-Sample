@@ -16,7 +16,7 @@ Route::get('/about', 'PagesController@about')->name('about');
 //画像アップロード
 Route::post('/upload/{id}', 'ArticlesController@upload');
 //指定したタグの記事だけ表示
-Route::get('/articles/tags/{tag_name}', 'ArticlesController@domestic');
+Route::get('/articles/tags/{tag_id}', 'ArticlesController@domestic');
 Route::get('/', 'ArticlesController@index');
 
 Route::prefix('articles')->name('articles.')->group(function () {
