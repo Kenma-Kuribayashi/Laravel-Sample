@@ -13,6 +13,7 @@ use App\Services\DestroyArticle;
 use App\Services\StoreImage;
 use App\Services\GetArticlesByTag;
 use App\Services\GetArticle;
+use App\Services\GetRecommendedArticles;
 
 class ArticlesController extends Controller
 {
@@ -36,10 +37,15 @@ class ArticlesController extends Controller
     $get_article = new GetArticle();
     $article = $get_article->get_article($article_id);
 
+    $get_recommended_articles = new GetRecommendedArticles();
+    $recommended_articles = $get_recommended_articles->get($article);
+
     $get_tag_list = new GetTagList();
     $tag_lists = $get_tag_list->get_tag_list();
 
-    return view('articles.show', compact('article','tag_lists'));
+    $week = ['日','月','火','水', '木', '金', '土'];
+
+    return view('articles.show', compact('article','tag_lists','recommended_articles','week'));
   }
 
   public function create() {

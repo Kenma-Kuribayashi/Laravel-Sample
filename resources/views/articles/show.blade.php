@@ -18,7 +18,7 @@
           <img src='data:img/png;base64,{{$article->image}}' width="533px" height="400px">　<!--base64でエンコードされた画像を表示するという記法-->
         </figure>
       @endif
-    </div>
+   </div>
 
   <h1>{{ $article->title }}</h1>
  
@@ -72,5 +72,24 @@
     <a href="{{ action('ArticlesController@index') }}"class="btn btn-secondary float-right">
       一覧へ戻る
     </a>
+
+    <br>
+    <div class="">おすすめの記事</div>
+
+    <div class="articles">
+      @foreach($recommended_articles as $recommended_article)
+        <article>
+          <figure>
+           <img src='data:img/png;base64,{{$recommended_article->image}}' class="news-image" width="75px" height="50px">
+         </figure>
+         <a href="{{ url('articles', $recommended_article->id) }}" class="news-li">{{ $recommended_article->title }}</a>
+         <div class="created-time">
+           {{ $recommended_article->created_at->format('n/d ') . '(' . 
+           $week[$recommended_article->created_at->format('w')] . ')'}}
+           {{ $recommended_article->created_at->format('H:i') }}
+         </div>
+       </article>
+      @endforeach
+     </div>
 
 @endsection
