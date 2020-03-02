@@ -7,9 +7,12 @@ use App\Article;
 
 class GetArticle {
 
-  public function get_article(int $article_id) {
+  public function get_article(int $article_id): Article {
 
-    return Article::find($article_id);
+    return Article::where('id', $article_id)
+      ->with(['tags'])
+      ->get()
+      ->first();
       
   }
 
