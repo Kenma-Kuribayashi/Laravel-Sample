@@ -45,7 +45,7 @@ class ArticlesController extends Controller
 
     $week = ['日','月','火','水', '木', '金', '土'];
 
-    return view('articles.show', compact('article','tag_lists','recommended_articles','week'));
+    return view('articles.show', compact('article','tag_lists','week','recommended_articles'));
   }
 
   public function create() {
