@@ -54,7 +54,7 @@ class ArticlesPolicy
     public function delete(User $user, Article $article)
     {
         //管理者はデリート権限あり
-        if ($user->admin) {
+        if ($user->is_admin) {
             return true;
         }
         return $user->id === $article->user_id;
