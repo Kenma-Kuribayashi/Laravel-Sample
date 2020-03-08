@@ -17,31 +17,26 @@ use App\Services\GetRecommendedArticles;
 
 class ArticlesController extends Controller
 {
-  public function __construct() {
+  private $get_tag_list;
+
+  public function __construct(GetTagList $get_tag_list) {
     $this->middleware('auth')->except(['index', 'show', 'domestic']); //ログインしなくてもみれる
+    $this->get_tag_list = $get_tag_list;
   }
 
-  public function index() {
-    $get_articles = new GetArticles();
+  public function index(GetArticles $get_articles) {
     $articles = $get_articles->get();
-
-    $get_tag_list = new GetTagList();
-    $tag_lists = $get_tag_list->get_tag_list();
+    $tag_lists = $this->get_tag_list->get_tag_list();
 
     $week = ['日','月','火','水', '木', '金', '土', ];
 
     return view('articles.index', compact('articles','week','tag_lists'));
   }
 
-  public function show(int $article_id) {
-    $get_article = new GetArticle();
+  public function show(GetArticle $get_article, GetRecommendedArticles $get_recommended_articles, int $article_id) {
     $article = $get_article->get_article($article_id);
-
-    $get_recommended_articles = new GetRecommendedArticles();
     $recommended_articles = $get_recommended_articles->get($article);
-
-    $get_tag_list = new GetTagList();
-    $tag_lists = $get_tag_list->get_tag_list();
+    $tag_lists = $this->get_tag_list->get_tag_list();
 
     $week = ['日','月','火','水', '木', '金', '土'];
 
@@ -49,42 +44,36 @@ class ArticlesController extends Controller
   }
 
   public function create() {
-    $get_tag_list = new GetTagList();
-    $tag_list = $get_tag_list->get_tag_list();
+    $tag_lists = $this->get_tag_list->get_tag_list();
 
     return view('articles.create', compact('tag_list'));
   }
 
-  public function store(ArticleRequest $request) {
-    $service = new StoreArticle();
+  public function store(StoreArticle $service, ArticleRequest $request) {
     $service->store($request->validated(), $request->input('tags'));
 
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
   }
 
   public function edit(Article $article) {
-    $get_tag_list = new GetTagList();
-    $tag_list = $get_tag_list->get_tag_list();
+    $tag_list = $this->get_tag_list->get_tag_list();
 
     return view('articles.edit', compact('article', 'tag_list'));
   }
 
-  public function update(ArticleRequest $request, Article $article) {
-    $update_article = new UpdateArticle();
+  public function update(UpdateArticle $update_article, ArticleRequest $request, Article $article) {
     $update_article->update_article($request->validated(), $request->input('tags'),$article);
 
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
 
-  public function destroy(Article $article) {
-    $destroy_article = new DestroyArticle();
+  public function destroy(DestroyArticle $destroy_article, Article $article) {
     $destroy_article->destroy_article($article);
 
     return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
 
-  public function upload(Request $request,int $article_id) {
-    $store_image = new StoreImage();
+  public function upload(StoreImage $store_image, Request $request,int $article_id) {
     $successful_upload = $store_image->store_image($request, $article_id);
 
     if ($successful_upload === TRUE) {
@@ -94,14 +83,11 @@ class ArticlesController extends Controller
     }
   }
 
-  public function domestic(int $tag_id) {
-    $get_articles_by_tag = new GetArticlesByTag();
+  public function domestic(GetArticlesByTag $get_articles_by_tag, int $tag_id) {
     $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_id);
+    $tag_lists = $this->get_tag_list->get_tag_list();
 
     $week = ['日','月','火','水', '木', '金', '土', ];
-
-    $get_tag_list = new GetTagList();
-    $tag_lists = $get_tag_list->get_tag_list();
  
     return view('articles.domestic', compact('articles_by_tag','tag_id','week','tag_lists'));
   }
