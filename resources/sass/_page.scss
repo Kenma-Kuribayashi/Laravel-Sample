@@ -1,0 +1,135 @@
+
+/*layout.blade.php*/
+.login-text {
+  margin-left: 600px;
+  display: none;
+}
+
+/*navバー*/
+.navbar {
+  width:900px;
+  margin-left:200px;
+}
+.navbar-brand {
+  float: left;
+}
+.nav-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.navbar-nav {
+  margin-left: 400px;
+}
+.nav-body {
+  background: #44739c;
+}
+.nav-link {
+  color: white;
+}
+.nav-item {
+  margin-top: 10px;
+}
+.nav-name {
+  margin-left: 100px;
+}
+.logout-bottom {
+  margin-left: 25px;
+  font-size: 15px;
+}
+
+/*ヘッダー*/
+.header {
+  width:900px;
+  margin:20px 0px 0px 200px;
+}
+.main-logo {
+  color: red;
+  float: left;
+}
+.sub-logo {
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 10px;
+  color: black;
+}
+.about, .login, .register, .logout {
+  color: black;
+} 
+.about, .logout {
+  margin-left: 490px;
+}
+.login, .register {
+  margin-left: 5px;
+}
+.container {
+  padding: 0;
+  width:900px;
+  height: 1000px;
+  margin-left:200px;
+}
+.new-article-btn {
+  text-align: right;
+}
+.sns-icon {
+  text-align: right;
+}
+.fa {
+  font-size: 2em;
+  margin-right: 15px;
+}
+.fa-twitter {
+  color: skyblue;
+}
+.fa-facebook {
+  color: navy;
+}
+
+/*aboutページ*/
+.about-article {
+  border: solid 1px #000000;
+}
+
+/*indexページ*/
+
+article {
+  background: #f8f8f8;
+}
+.articles {
+  width: 80%;
+  float: left;
+}
+.weather {
+  width: 180px;
+  margin: 0 0 0 auto;
+}
+
+/*showページ*/
+
+.new-article {
+  width: 900px;
+}
+.news-image {
+  float: left;
+}
+.news-li {
+  font-size: 20px;
+}
+.created-time {
+  font-size: 14px;
+  color: gray;
+}
+.pagination {
+  margin-top: 220px;
+}
+
+/*タグ一覧ページ*/
+
+.tag-name {
+  float:left;
+}
+.tag-delete {
+  margin-left: 50px;
+}
