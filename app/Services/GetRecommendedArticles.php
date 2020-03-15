@@ -29,7 +29,16 @@ class GetRecommendedArticles
       ->where("tag_id", $article->tags[0]->id)
       ->count();
 
-    //同じタグの記事最大3件取得
+    //同じタグの記事がない時
+    if ($article_counts === 1) {
+      return Article::where('id', '<>', $article->id)
+        ->latest('published_at')
+        ->latest('created_at')
+        ->published()
+        ->limit(3)
+        ->get();
+    }
+
     /**
      * @var Collection
      */
