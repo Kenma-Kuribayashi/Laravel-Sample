@@ -31,13 +31,4 @@ const app = new Vue({
     el: '#app',
 });
 
-//ログインボタンにhoverした時にテキストを表示
-$(function() {
-    $('.login').hover(
-      function() {
-        $('.login-text').fadeIn();
-      },
-      function() {
-        $('.login-text').fadeOut();
-      });
-  });
+require('./component');
