@@ -1,5 +1,5 @@
 //ログインボタンにhoverした時にテキストを表示
-const func = () => {
+const func = () =>{
   $('#login').hover(
     async function() {
       $('#login-text').fadeIn();
@@ -10,5 +10,7 @@ const func = () => {
     },
     function() {
       $('#login-text').fadeOut();
-    });
+    }
+  );
 };
+$(func);
