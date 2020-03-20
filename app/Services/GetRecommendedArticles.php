@@ -10,15 +10,22 @@ class GetRecommendedArticles
 {
 
   /**
+   * 同じタグの記事3件を最新順で取得する。
+   * 3件未満の場合やタグがなかった場合は記事3件を最新順で取得する。
+   * 
    * @var Collection
+   * @param Article $article
+   * @return Collection
    */
   public function get($article)
   {
 
     //記事にタグがない時
     if ($article->tags->count() === 0) {
-      return Article::latest('published_at')
+      return Article::where('id', '<>', $article->id)
+        ->latest('published_at')
         ->latest('created_at')
+        ->orderBy('id', 'desc')
         ->published()
         ->limit(3)
         ->get();
@@ -34,12 +41,14 @@ class GetRecommendedArticles
       return Article::where('id', '<>', $article->id)
         ->latest('published_at')
         ->latest('created_at')
+        ->orderBy('id', 'desc')
         ->published()
         ->limit(3)
         ->get();
     }
 
     /**
+     * 同じタグの記事最大3件取得
      * @var Collection
      */
     $recommended_articles = Article::join('article_tag', 'article_tag.article_id', 'articles.id')
@@ -48,15 +57,20 @@ class GetRecommendedArticles
       ->where('articles.id', '<>', $article->id)
       ->latest('published_at')
       ->latest('created_at')
+      ->orderBy('id', 'desc')
       ->published()
       ->limit(3)
       ->get();
 
     //同じタグの記事が自身の記事を含めて4記事より少ない場合
     if ($article_counts < 4) {
-      //最新記事を最大3件取得
+    /**
+     * 最新記事を最大3件取得
+     * @var Collection
+     */
       $latest_articles = Article::latest('published_at')
       ->latest('created_at')
+      ->orderBy('id', 'desc')
       ->published()
       ->limit(4 - $article_counts)
       ->get();
