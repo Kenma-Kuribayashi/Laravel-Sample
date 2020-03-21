@@ -31,4 +31,4 @@ const app = new Vue({
     el: '#app',
 });
 
-require('./component');
+require('./components/auth/loginButton');

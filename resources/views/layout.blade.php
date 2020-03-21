@@ -19,8 +19,9 @@
    
     @guest <!-- ログインしていない時のメニュー -->
       <a class="about" href="/about">利用方法</a>
-      <a class="login" href="{{ route('login') }}">ログイン</a>
-      <div class="login-text">投稿者の方はこちらからログインしてください</div>
+      <a class="btn" id="login" href="{{ route('login') }}">ログイン</a>
+      <div class="login-text" id="login-text">投稿者の方はこちらからログインしてください</div>
+      <div class="seven-days-later" id="seven-days-later"></div>
       {{-- <a class="register" href="{{ route('register') }}">新規登録</a> --}}
     @endguest
   </div>
