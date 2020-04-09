@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Interfaces\ViewCountRepositoryInterface;
+use App\Repositories\Concretes\MySqlViewCountRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            ViewCountRepositoryInterface::class,
+            MySqlViewCountRepository::class
+            // CacheViewCountRepository::class
+        );
     }
 
     /**

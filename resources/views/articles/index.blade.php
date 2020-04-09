@@ -10,7 +10,13 @@
        <figure>
         <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="75px" height="50px">
       </figure>
+      @auth
+      <a href="{{ url('articles',[$article->id, $currentUser->id]) }}" class="news-li">{{ $article->title }}</a>
+      @endauth
+      @guest
       <a href="{{ url('articles', $article->id) }}" class="news-li">{{ $article->title }}</a>
+      @endguest
+      
       <div class="created-time">
         {{ $article->created_at->format('n/d ') . '(' . 
         $week[$article->created_at->format('w')] . ')'}}

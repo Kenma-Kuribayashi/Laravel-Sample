@@ -12,6 +12,10 @@
           <!--  <a class="nav-link" href="#">ユーザー一覧</a>-->
           <!--</li>-->
           <li class="nav-item">
+              <a href="/browsing_history">閲覧履歴</a>
+          <input name="currentUser" value="{{ $currentUser->id }}" hidden>
+         </li>
+          <li class="nav-item">
              <div class="white nav-name">{{ $currentUser->name }}さん</div>
           </li>
           <li class="nav-item">             
