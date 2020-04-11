@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interfaces\ViewCountRepositoryInterface;
 use App\Repositories\Concretes\MySqlViewCountRepository;
+use App\Repositories\Concretes\CacheViewCountRepository;
+use App\Repositories\Interfaces\GetBrowsingHistoriesRepositoryInterface;
+use App\Repositories\Concretes\MySqlGetBrowsingHistoriesRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
             ViewCountRepositoryInterface::class,
             MySqlViewCountRepository::class
             // CacheViewCountRepository::class
+        );
+
+        $this->app->bind(
+            GetBrowsingHistoriesRepositoryInterface::class,
+            MySqlGetBrowsingHistoriesRepository::class
         );
     }
 
