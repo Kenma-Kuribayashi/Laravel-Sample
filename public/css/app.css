@@ -10884,13 +10884,13 @@ a.text-dark:focus {
   }
 }
 
-.white {
-  color: white;
-}
-
 body {
   background-color: white;
   width: 1000px;
+}
+
+.white {
+  color: white;
 }
 
 .red {
@@ -10902,6 +10902,10 @@ body {
 .login-text {
   margin-left: 600px;
   display: none;
+}
+
+.seven-days-later {
+  margin-left: 750px;
 }
 
 /*navバー*/
@@ -10924,7 +10928,7 @@ body {
 }
 
 .navbar-nav {
-  margin-left: 400px;
+  margin-left: 200px;
 }
 
 .nav-body {
