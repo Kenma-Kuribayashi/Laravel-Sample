@@ -33,8 +33,12 @@
     <br>
     <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/33.js"></script>
   </div>
+
+  <div id="calendar"></div>
   
   <br>
   {{ $articles->links() }} <!--ページネーション-->
 
 @endsection
+
+<script src="{{ asset('/js/components/calendar.js') }}"></script>
