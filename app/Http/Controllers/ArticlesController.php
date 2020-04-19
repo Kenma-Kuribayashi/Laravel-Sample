@@ -15,7 +15,6 @@ use App\Services\GetArticlesByTag;
 use App\Services\GetArticle;
 use App\Services\GetRecommendedArticles;
 use App\Services\BrowsingHistory\StoreBrowsingHistory;
-use App\Services\ExampleCollection;
 use App\User;
 
 class ArticlesController extends Controller
@@ -37,12 +36,6 @@ class ArticlesController extends Controller
   }
 
   public function show(StoreBrowsingHistory $storeBrowsingHistory, GetArticle $get_article, GetRecommendedArticles $get_recommended_articles, int $article_id, int $user_id = null) {
-
-    // $collection = collect([1, 2, 3]);
-    // $user = User::find(1);
-    // $exampleCollection = new ExampleCollection();
-    // dd($exampleCollection->getCollection($user));
-    // dd($exampleCollection->getUser($user));
 
     if ($user_id) {
       $storeBrowsingHistory->store($article_id, $user_id, $get_article);
