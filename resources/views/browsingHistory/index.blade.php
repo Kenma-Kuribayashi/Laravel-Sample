@@ -5,10 +5,10 @@
 <div class="page-header">
   <h1>最近閲覧した記事</h1>
 </div>
-@foreach ($browsingHistories as $browsingHistory)
+{{-- @foreach ($browsingHistories as $browsingHistory) --}}
 
-<h3>・{{ $browsingHistory->article->title }}</h3>
+<h3>・{{ $article_title }}</h3>
 
-@endforeach
+{{-- @endforeach --}}
 
 @endsection

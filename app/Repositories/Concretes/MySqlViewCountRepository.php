@@ -20,9 +20,10 @@ class MySqlViewCountRepository implements ViewCountRepositoryInterface
    *
    * @param integer $article_id
    * @param integer $user_id
+   * @param string $article_title
    * @return void
    */
-  public function incrementViewCount(int $article_id, int $user_id)
+  public function incrementViewCount(int $article_id, int $user_id, string $article_title)
   {
     DB::beginTransaction();
 

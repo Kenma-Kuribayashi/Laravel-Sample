@@ -45,7 +45,7 @@ class ArticlesController extends Controller
     // dd($exampleCollection->getUser($user));
 
     if ($user_id) {
-      $storeBrowsingHistory->store($article_id, $user_id);
+      $storeBrowsingHistory->store($article_id, $user_id, $get_article);
     }
 
     $article = $get_article->get_article($article_id);
