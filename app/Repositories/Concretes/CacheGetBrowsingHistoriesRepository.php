@@ -4,6 +4,7 @@ namespace App\Repositories\Concretes;
 
 use App\BrowsingHistory;
 use App\Repositories\Interfaces\GetBrowsingHistoriesRepositoryInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class CacheGetBrowsingHistoriesRepository implements GetBrowsingHistoriesRepositoryInterface
@@ -17,7 +18,8 @@ class CacheGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
      * @param integer $user_id
      * @return Collection
      */
-    public function getBrowsingHistories(int $user_id) {
+    public function getBrowsingHistories(int $user_id) :Collection
+    {
 
       //$value = Cache::get("article.view_history.{$user_id}");
 

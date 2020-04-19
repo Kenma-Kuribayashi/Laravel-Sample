@@ -19,7 +19,7 @@ class MySqlGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
    * @param integer $user_id
    * @return Collection
    */
-  public function getBrowsingHistories(int $user_id)
+  public function getBrowsingHistories(int $user_id) :Collection
   {
      return BrowsingHistory::where('user_id', $user_id)
       ->with('article')
