@@ -17,9 +17,7 @@ class BrowsingHistoryController extends Controller
 
     $browsingHistories = $getBrowsingHistories->get($user_id);
 
-    dd($browsingHistories);
-
-    return view('browsingHistory.index', ['article_title' => $browsingHistories[0]['article_title']]);
+    return view('browsingHistory.index', ['browsingHistories' => $browsingHistories]);
   }
 
 }

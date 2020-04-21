@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Concretes;
 
-use App\BrowsingHistory;
+use App\BrowsingHistory as EloqentBrowsingHistory;
 use App\Repositories\Interfaces\GetBrowsingHistoriesRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Collection;
+use App\Domain\Entity\BlowsingHistory;
 
 class MySqlGetBrowsingHistoriesRepository implements GetBrowsingHistoriesRepositoryInterface
 {
@@ -21,9 +21,16 @@ class MySqlGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
    */
   public function getBrowsingHistories(int $user_id) :Collection
   {
-     return BrowsingHistory::where('user_id', $user_id)
-      ->with('article')
+    /**
+      * @var Collection
+     */
+     $collection = EloqentBrowsingHistory::where('user_id', $user_id)
+       ->with('article')
       ->orderBy('id', 'desc')
       ->get();
+
+      return $collection->map(function ($item) {
+        return BlowsingHistory::constructByRepository($item->article->title, $item->article_id);
+      });
   }
 }
