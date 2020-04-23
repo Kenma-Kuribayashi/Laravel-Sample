@@ -2,13 +2,10 @@
 
 namespace App\Repositories\Concretes;
 
-use App\BrowsingHistory;
 use App\Repositories\Interfaces\ViewCountRepositoryInterface;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
-use App\Article;
 
 class CacheViewCountRepository implements ViewCountRepositoryInterface
 {
@@ -18,7 +15,6 @@ class CacheViewCountRepository implements ViewCountRepositoryInterface
 
   /**
    * 閲覧した記事とユーザidを保存する。
-   * updateOrCreate()では実装できなかった。
    *
    * @param integer $article_id
    * @param integer $user_id
@@ -27,29 +23,46 @@ class CacheViewCountRepository implements ViewCountRepositoryInterface
    */
   public function incrementViewCount(int $article_id, int $user_id, string $article_title)
   {
-
-    $value = [
+    $current_history = [
       'article_id' => $article_id,
       'user_id' => $user_id,
       'article_title' => $article_title,
       'browse_date' => Carbon::now()->format('Y-m-d')
     ];
 
-    $expiresAt = now()->addMinutes(10);
+    $expiresAt = now()->addMinutes(1440);
 
-    //まだ履歴がない時はあるか確認してなれば作る
-    for ($id = 1; $id <= 3; $id++) {
-      if (Cache::has("article.view_history.{$user_id}.{$id}") === false) {
-        return Cache::add("article.view_history.{$user_id}.{$id}", $value, $expiresAt);
-      }
+    //閲覧履歴がなれば作る
+    if (Cache::has("article.view_history.{$user_id}") === false) {
+      return Cache::add(
+        "article.view_history.{$user_id}",
+        // 閲覧履歴の連想配列を配列に入れる
+        [$current_history],
+        $expiresAt
+      );
     }
-    //すでに3件ある時は3件取得して一番古い履歴に上書きする
-    $browsingHistory_first = Cache::get("article.view_history.{$user_id}.1");
 
-    dd($browsingHistory_first);
-    
+    /**
+     * @var array
+     */
+    $saved_history = Cache::get("article.view_history.{$user_id}");
+    // 万が一配列じゃなかったら例外
+    if (!is_array($saved_history)) {
+      throw new Exception();
+    }
 
-    
+    //配列に新しい閲覧履歴をpushする
+    $saved_history[] = $current_history;
+    //閲覧履歴が3より多くあれば古い履歴を削除する
+    if (count($saved_history) > 3) {
+      array_shift($saved_history);
+    }
 
+    //add()にすると同じkeyがあると更新されないためputにしている
+    return Cache::put(
+      "article.view_history.{$user_id}",
+      $saved_history,
+      $expiresAt
+    );
   }
 }
