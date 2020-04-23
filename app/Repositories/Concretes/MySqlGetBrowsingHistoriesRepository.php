@@ -5,7 +5,8 @@ namespace App\Repositories\Concretes;
 use App\BrowsingHistory as EloqentBrowsingHistory;
 use App\Repositories\Interfaces\GetBrowsingHistoriesRepositoryInterface;
 use Illuminate\Support\Collection;
-use App\Domain\Entity\BlowsingHistory;
+use App\Domain\Entity\BrowsingHistory;
+use Illuminate\Support\Carbon;
 
 class MySqlGetBrowsingHistoriesRepository implements GetBrowsingHistoriesRepositoryInterface
 {
@@ -25,12 +26,14 @@ class MySqlGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
       * @var Collection
      */
      $collection = EloqentBrowsingHistory::where('user_id', $user_id)
-       ->with('article')
-      ->orderBy('id', 'desc')
-      ->get();
+        ->with('article')
+        ->orderBy('id', 'desc')
+        ->where('browse_date', Carbon::now()->format('Y-m-d'))
+        ->limit(3)
+        ->get();
 
       return $collection->map(function ($item) {
-        return BlowsingHistory::constructByRepository($item->article->title, $item->article_id);
+        return BrowsingHistory::constructByRepository($item->article->title, $item->article_id);
       });
   }
 }

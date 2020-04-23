@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-final class BlowsingHistory {
+final class BrowsingHistory {
 
   private $article_title;
   private $article_id;
