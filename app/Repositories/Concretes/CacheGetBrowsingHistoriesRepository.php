@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Concretes;
 
-use App\BrowsingHistory;
 use App\Repositories\Interfaces\GetBrowsingHistoriesRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use App\Domain\Entity\BrowsingHistory;
 
 class CacheGetBrowsingHistoriesRepository implements GetBrowsingHistoriesRepositoryInterface
 {
@@ -20,21 +20,22 @@ class CacheGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
      */
     public function getBrowsingHistories(int $user_id) :Collection
     {
-
-      //$value = Cache::get("article.view_history.{$user_id}");
+      $saved_histories = Cache::get("article.view_history.{$user_id}");
 
       $collection = collect();
 
-      for ($id = 1; $id <= 3; $id++) {
-
-        $value = Cache::get("article.view_history.{$user_id}.{$id}");
-        $collection->push($value);
-      
+      //閲覧履歴がなければ空のコレクションを返す
+      if ($saved_histories === null) {
+        return $collection;
       }
 
-      dd($collection);
+      foreach($saved_histories as $saved_history) {
+        $collection->push($saved_history);
+      }
 
-      return collect()->push($value);
+      return $collection->map(function ($item) {
+        return BrowsingHistory::constructByRepository($item['article_title'], $item['article_id']);
+      });
 
     }
 }
