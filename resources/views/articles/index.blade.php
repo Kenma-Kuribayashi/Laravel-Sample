@@ -41,4 +41,6 @@
 
 @endsection
 
-<script src="{{ asset('/js/components/calendar.js') }}"></script>
+@push('scripts')
+  <script src="{{ asset('/js/components/calendar.js') }}" defer="defer"></script>
+@endpush

@@ -5,7 +5,8 @@
     <title>Sample News</title>
     <link rel="stylesheet" href="/css/app.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <script src="/js/app.js" defer></script>
+    <script src="/js/app.js"></script>
+    @stack('scripts')
 </head>
 <body>
   {{-- ナビゲーションバーの Partial を使用 --}}
