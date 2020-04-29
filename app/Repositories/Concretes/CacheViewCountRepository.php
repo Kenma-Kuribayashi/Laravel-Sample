@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\ViewCountRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
+use App\Exceptions\GetCacheNotArrayException;
 
 class CacheViewCountRepository implements ViewCountRepositoryInterface
 {
@@ -48,7 +49,7 @@ class CacheViewCountRepository implements ViewCountRepositoryInterface
     $saved_history = Cache::get("article.view_history.{$user_id}");
     // 万が一配列じゃなかったら例外
     if (!is_array($saved_history)) {
-      throw new Exception();
+      throw new GetCacheNotArrayException();
     }
 
     //配列に新しい閲覧履歴をpushする
