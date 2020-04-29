@@ -29,9 +29,7 @@ class CacheGetBrowsingHistoriesRepository implements GetBrowsingHistoriesReposit
         return $collection;
       }
 
-      foreach($saved_histories as $saved_history) {
-        $collection->push($saved_history);
-      }
+      $collection = Collection::make($saved_histories);
 
       return $collection->map(function ($item) {
         return BrowsingHistory::constructByRepository($item['article_title'], $item['article_id']);
