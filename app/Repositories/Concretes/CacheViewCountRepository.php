@@ -52,8 +52,8 @@ class CacheViewCountRepository implements ViewCountRepositoryInterface
       throw new GetCacheNotArrayException();
     }
 
-    //配列に新しい閲覧履歴をpushする
-    $saved_history[] = $current_history;
+    //過去の閲覧履歴が入った配列に新しい履歴をpushする
+    array_push($saved_history, $current_history);
     //閲覧履歴が3より多くあれば古い履歴を削除する
     if (count($saved_history) > 3) {
       array_shift($saved_history);
