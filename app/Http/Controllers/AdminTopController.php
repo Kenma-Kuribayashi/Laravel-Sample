@@ -9,7 +9,6 @@ use App\Services\AdminTop\GetUsers;
 class AdminTopController extends Controller
 {
   public function __construct() {
-    $this->middleware('check-admin'); 
   }
 
   public function index(GetUsers $getUsers) {
