@@ -17,7 +17,7 @@ class CheckAdmin
     {
         $user = $request->user();
         if ($user->is_admin !== 1) {
-            return redirect('/articles');
+            return abort(404);
         }
 
         return $next($request);
