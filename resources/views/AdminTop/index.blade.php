@@ -11,7 +11,7 @@
 @if($user->isContributor())
 <div>○</div>
 @else
-<a href="#" >投稿者登録する</a>
+<a href="/admin/{{ $user->getId() }}/register" >投稿者登録する</a>
 @endif
 
     

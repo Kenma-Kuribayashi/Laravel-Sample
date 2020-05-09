@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Services\AdminTop\GetUsers;
-
+use App\Services\AdminTop\RegisterContributor;
 
 class AdminTopController extends Controller
 {
@@ -15,9 +15,14 @@ class AdminTopController extends Controller
 
     $users = $getUsers->getUsers();
 
-    //dd($users);
-
     return view('adminTop.index', ['users' => $users]);
+  }
+
+  public function register(int $user_id, RegisterContributor $registerContributor) {
+
+    $registerContributor->registerContributor($user_id);
+
+    return redirect()->route('adminTop.index')->with('message', '記事投稿者の登録が完了しました。');
   }
 
 }
