@@ -60,6 +60,7 @@ class LoginController extends Controller
      * @return void
      */
     public function __construct() {
-      $this->middleware('guest')->except('logout'); //except～以外
+      //logoutやshowLoginFormはトレイトのメソッド
+      $this->middleware('guest')->except(['login','logout','showLoginForm']);
     }
 }
