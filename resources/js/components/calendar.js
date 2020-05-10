@@ -1,41 +1,86 @@
-const weeks = ['日', '月', '火', '水', '木', '金', '土'];
+$(() => {
+const WEEK_DAYS = 7;
 const date = new Date();
+//年を4桁の整数で取得
 const year = date.getFullYear();
+//getMonthの返り値は月を表す0から11の数値
 const month = date.getMonth() + 1;
+const todayDate = date.getDate();
 const startDate = new Date(year, month - 1, 1); // 月の最初の日を取得
-const endDate = new Date(year, month,  0); // 月の最後の日を取得
+const endDate = new Date(year, month, 0); // 月の最後の日を取得
 const endDayCount = endDate.getDate(); // 月の末日
-const startDay = startDate.getDay(); // 月の最初の日の曜日を取得
-let dayCount = 1; // 日にちのカウント
-let calendarHtml = ''; // HTMLを組み立てる変数
+const startDay = startDate.getDay(); // 月の最初の曜日を取得
 
-calendarHtml += '<h1>' + year  + '/' + month + '</h1>';
-calendarHtml += '<table>';
+$('#year-month').text(`${year}年${month}月`);
+$('.non-display').removeClass('non-display');
 
-// 曜日の行を作成
-for (let i = 0; i < weeks.length; i++) {
-    calendarHtml += '<td>' + weeks[i] + '</td>';
-}
-
-for (let w = 0; w < 6; w++) {
-    calendarHtml += '<tr>';
-
-    for (let d = 0; d < 7; d++) {
-        if (w == 0 && d < startDay) {
-            // 1行目で1日の曜日の前
-            calendarHtml += '<td></td>';
-        } else if (dayCount > endDayCount) {
-            // 末尾の日数を超えた
-            calendarHtml += '<td></td>';
-        } else {
-            calendarHtml += '<td>' + dayCount + '</td>';
-            dayCount++;
-        }
+/**
+ * このメソッドが知っていること
+ * - セルはTDタグで表現すること
+ * - 受け取った番号が0以下だったら空っぽのセルにすること
+ * - なんならカレンダーに使われることすら知らない
+ */
+const positiveNumberCellRenderer = (number) => {
+    const emptyCell = '<td class="calendar-td"></td>';
+    if (number <= 0) {
+        return emptyCell;
     }
-    calendarHtml += '</tr>';
+    if (number == todayDate) {
+        return `<td class="calendar-td today">${number}</td>`;
+    }
+    return `<td class="calendar-td">${number}</td>`;
+};
+
+/**
+ * このメソッドが知っていること
+ * 行はTRタグで挟むこと
+ * 1行分のセルが配列で渡されること
+ */
+const rowRenderer = (cellListPerWeek) => {
+    return "<tr>" + cellListPerWeek.join("") + "</tr>";
 }
-calendarHtml += '</table>';
 
-console.log(document.querySelector('#calendar'));
+/**
+ * このメソッドが知っていること
+ * 当月の日付が格納された配列の作り方
+ * 月の範囲外の日付の場合は0を返すこと（cellRendererとのお約束）
+ * @param {*} maxDate 
+ * @param {*} startDay 
+ */
+const makeDayNumberArray = (maxDate, startDay) => {
+    return Array.from(
+        {
+            length: maxDate + startDay + ((maxDate + startDay) % WEEK_DAYS)
+        },
+        (value, index) => {
+            if (index + 1 - startDay > maxDate) {
+                return 0;
+            }
+            return index + 1 - startDay;
+        }
+    );
+}
 
-document.querySelector('#calendar').innerHTML = calendarHtml;
+/**
+ * 配列をChunkする関数をArray自体に追加する
+ */
+Object.defineProperty(Array.prototype, 'chunk', {
+    value: function(chunkSize) {
+        var R = [];
+        for (var i = 0; i < this.length; i += chunkSize)
+          R.push(this.slice(i, i + chunkSize));
+        return R;
+    }
+});
+
+var calendarHtml = makeDayNumberArray(endDayCount, startDay).map(positiveNumberCellRenderer).chunk(7).map(rowRenderer);
+
+
+
+//const calendarHtml = yearAndMonthHtml.concat(weeks).concat(contents);
+
+//console.log(calendarHtml);
+// $("#calendar").html(calendarHtml);
+$("#calendar").html(contents);
+
+});
