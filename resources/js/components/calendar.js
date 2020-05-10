@@ -75,12 +75,6 @@ Object.defineProperty(Array.prototype, 'chunk', {
 
 var calendarHtml = makeDayNumberArray(endDayCount, startDay).map(positiveNumberCellRenderer).chunk(7).map(rowRenderer);
 
-
-
-//const calendarHtml = yearAndMonthHtml.concat(weeks).concat(contents);
-
-//console.log(calendarHtml);
-// $("#calendar").html(calendarHtml);
 $("#calendar").html(contents);
 
 });

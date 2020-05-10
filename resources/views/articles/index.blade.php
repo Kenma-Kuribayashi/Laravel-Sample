@@ -34,7 +34,24 @@
     <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/33.js"></script>
   </div>
 
-  <div id="calendar"></div>
+  <div class="calendar">
+    <div class="non-display">
+      <h3 id="year-month" clsss="calendar-title"></h3>
+      <table>
+      <tr>
+        <td class="calendar-td">日</td>
+        <td class="calendar-td">月</td>
+        <td class="calendar-td">火</td>
+        <td class="calendar-td">水</td>
+        <td class="calendar-td">木</td>
+        <td class="calendar-td">金</td>
+        <td class="calendar-td">土</td>
+      </tr>
+      </table>
+    </div>
+      <div id="calendar" ></div>
+    
+  </div>
   
   <br>
   {{ $articles->links() }} <!--ページネーション-->
@@ -42,5 +59,5 @@
 @endsection
 
 @push('scripts')
-  <script src="{{ asset('/js/components/calendar.js') }}" defer="defer"></script>
+  <script src="{{ asset('/js/page/articleList.js') }}" defer="defer"></script>
 @endpush
