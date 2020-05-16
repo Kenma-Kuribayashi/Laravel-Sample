@@ -22,7 +22,7 @@ class GetUsersRepository
     $collection = DB::table('users')->orderBy('id')->get();
     
     return $collection->map(function ($item) {
-      return User::constructByRepository($item->name, $item->is_contributor);
+      return User::constructByRepository($item->id, $item->name, $item->is_contributor);
     });
 
   }
