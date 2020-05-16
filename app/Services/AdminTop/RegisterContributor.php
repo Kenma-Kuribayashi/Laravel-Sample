@@ -29,7 +29,7 @@ class RegisterContributor {
    * @param int $user_id
    * @return void
    */
-  public function registerContributor(int $user_id) {
+  public function execute(int $user_id) {
 
     /**
      * 登録したいユーザを取得

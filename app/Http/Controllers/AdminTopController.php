@@ -20,7 +20,7 @@ class AdminTopController extends Controller
 
   public function register(int $user_id, RegisterContributor $registerContributor) {
 
-    $registerContributor->registerContributor($user_id);
+    $registerContributor->execute($user_id);
 
     return redirect()->route('adminTop.index')->with('message', '記事投稿者の登録が完了しました。');
   }
