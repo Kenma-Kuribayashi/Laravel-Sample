@@ -31,7 +31,7 @@
   <div class="container">
     {{-- フラッシュメッセージの表示 --}}
     @if (session('message'))
-      <div class="alert alert-success">{{ session('message') }}</div>
+      <div class="alert alert-primary">{{ session('message') }}</div>
     @endif
  
     <h1 class="new-article-btn">
