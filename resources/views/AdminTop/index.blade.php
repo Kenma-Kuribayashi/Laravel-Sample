@@ -11,7 +11,11 @@
 @if($user->isContributor())
 <div>○</div>
 @else
-<a href="/admin/{{ $user->getId() }}/register" >投稿者登録する</a>
+<form method="PUT" action="/users/{{ $user->getId() }}">
+  {{ csrf_field() }}
+  <input type="submit" value="投稿者登録する" />
+</form>
+
 @endif
 
     
