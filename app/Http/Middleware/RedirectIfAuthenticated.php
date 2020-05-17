@@ -17,10 +17,11 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) { //認証しているかチェックして、認証していたらリダイレクトする。
-            return $next($request); //アプリケーションの先へリクエストを通す
+        if (Auth::guard($guard)->check()) {
+            //アプリケーションの先へリクエストを通す
+            return $next($request); 
         }
         
-        return redirect('/articles');
+        return abort(404);
     }
 }
