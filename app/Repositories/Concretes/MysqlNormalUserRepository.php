@@ -22,6 +22,6 @@ class MySqlNormalUserRepository implements NormalUserRepositoryInterface
   {
     $user = DB::table('users')->where('id', $user_id)->first();
 
-    return NormalUser::constructByRepository($user->id);
+    return NormalUser::constructByRepository($user->id, $user->is_contributor);
   }
 }

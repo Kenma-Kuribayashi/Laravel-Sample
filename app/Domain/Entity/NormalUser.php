@@ -7,15 +7,17 @@ use App\Domain\Entity\Contributor;
 final class NormalUser {
 
   private $user_id;
+  private $is_contributor;
 
   private function __construct()
   {
   }
 
-  public static function constructByRepository(int $user_id) {
+  public static function constructByRepository(int $user_id, bool $is_contributor) {
     $self = new self();
 
     $self->user_id = $user_id;
+    $self->is_contributor = $is_contributor;
 
     return $self;
   }
@@ -24,8 +26,8 @@ final class NormalUser {
     return $this->user_id;
   }
 
-  public function changeToContributor(NormalUser $normalUser) {
-    return Contributor::changeFromNormalUser($normalUser);
+  public function isContributor() {
+    return $this->is_contributor;
   }
 
 }
