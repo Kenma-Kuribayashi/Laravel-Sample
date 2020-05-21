@@ -3,6 +3,7 @@
 namespace App\Services\AdminTop;
 
 use App\Domain\Entity\NormalUser;
+use App\Domain\Entity\Contributor;
 use App\Repositories\Interfaces\ContributorRepositoryInterface;
 use App\Repositories\Interfaces\NormalUserRepositoryInterface;
 
@@ -41,7 +42,7 @@ class RegisterContributor {
     /**
      * NormalUserエンティティをContributorエンティティに変える
      */
-    $contributor = $user->changeToContributor($user);
+    $contributor = Contributor::changeFromNormalUser($user);
 
     /**
      * userテーブルのis_contributorを変更する
