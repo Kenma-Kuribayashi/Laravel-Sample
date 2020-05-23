@@ -28,5 +28,11 @@ class ComposerServiceProvider extends ServiceProvider
             ['navbar', 'articles.*'],
             'App\Http\ViewComposers\AuthComposer'
         );
+
+        //$weekのviewComposer
+        View::composer(
+            ['articles.index', 'articles.domestic', 'articles.show'],
+            'App\Http\ViewComposers\WeekComposer'
+        );
     }
 }

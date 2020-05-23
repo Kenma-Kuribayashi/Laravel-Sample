@@ -15,7 +15,6 @@ use App\Services\GetArticlesByTag;
 use App\Services\GetArticle;
 use App\Services\GetRecommendedArticles;
 use App\Services\BrowsingHistory\StoreBrowsingHistory;
-use App\User;
 
 class ArticlesController extends Controller
 {
@@ -30,7 +29,6 @@ class ArticlesController extends Controller
     $articles = $get_articles->get();
     $tag_lists = $this->get_tag_list->get_tag_list();
 
-    $week = ['日','月','火','水', '木', '金', '土', ];
 
     return view('articles.index', compact('articles','week','tag_lists'));
   }
@@ -45,7 +43,7 @@ class ArticlesController extends Controller
     $recommended_articles = $get_recommended_articles->get($article);
     $tag_lists = $this->get_tag_list->get_tag_list();
 
-    $week = ['日','月','火','水', '木', '金', '土'];
+    
 
     return view('articles.show', compact('article','tag_lists','week','recommended_articles'));
   }
@@ -94,7 +92,6 @@ class ArticlesController extends Controller
     $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_id);
     $tag_lists = $this->get_tag_list->get_tag_list();
 
-    $week = ['日','月','火','水', '木', '金', '土', ];
  
     return view('articles.domestic', compact('articles_by_tag','tag_id','week','tag_lists'));
   }
