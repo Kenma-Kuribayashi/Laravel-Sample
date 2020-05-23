@@ -30,11 +30,13 @@ class StoreBrowsingHistory {
    * @param GetArticle $get_article
    * @return void
    */
-  public function store(int $article_id, int $user_id,$get_article) {
+  public function store(int $article_id, int $user_id = null,$get_article) {
     
-    $article = $get_article->get_article($article_id);
-
-    $this->viewCountRepository->incrementViewCount($article_id, $user_id, $article->title);
+    if ($user_id) {
+      $article = $get_article->get_article($article_id);
+      
+      $this->viewCountRepository->incrementViewCount($article_id, $user_id, $article->title);
+    }
 
   }
 

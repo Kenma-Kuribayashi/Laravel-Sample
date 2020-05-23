@@ -35,15 +35,11 @@ class ArticlesController extends Controller
 
   public function show(StoreBrowsingHistory $storeBrowsingHistory, GetArticle $get_article, GetRecommendedArticles $get_recommended_articles, int $article_id, int $user_id = null) {
 
-    if ($user_id) {
-      $storeBrowsingHistory->store($article_id, $user_id, $get_article);
-    }
+    $storeBrowsingHistory->store($article_id, $user_id, $get_article);
 
     $article = $get_article->get_article($article_id);
     $recommended_articles = $get_recommended_articles->get($article);
     $tag_lists = $this->get_tag_list->get_tag_list();
-
-    
 
     return view('articles.show', compact('article','tag_lists','week','recommended_articles'));
   }
