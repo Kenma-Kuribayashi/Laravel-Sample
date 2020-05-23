@@ -3,7 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AuthComposer
 {
