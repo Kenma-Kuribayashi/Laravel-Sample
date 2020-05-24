@@ -10889,6 +10889,18 @@ body {
   width: 1000px;
 }
 
+.non-display {
+  display: none;
+}
+
+.mgr-10 {
+  margin-right: 10px;
+}
+
+.mgl-10 {
+  margin-left: 10px;
+}
+
 .white {
   color: white;
 }
@@ -11069,5 +11081,19 @@ article {
 
 .tag-delete {
   margin-left: 50px;
+}
+
+.calendar-td {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+
+.today {
+  background-color: #fcf8e3;
+}
+
+.not-this-month {
+  color: gray;
 }
 
