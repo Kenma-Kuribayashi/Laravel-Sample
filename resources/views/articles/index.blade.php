@@ -37,6 +37,9 @@
   <div class="calendar">
     <div class="non-display">
       <h3 id="year-month" clsss="calendar-title"></h3>
+    </div>
+      <button id="prev-month" type="button" class="btn btn-primary">&larr;</button>
+      <button id="next-month" type="button" class="btn btn-primary">&rarr;</button>
       <table>
       <tr>
         <td class="calendar-td">日</td>
@@ -50,7 +53,6 @@
       </table>
     </div>
       <div id="calendar" ></div>
-    
   </div>
   
   <br>
