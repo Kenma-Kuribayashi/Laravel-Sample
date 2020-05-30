@@ -18,10 +18,15 @@ class MySqlNormalUserRepository implements NormalUserRepositoryInterface
    * @param integer $user_id
    * @return NormalUser $normalUser
    */
-  public function find(int $user_id): NormalUser
+  public function find(int $user_id): ?NormalUser
   {
-    $user = DB::table('users')->where('id', $user_id)->first();
+    $user = DB::table('users')->where('id', $user_id)
+      ->where('is_contributor', false)->first();
 
-    return NormalUser::constructByRepository($user->id, $user->is_contributor);
+    if ($user === NULL) {
+      return $user;
+    }
+
+    return NormalUser::constructByRepository($user->id);
   }
 }

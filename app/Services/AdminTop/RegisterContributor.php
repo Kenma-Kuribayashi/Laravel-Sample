@@ -39,6 +39,9 @@ class RegisterContributor {
      */
     $user = $this->normalUserRepositoryInterface->find($user_id);
 
+    //既に投稿者に登録されていたら422を返す
+    if ($user === NULL) {abort(422);}
+
     /**
      * NormalUserエンティティをContributorエンティティに変える
      */

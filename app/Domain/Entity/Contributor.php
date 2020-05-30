@@ -11,8 +11,6 @@ final class Contributor {
   }
 
   public static function changeFromNormalUser(NormalUser $normalUser) {
-    //既に投稿者に登録されていたら422を返す
-    if ($normalUser->isContributor()) {abort(422);}
     
     $self = new self();
 
