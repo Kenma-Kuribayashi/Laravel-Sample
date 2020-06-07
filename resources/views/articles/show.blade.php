@@ -11,11 +11,11 @@
     @endforeach
   </ul>
   @endif
-  
+
    <div class="panel panel-default">
-      @if (!empty($article->image)) <!--imageカラムが空じゃなかったら-->
+      @if (!empty($article->image_path)) <!--imageカラムが空じゃなかったら-->
         <figure>
-          <img src='data:img/png;base64,{{$article->image}}' width="533px" height="400px">　<!--base64でエンコードされた画像を表示するという記法-->
+          <img src="https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{{ $article->image_path }}" width="533px" height="400px">
         </figure>
       @endif
    </div>

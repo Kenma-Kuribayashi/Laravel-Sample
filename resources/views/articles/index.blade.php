@@ -7,9 +7,13 @@
  <div class="articles">
    @foreach($articles as $article)
      <article>
-       <figure>
+      <figure>
+      @if (!empty($article->image_path))
+      <img src="https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{{ $article->image_path }}" class="news-image" width="75px" height="50px">
+      @else
         <img src='data:img/png;base64,{{$article->image}}' class="news-image" width="75px" height="50px">
-      </figure>
+      @endif
+    </figure>
       @auth
       <a href="{{ url('articles',[$article->id, $currentUser->id]) }}" class="news-li">{{ $article->title }}</a>
       @endauth

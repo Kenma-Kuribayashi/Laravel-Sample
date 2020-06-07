@@ -77,11 +77,7 @@ class ArticlesController extends Controller
   public function upload(StoreImage $store_image, Request $request,int $article_id) {
     $successful_upload = $store_image->store_image($request, $article_id);
 
-    if ($successful_upload === TRUE) {
       return redirect()->route('articles.show', [$article_id])->with('message', '記事を更新しました。');
-    } else {
-      return redirect()->back()->with('message', '画像の投稿に失敗しました。');
-    }
   }
 
   public function domestic(GetArticlesByTag $get_articles_by_tag, int $tag_id) {
