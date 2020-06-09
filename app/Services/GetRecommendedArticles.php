@@ -14,11 +14,16 @@ class GetRecommendedArticles
    * 3件未満の場合やタグがなかった場合は記事3件を最新順で取得する。
    * 
    * @var Collection
-   * @param Article $article
+   * @param int $article_id
    * @return Collection
    */
-  public function get($article)
+  public function get(int $article_id)
   {
+
+    $article = Article::where('id', $article_id)
+      ->with(['tags'])
+      ->get()
+      ->first();
 
     //記事にタグがない時
     if ($article->tags->count() === 0) {

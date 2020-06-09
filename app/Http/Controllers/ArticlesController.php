@@ -38,7 +38,7 @@ class ArticlesController extends Controller
     $storeBrowsingHistory->store($article_id, $user_id, $get_article);
 
     $article = $get_article->get_article($article_id);
-    $recommended_articles = $get_recommended_articles->get($article);
+    $recommended_articles = $get_recommended_articles->get($article_id);
     $tag_lists = $this->get_tag_list->get_tag_list();
 
     return view('articles.show', compact('article','tag_lists','week','recommended_articles'));

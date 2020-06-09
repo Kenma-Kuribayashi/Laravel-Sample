@@ -13,49 +13,49 @@
   @endif
 
    <div class="panel panel-default">
-      @if (!empty($article->image_path)) <!--imageカラムが空じゃなかったら-->
+      @if ($article->hasImagePath()) <!--imageカラムが空じゃなかったら-->
         <figure>
-          <img src="https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{{ $article->image_path }}" width="533px" height="400px">
+          <img src="https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{{ $article->getImagePath() }}" width="533px" height="400px">
         </figure>
       @endif
    </div>
 
-  <h1>{{ $article->title }}</h1>
+  <h1>{{ $article->getTitle() }}</h1>
  
   <article>
-    <div class="body">{{ $article->body }}</div>
+    <div class="body">{{ $article->getBody() }}</div>
   </article>
   
-  @unless ($article->tags->isEmpty())
+  @if ($article->hasTags())
    <h5>Tags:</h5>
     <ul>
-      @foreach($article->tags as $tag)
+      @foreach($article->getTags() as $tag)
         <li>{{ $tag->name }}</li>
       @endforeach
     </ul>
-  @endunless
+  @endif
  
   @auth
   <div>
     {{-- 投稿したユーザーのidとログインユーザーのidが一致する場合表示 --}}
-    @if ($article->user_id === $currentUser->id)
-      <a href="{{ action('ArticlesController@edit', [$article->id]) }}" 
+    @if ($article->getUserId() === $currentUser->id)
+      <a href="{{ action('ArticlesController@edit', [$article->getArticleId()]) }}" 
         class="btn btn-primary">
         編集
       </a>
     @endif
 
     {{-- 管理者の場合は投稿者でなくても表示 --}}
-    @if ($article->user_id === $currentUser->id || $currentUser->is_admin)
-      {!! delete_form(['articles', $article->id]) !!}
+    @if ($article->getUserId() === $currentUser->id || $currentUser->is_admin)
+      {!! delete_form(['articles', $article->getArticleId()]) !!}
     @endif
 
       <br>
       <br>
 
-    @if ($article->user_id === $currentUser->id)
+    @if ($article->getUserId() === $currentUser->id)
       <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
-        <form action="/upload/{{ $article->id }}" method="POST" enctype="multipart/form-data" class="post_form"> 
+        <form action="/upload/{{ $article->getArticleId() }}" method="POST" enctype="multipart/form-data" class="post_form"> 
           <div class="form_parts">
             <label for="photo">画像ファイル:</label>
             <input type="file" class="form-control" name="image">
@@ -68,7 +68,7 @@
     @endif
 
     @endauth
-    
+
     <a href="{{ action('ArticlesController@index') }}"class="btn btn-secondary float-right">
       一覧へ戻る
     </a>

@@ -35,7 +35,7 @@ class StoreBrowsingHistory {
     if ($user_id) {
       $article = $get_article->get_article($article_id);
       
-      $this->viewCountRepository->incrementViewCount($article_id, $user_id, $article->title);
+      $this->viewCountRepository->incrementViewCount($article_id, $user_id, $article->getTitle());
     }
 
   }

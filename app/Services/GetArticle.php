@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Article;
+use App\Article as EloquentArticle;
+use App\Domain\Entity\Article; 
 
 
 class GetArticle {
@@ -10,16 +11,17 @@ class GetArticle {
   /**
    * 特定の記事を取得する。
    * 
-   * @var Collection
    * @param int $article_id
-   * @return Collection
+   * @return Article
    */
   public function get_article(int $article_id): Article {
 
-    return Article::where('id', $article_id)
+    $article = EloquentArticle::where('id', $article_id)
       ->with(['tags'])
       ->get()
       ->first();
+
+    return Article::constructByRepository($article->title, $article->body,$article->image_path, $article->user_id, $article->id, $article->tags);
       
   }
 
