@@ -24,7 +24,7 @@ class MySqlNormalUserRepository implements NormalUserRepositoryInterface
       ->where('is_contributor', false)->first();
 
     if ($user === NULL) {
-      return $user;
+      return null;
     }
 
     return NormalUser::constructByRepository($user->id);
