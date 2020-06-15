@@ -41,18 +41,19 @@ class RenderCalendar {
         this.endDay = endDay;
         // 表示する先月の最後の日を取得
         const prevMonthEndDate = new Date(year, month - 1, 0);
-        this.prevMonthEndDayCount = prevMonthEndDayCount;
         // 表示する先月の最後の日の日にちを取得
         const prevMonthEndDayCount = prevMonthEndDate.getDate();
+        this.prevMonthEndDayCount = prevMonthEndDayCount;
 
-        this.bindEvent()
+        this.bindEvent(this.year, this.month);
     }
 
     render() {
+        console.log(this.year, this.month);
         $('#year-month').text(`${this.year}年${this.month}月`);
         $('.non-display').removeClass('non-display');
 
-        var calendarHtml = this.privateMakeDayNumberArray(this.endDayCount, this.startDay, this.endDay, this.prevMonthEndDayCount).map(this.privateDateRenderer).chunk(7).map(this.privateRowRenderer);
+        var calendarHtml = this.privateMakeDayNumberArray(this.endDayCount, this.startDay, this.endDay, this.prevMonthEndDayCount).map(this.privateDateRenderer.bind(this)).chunk(7).map(this.privateRowRenderer);
 
         $("#calendar").html(calendarHtml);
 
@@ -65,10 +66,11 @@ class RenderCalendar {
     */
     privateDateRenderer(payload) {
         if (payload.month === this.month - 1) {
-            return `<td class="calendar-td not-this-month">${payload.date}</td>`
+            console.log(payload);
+            return `<td class="calendar-td not-this-month">${payload.date}</td>`;
         }
         if (payload.month === this.month + 1) {
-            return `<td class="calendar-td not-this-month">${payload.date}</td>`
+            return `<td class="calendar-td not-this-month">${payload.date}</td>`;
         }
         if (this.privateDateEquals(payload, this.todayDate) === true) {
             return `<td class="calendar-td today">${payload.date}</td>`;
@@ -149,15 +151,16 @@ class RenderCalendar {
     }
 
     // .. 以下関数を切り分けてthis.hogehogeでつかう
-    bindEvent() {
+    bindEvent(year, month) {
         //先月ボタンが押されたら表示されている前月のカレンダーを作成する
         $('#prev-month').click(function () {
-            this.month -= 1;
-            if (this.month === 0) {
-                this.year -= 1;
-                this.month = 12;
+            month -= 1;
+            if (month === 0) {
+                year -= 1;
+                month = 12;
             }
-            createCalendar();
+           
+            this.render();
         });
 
         //来月ボタンが押されたら表示されている来月のカレンダーを作成する
@@ -167,10 +170,10 @@ class RenderCalendar {
                 this.year += 1;
                 this.month = 1;
             }
-            createCalendar();
+            this.render.bind();
         });
     }
 };
 
-const caredar = new RenderCalendar();
+var caredar = new RenderCalendar();
 caredar.render();
