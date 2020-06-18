@@ -26,43 +26,37 @@ class RenderCalendar {
             }
         });
 
-        // 表示する月の最初の日を取得
-        const startDate = new Date(year, month - 1, 1);
-        // 表示する月の最後の日を取得
-        const endDate = new Date(year, month, 0);
-        // 表示する月の最後の日の日にちを取得
-        const endDayCount = endDate.getDate();
-        this.endDayCount = endDayCount;
-        // 表示する月の最初の曜日を取得
-        const startDay = startDate.getDay();
-        this.startDay = startDay;
-        // 表示する月の末日の曜日を取得
-        const endDay = endDate.getDay();
-        this.endDay = endDay;
-        // 表示する先月の最後の日を取得
-        const prevMonthEndDate = new Date(year, month - 1, 0);
-        // 表示する先月の最後の日の日にちを取得
-        const prevMonthEndDayCount = prevMonthEndDate.getDate();
-        this.prevMonthEndDayCount = prevMonthEndDayCount;
-
-        this.bindEvent(this.year, this.month);
+        this.bindEvent();
     }
 
     render() {
-        console.log(this.year, this.month);
         $('#year-month').text(`${this.year}年${this.month}月`);
         $('.non-display').removeClass('non-display');
 
-        var calendarHtml = this.privateMakeDayNumberArray(this.endDayCount, this.startDay, this.endDay, this.prevMonthEndDayCount).map(this.privateDateRenderer.bind(this)).chunk(7).map(this.privateRowRenderer);
+        // 表示する月の最初の日を取得
+        const startDate = new Date(this.year, this.month - 1, 1);
+        // 表示する月の最後の日を取得
+        const endDate = new Date(this.year, this.month, 0);
+        // 表示する月の最後の日の日にちを取得
+        const endDayCount = endDate.getDate();
+        // 表示する月の最初の曜日を取得
+        const startDay = startDate.getDay();
+        // 表示する月の末日の曜日を取得
+        const endDay = endDate.getDay();
+        // 表示する先月の最後の日を取得
+        const prevMonthEndDate = new Date(this.year, this.month - 1, 0);
+        // 表示する先月の最後の日の日にちを取得
+        const prevMonthEndDayCount = prevMonthEndDate.getDate();
+
+        var calendarHtml = this.privateMakeDayNumberArray(endDayCount, startDay, endDay, prevMonthEndDayCount).map(this.privateDateRenderer.bind(this)).chunk(7).map(this.privateRowRenderer);
 
         $("#calendar").html(calendarHtml);
-
     }
 
     /**
-         * このメソッドが知っていること
-         * - セルはTDタグで表現すること
-         * - 受け取った年月日によって異なるTDタグにする
+     * このメソッドが知っていること
+     * - セルはTDタグで表現すること
+     * - 受け取った年月日によって異なるTDタグにする
     */
     privateDateRenderer(payload) {
         if (payload.month === this.month - 1) {
@@ -96,9 +90,9 @@ class RenderCalendar {
     }
 
     /**
-         * このメソッドが知っていること
-         * 行はTRタグで挟むこと
-         * 1行分のセルが配列で渡されること
+     * このメソッドが知っていること
+     * 行はTRタグで挟むこと
+     * 1行分のセルが配列で渡されること
     */
     privateRowRenderer(cellListPerWeek) {
         return "<tr>" + cellListPerWeek.join("") + "</tr>";
@@ -150,18 +144,16 @@ class RenderCalendar {
         );
     }
 
-    // .. 以下関数を切り分けてthis.hogehogeでつかう
-    bindEvent(year, month) {
+    bindEvent() {
         //先月ボタンが押されたら表示されている前月のカレンダーを作成する
         $('#prev-month').click(function () {
-            month -= 1;
-            if (month === 0) {
-                year -= 1;
-                month = 12;
+            this.month -= 1;
+            if (this.month === 0) {
+                this.year -= 1;
+                this.month = 12;
             }
-           
             this.render();
-        });
+        }.bind(this));
 
         //来月ボタンが押されたら表示されている来月のカレンダーを作成する
         $('#next-month').click(function () {
@@ -170,8 +162,8 @@ class RenderCalendar {
                 this.year += 1;
                 this.month = 1;
             }
-            this.render.bind();
-        });
+            this.render();
+        }.bind(this));
     }
 };
 
