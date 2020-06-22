@@ -38,7 +38,18 @@
     <script language="javascript" charset="euc-jp" type="text/javascript" src="http://weather.livedoor.com/plugin/common/forecast/33.js"></script>
   </div>
 
-  <div class="calendar">
+    
+    {{-- <div id="app">  
+      <example-component></example-component>
+    </div> --}}
+  
+
+  <div id="app">  
+    <app />
+  </div>
+  {{-- {{-- <script src="/js/page/articleList.js"></script> --}}
+
+  {{-- <div class="calendar">
     <div class="non-display">
       <h3 id="year-month" clsss="calendar-title"></h3>
     </div>
@@ -57,7 +68,7 @@
       </table>
     </div>
       <div id="calendar" ></div>
-  </div>
+  </div> --}}
   
   <br>
   {{ $articles->links() }} <!--ページネーション-->
