@@ -5,9 +5,16 @@
     </div>
     <button @click="onClickPrevButton" type="button" class="btn btn-primary">&larr;</button>
     <button @click="onClickNextButton" type="button" class="btn btn-primary">&rarr;</button>
+
+    <select v-model="lang">
+      <option disabled value>選択してください</option>
+      <option value="ja">日本語</option>
+      <option value="en">英語</option>
+    </select>
+
     <table>
       <tr>
-        <td class="calendar-td" v-for="day in weeks" :key="day">{{ day }}</td>
+        <td class="calendar-td" v-for="day in weeks()" :key="day">{{ day }}</td>
       </tr>
       <tr v-for="(week, index) in calendarMake" :key="index">
         <td v-for="dayObject in week" :key="dayObject.date" :class="`calendar-td ${dayObject.month !== month ? 'gray' : ''} ${isTodayDate(dayObject)}`">{{ dayObject.date }}</td>
@@ -29,14 +36,7 @@ export default {
       date,
       year,
       month,
-      todayDate: null
-      // startDate: date,
-      // endDate: date,
-      // endDayCount: 0,
-      // startDay: 0,
-      // endDay: 0,
-      // prevMonthEndDate: 30,
-      // prevMonthEndDayCount: 30
+      lang: "ja"
     };
   },
   // initialize
@@ -126,6 +126,12 @@ export default {
           dayObject.date === this.todayDate.date) {
         return 'red';
       }
+    },
+    weeks() {
+      if (this.lang === "en") {
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      }
+      return ["日", "月", "火", "水", "木", "金", "土"];
     }
   },
   computed: {
