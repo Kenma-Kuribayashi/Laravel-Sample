@@ -10,8 +10,7 @@
         <td class="calendar-td" v-for="day in weeks" :key="day">{{ day }}</td>
       </tr>
       <tr v-for="(week, index) in calendarMake" :key="index">
-        <!-- <td v-for="day in week" :key="day" class="calendar-td">{{ day }}</td> -->
-        <td v-for="dayObject in week" :key="dayObject.date" :class="`calendar-td ${dayObject.month !== month ? 'gray' : ''} ${dayObject.year === todayDate.year && dayObject.month === todayDate.month && dayObject.date === todayDate.date ? 'red' : ''}`">{{ dayObject.date }}</td>
+        <td v-for="dayObject in week" :key="dayObject.date" :class="`calendar-td ${dayObject.month !== month ? 'gray' : ''} ${isTodayDate(dayObject)}`">{{ dayObject.date }}</td>
       </tr>
     </table>
   </div>
@@ -120,6 +119,13 @@ export default {
     dateRenderer(payload) {
         console.log(payload);
       return this.days.push(payload);
+    },
+    isTodayDate(dayObject) {
+      if (dayObject.year === this.todayDate.year &&
+          dayObject.month === this.todayDate.month &&
+          dayObject.date === this.todayDate.date) {
+        return 'red';
+      }
     }
   },
   computed: {
@@ -133,7 +139,7 @@ export default {
         this.startDay,
         this.endDay,
         this.prevMonthEndDayCount
-      ).map(this.dateRenderer);
+      ).forEach(this.dateRenderer);
 
       return this.days.chunk(7);
     },
