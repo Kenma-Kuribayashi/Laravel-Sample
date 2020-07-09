@@ -2,7 +2,8 @@
   <div class="calendar">
     <div class="calendar-title-area">
       <button @click="onClickPrevButton" type="button" class="btn btn-primary">&larr;</button>
-    <button @click="onClickNextButton" type="button" class="btn btn-primary">&rarr;</button>
+      <h3 class="calendar-title">{{ year }}年{{ month }}月</h3>
+      <button @click="onClickNextButton" type="button" class="btn btn-primary">&rarr;</button>
     </div>
 
     <select v-model="lang">
@@ -13,17 +14,27 @@
 
     <table>
       <tr>
-        <td class="calendar-td" v-for="day in weeks()" :key="day">{{ day }}</td>
+        <td class="calendar-td" v-for="day in weeks" :key="day">{{ day }}</td>
       </tr>
       <tr v-for="(week, index) in calendarMake" :key="index">
-        <td v-for="dayObject in week" :key="dayObject.date" :class="`calendar-td ${dayObject.month !== month ? 'gray' : ''} ${isTodayDate(dayObject)}`">{{ dayObject.date }}</td>
+        <date-cell
+          v-bind:currentMonth="month"
+          v-bind:day="dayObject"
+          v-bind:todayDate="todayDate"
+          v-for="dayObject in week"
+          :key="dayObject.date"
+        ></date-cell>
       </tr>
     </table>
   </div>
 </template>
 <script>
+import DateCell from "./calendar/DateCell";
+
 export default {
-  components: {},
+  components: {
+    DateCell
+  },
   data() {
     const date = new Date();
     const year = date.getFullYear();
@@ -97,22 +108,8 @@ export default {
       );
     },
     dateRenderer(payload) {
-        console.log(payload);
       return this.days.push(payload);
     },
-    isTodayDate(dayObject) {
-      if (dayObject.year === this.todayDate.year &&
-          dayObject.month === this.todayDate.month &&
-          dayObject.date === this.todayDate.date) {
-        return 'red';
-      }
-    },
-    weeks() {
-      if (this.lang === "en") {
-        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      }
-      return ["日", "月", "火", "水", "木", "金", "土"];
-    }
   },
   computed: {
     calendarMake() {
@@ -165,48 +162,6 @@ Object.defineProperty(Array.prototype, "chunk", {
     return R;
   }
 });
-
-
-//     /**
-//      * このメソッドが知っていること
-//      * - セルはTDタグで表現すること
-//      * - 受け取った年月日によって異なるTDタグにする
-//     */
-// const dateRenderer = (payload) => {
-// if (payload.month === this.month - 1) {
-//     console.log(payload);
-//     return this.days.push(payload.date);
-//     //return `<td class="calendar-td not-this-month">${payload.date}</td>`;
-// }
-// if (payload.month === this.month + 1) {
-//     return this.days.push(payload.date);
-//     //return `<td class="calendar-td not-this-month">${payload.date}</td>`;
-// }
-// if (this.dateEquals(payload, this.todayDate) === true) {
-//     return this.days.push(payload.date);
-//     // return `<td class="calendar-td today">${payload.date}</td>`;
-// }
-//return this.days.push(payload.date);
-//return `<td class="calendar-td">${payload.date}</td>`;
-// };
-
-//     /**
-//          * このメソッドが知っていること
-//          * 受け取った年月日と今日の年月日があっていればtrueを返す
-//     */
-// const dateEquals = (payload, todayDate) => {
-//   if (payload.year !== todayDate.year) {
-//     return false;
-//   }
-//   if (payload.month !== todayDate.month) {
-//     return false;
-//   }
-//   if (payload.date !== todayDate.date) {
-//     return false;
-//   }
-//   return true;
-// };
-
 </script>
 <style scoped>
 .calendar-title {
