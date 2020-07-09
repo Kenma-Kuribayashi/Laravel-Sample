@@ -151,7 +151,13 @@ export default {
     },
     // 他のthis.XXXXによって計算される変数はすべてcomputedに入れて良い
     _startDate() {
-      return new Date(this.year, this.month - 1, 1)
+      return new Date(this.year, this.month - 1, 1);
+    },
+    weeks() {
+      if (this.lang === "en") {
+        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      }
+      return ["日", "月", "火", "水", "木", "金", "土"];
     }
   },
   mounted() {
