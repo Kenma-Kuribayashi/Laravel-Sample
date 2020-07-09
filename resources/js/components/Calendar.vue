@@ -29,39 +29,22 @@ export default {
     const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
+    const todayDate = {
+      year: year,
+      month: month,
+      date: date.getDate()
+    };
 
     return {
-      weeks: ["日", "月", "火", "水", "木", "金", "土"],
       days: [],
       date,
       year,
       month,
+      todayDate,
       lang: "ja"
     };
   },
-  // initialize
   methods: {
-    initialize() {
-      this.todayDate = {
-        year: this.year,
-        month: this.month,
-        date: this.date.getDate()
-      };
-      // 表示する月の最初の日を取得
-      this.startDate = new Date(this.year, this.month - 1, 1);
-      // 表示する月の最後の日を取得
-      this.endDate = new Date(this.year, this.month, 0);
-      // 表示する月の最後の日の日にちを取得
-      this.endDayCount = this.endDate.getDate();
-      // 表示する月の最初の曜日を取得
-      this.startDay = this.startDate.getDay();
-      // 表示する月の末日の曜日を取得
-      this.endDay = this.endDate.getDay();
-      // 表示する先月の最後の日を取得
-      this.prevMonthEndDate = new Date(this.year, this.month - 1, 0);
-      // 表示する先月の最後の日の日にちを取得
-      this.prevMonthEndDayCount = this.prevMonthEndDate.getDate();
-    },
     onClickNextButton() {
       this.month += 1;
       if (this.month === 13) {
@@ -69,7 +52,6 @@ export default {
         this.month = 1;
       }
       this.days = [];
-      this.initialize();
     },
     onClickPrevButton() {
       this.month -= 1;
@@ -78,7 +60,6 @@ export default {
         this.month = 12;
       }
       this.days = [];
-      this.initialize();
     },
     makeDayNumberArray(maxDate, startDay, endDay, prevMonthMaxDate) {
       //今月のカレンダーに表示される先月の日数
@@ -136,10 +117,21 @@ export default {
   },
   computed: {
     calendarMake() {
-      // initializeの実行前にはカレンダーを作らない
-      if (this.todayDate === null) {
-        return [];
-      }
+      // 表示する月の最初の日を取得
+      this.startDate = new Date(this.year, this.month - 1, 1);
+      // 表示する月の最後の日を取得
+      this.endDate = new Date(this.year, this.month, 0);
+      // 表示する月の最後の日の日にちを取得
+      this.endDayCount = this.endDate.getDate();
+      // 表示する月の最初の曜日を取得
+      this.startDay = this.startDate.getDay();
+      // 表示する月の末日の曜日を取得
+      this.endDay = this.endDate.getDay();
+      // 表示する先月の最後の日を取得
+      this.prevMonthEndDate = new Date(this.year, this.month - 1, 0);
+      // 表示する先月の最後の日の日にちを取得
+      this.prevMonthEndDayCount = this.prevMonthEndDate.getDate();
+
       this.makeDayNumberArray(
         this.endDayCount,
         this.startDay,
@@ -160,9 +152,7 @@ export default {
       return ["日", "月", "火", "水", "木", "金", "土"];
     }
   },
-  mounted() {
-    this.initialize();
-  }
+  mounted() {}
 };
 
 /**
