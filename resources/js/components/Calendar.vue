@@ -1,10 +1,9 @@
 <template>
   <div class="calendar">
-    <div>
-      <h3 clsss="calendar-title">{{ year }}年{{ month }}月</h3>
-    </div>
-    <button @click="onClickPrevButton" type="button" class="btn btn-primary">&larr;</button>
+    <div class="calendar-title-area">
+      <button @click="onClickPrevButton" type="button" class="btn btn-primary">&larr;</button>
     <button @click="onClickNextButton" type="button" class="btn btn-primary">&rarr;</button>
+    </div>
 
     <select v-model="lang">
       <option disabled value>選択してください</option>
@@ -210,10 +209,23 @@ Object.defineProperty(Array.prototype, "chunk", {
 
 </script>
 <style scoped>
+.calendar-title {
+  margin-bottom: 0;
+}
 .gray {
-    color: #808080;
+  color: #808080;
 }
 .red {
-    color: red;
+  color: red;
+}
+.calendar-td {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+.calendar-title-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
