@@ -14,7 +14,7 @@ class AddImagePathToArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->string('image_path')->after('body');
+            $table->string('image_path')->after('body')->nullable();
         });
     }
 

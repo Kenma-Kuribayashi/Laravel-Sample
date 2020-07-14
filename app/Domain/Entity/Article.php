@@ -47,7 +47,9 @@ final class Article {
   }
 
   public function getImagePath() {
-    return $this->article_image_path;
+    $image_path = "https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{$this->article_image_path}";
+
+    return $image_path;
   }
 
   public function getUserId() {

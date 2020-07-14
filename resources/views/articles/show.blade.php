@@ -13,9 +13,9 @@
   @endif
 
    <div class="panel panel-default">
-      @if ($article->hasImagePath()) <!--imageカラムが空じゃなかったら-->
+      @if ($article->hasImagePath())
         <figure>
-          <img src="https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{{ $article->getImagePath() }}" width="533px" height="400px">
+          <img src="{{ $article->getImagePath() }}" width="533px" height="400px">
         </figure>
       @endif
    </div>
@@ -49,7 +49,6 @@
     @if ($article->getUserId() === $currentUser->id || $currentUser->is_admin)
       {!! delete_form(['articles', $article->getArticleId()]) !!}
     @endif
-
       <br>
       <br>
 
