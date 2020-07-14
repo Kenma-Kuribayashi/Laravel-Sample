@@ -2,15 +2,21 @@
  
 @section('content')
   <h1>記事の新規投稿</h1>
- 
-  <hr/>
- 
+  
   @include('errors.form_errors')
  
-  {{-- Form::open(['url' => 'articles']) --}}
-    {!! Form::open(['route' => 'articles.store']) !!}
-    <input name="image" type="hidden" value="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">
+    <form action="/articles" method="POST" enctype="multipart/form-data" class="post_form"> 
+      {{ csrf_field() }}
       @include('articles.form', ['published_at' => date('Y-m-d'), 'submitButton' => '新規投稿'])
-  {!! Form::close() !!}
+      <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
+
+          <div class="form_parts">
+            <label for="photo">画像ファイル:</label>
+            <input type="file" class="form-control" name="image">
+            <br>
+            <button class="btn btn-success">投稿</button>
+          </div>
+      </div>
+    </form>
   
 @endsection

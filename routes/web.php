@@ -25,6 +25,7 @@ Route::get('/', 'ArticlesController@index');
 
 Route::prefix('articles')->name('articles.')->group(function () {
   Route::get('/', 'ArticlesController@index')->name('index');
+  Route::get('/csv_export', 'ArticlesController@csvExport')->name('csvExport');
   Route::post('/', 'ArticlesController@store')->name('store');
   Route::get('/create', 'ArticlesController@create')->name('create');
   Route::get('/{article}/edit', 'ArticlesController@edit')->middleware('can:showEdit,article')->name('edit');

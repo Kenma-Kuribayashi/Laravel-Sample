@@ -15,13 +15,14 @@ use App\Services\GetArticlesByTag;
 use App\Services\GetArticle;
 use App\Services\GetRecommendedArticles;
 use App\Services\BrowsingHistory\StoreBrowsingHistory;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticlesController extends Controller
 {
   private $get_tag_list;
 
   public function __construct(GetTagList $get_tag_list) {
-    $this->middleware('auth')->except(['index', 'show', 'domestic']); //ログインしなくてもみれる
+    $this->middleware('auth')->except(['index', 'show', 'domestic', 'csvExport']); //ログインしなくてもみれる
     $this->get_tag_list = $get_tag_list;
   }
 
@@ -51,6 +52,8 @@ class ArticlesController extends Controller
   }
 
   public function store(StoreArticle $service, ArticleRequest $request) {
+
+    dd($request->file('image'));
     $service->store($request->validated(), $request->input('tags'));
 
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
@@ -86,6 +89,34 @@ class ArticlesController extends Controller
 
  
     return view('articles.domestic', compact('articles_by_tag','tag_id','week','tag_lists'));
+  }
+
+  public function csvExport(Request $request) 
+  {
+    $response = new StreamedResponse (function() use ($request){
+ 
+      $stream = fopen('php://output', 'w');
+
+      //dd($stream);
+
+      //　文字化け回避
+      stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
+
+      // タイトルを追加
+      fputcsv($stream, ['id','sample1','sample2','sample3','created_at','updated_at']);
+
+      $articles = Article::all();
+
+      foreach ($articles as $article) {
+          fputcsv($stream, [$article->title,$article->body,$article->created_at,$article->updated_at]);
+        }
+
+      fclose($stream);
+  });
+  $response->headers->set('Content-Type', 'application/octet-stream');
+  $response->headers->set('Content-Disposition', 'attachment; filename="SampleList.csv"');
+
+  return $response;
   }
 
 }
