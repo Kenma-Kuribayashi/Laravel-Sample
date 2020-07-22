@@ -29,19 +29,19 @@
       <div class="col-sm-6">
     <ul class="pagination">
       <li :class="['page-item', {disabled: current_page <= 1}]">
-        <a class="page-link" href="#" @click="change(1)">&laquo;</a>
+        <a class="page-link" href="" @click.prevent="change(1)">&laquo;</a>
       </li>
       <li :class="['page-item', {disabled: current_page <= 1}]">
-        <a class="page-link" href="#" @click="change(current_page - 1)">&lt;</a>
+        <a class="page-link" href="#" @click.prevent="change(current_page - 1)">&lt;</a>
       </li>
       <li v-for="page in pages" :key="page" :class="['page-item', {active: page === current_page}]">
-        <a class="page-link" href="#" @click="change(page)">{{page}}</a>
+        <a class="page-link" href="#" @click.prevent="change(page)">{{page}}</a>
       </li>
       <li :class="['page-item', {disabled: current_page >= last_page}]">
-        <a class="page-link" href="#" @click="change(current_page + 1)">&gt;</a>
+        <a class="page-link" href="#" @click.prevent="change(current_page + 1)">&gt;</a>
       </li>
       <li :class="['page-item', {disabled: current_page >= last_page}]">
-        <a class="page-link" href="#" @click="change(last_page)">&raquo;</a>
+        <a class="page-link" href="#" @click.prevent="change(last_page)">&raquo;</a>
       </li>
     </ul>
       </div>
@@ -98,13 +98,8 @@ export default {
     };
   },
   mounted() {
-    this.load(1);
-    // Laravelで、QueryBuilder::paginate(10)とかで10件取れる
-    // LengthAwarePaginator
-    // this.$http.get("/api/get/articles").then(response => {
-    //オブジェクトが入った配列
-    //   this.articles = response.data.data;
-    // });
+    const page = this.$route.query.page || 1;
+    this.load(page);
   },
   props: {},
   methods: {
@@ -123,6 +118,7 @@ export default {
     },
     change(page) {
       if (page >= 1 && page <= this.last_page) this.load(page);
+      this.$router.push(`/?page=${page}`);
     }
   },
   computed: {
@@ -137,13 +133,4 @@ export default {
 };
 </script>
 <style scoped>
-/* .pagination {
-  display: flex;
-  list-style-type: none;
-}
-.pagination li {
-  border: 1px solid #ddd;
-  padding: 6px 12px;
-  text-align: center;
-} */
 </style>
