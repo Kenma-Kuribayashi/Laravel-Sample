@@ -5,24 +5,19 @@ namespace App\Http\Controllers\Api\Articles;
 use App\Http\Controllers\Controller;
 use App\Article;
 use App\Services\GetArticles;
+use Illuminate\Http\Request;
 
 class GetArticlesController extends Controller
 {
     /**
-     * 指定ユーザーのプロフィール表示
+     * 記事の取得
      *
-     * @param  int  $id
      * @return Response
      */
-    public function __invoke(GetArticles $getArticles)
+    public function __invoke(Request $request, GetArticles $getArticles)
     {
-        // $articles = Article::latest('published_at')
-        // ->latest('created_at')
-        // ->published()
-        // ->get();
+        $tagName = $request->route('tag');
 
-        // return $articles;
-
-        return $getArticles->get();
+        return $getArticles->execute($tagName);
     }
 }

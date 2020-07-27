@@ -24,3 +24,7 @@ Route::get('/test', function (Request $request) {
 Route::group(['middleware' => ['api']], function () {
     Route::get('tags', 'Api\TagsController@index');
 });
+
+Route::group(['middleware' => ['api']], function () {
+    Route::get('get/articles/{tag}', 'Api\Articles\GetArticlesController');
+});
