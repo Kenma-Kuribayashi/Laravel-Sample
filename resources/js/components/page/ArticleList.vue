@@ -1,20 +1,9 @@
 <template>
   <div>
-    <!-- <tag-list-tab /> -->
-
-    <div class="nav-body">
-      <ul class="nav nav-tabs">
-        <li class="nav-item" v-for="tag in tags" :key="tag">
-          <button
-            :class="['nav-link', { active: currentTag === tag }]"
-            @click="onClickTabButton(tag)"
-          >{{ tag }}</button>
-        </li>
-      </ul>
-    </div>
+    <tag-list-tab v-bind:currentTag="currentTag" @click-tab="onClickTabButton" />
 
     <div class="articles">
-      <article v-for="(article, index) in articles" :key="index">
+      <article v-for="(article) in articles" :key="article.id">
         <figure>
           <img
             v-if="article.image_path !== null"
@@ -32,45 +21,29 @@
           />
         </figure>
         <div class="news-li">
+          <router-link
+            :to="{ name: 'articleDetail', params: { articleId: article.id }}"
+          >SPA{{ article.title }}</router-link>
           <a :href="`/articles/${article.id}`">{{ article.title }}</a>
         </div>
         <div class="created-time">{{ createdAt(article.created_at) }}</div>
       </article>
     </div>
 
-    <!-- <the-pagination /> -->
-
-    <div class="row">
-      <div class="col-sm-6">
-        <ul class="pagination">
-          <li :class="['page-item', {disabled: current_page <= 1}]">
-            <a class="page-link" href @click.prevent="change(1)">&laquo;</a>
-          </li>
-          <li :class="['page-item', {disabled: current_page <= 1}]">
-            <a class="page-link" href="#" @click.prevent="change(current_page - 1)">&lt;</a>
-          </li>
-          <li
-            v-for="page in pages"
-            :key="page"
-            :class="['page-item', {active: page === current_page}]"
-          >
-            <a class="page-link" href="#" @click.prevent="change(page)">{{page}}</a>
-          </li>
-          <li :class="['page-item', {disabled: current_page >= last_page}]">
-            <a class="page-link" href="#" @click.prevent="change(current_page + 1)">&gt;</a>
-          </li>
-          <li :class="['page-item', {disabled: current_page >= last_page}]">
-            <a class="page-link" href="#" @click.prevent="change(last_page)">&raquo;</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <the-pagination
+      v-bind:current_page="current_page"
+      v-bind:last_page="last_page"
+      v-bind:total="total"
+      v-bind:from="from"
+      v-bind:to="to"
+      @clicked-pagination="change"
+    />
   </div>
 </template>
 
 <script>
-// import TagListTab from "../parts/TagListTab";
-// import ThePagination from "../parts/ThePagination";
+import TagListTab from "../parts/TagListTab";
+import ThePagination from "../parts/ThePagination";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
@@ -79,15 +52,14 @@ dayjs.locale("ja");
 export default {
   name: "app",
   components: {
-    // TagListTab,
-    // ThePagination
+    TagListTab,
+    ThePagination,
   },
   data() {
     return {
       articles: [],
       currentTag: "主要",
       //主要はDBから取得していないので、最初から入れておく
-      tags: ["主要"],
       current_page: 1,
       last_page: 1,
       total: 1,
@@ -96,15 +68,12 @@ export default {
     };
   },
   mounted() {
-    this.$http.get("/api/tags").then((response) => {
-      response.data.data.forEach((element) => {
-        this.tags.push(element);
-      });
-      const page = this.$route.query.page || 1;
-      this.currentTag = this.$route.query.tag || "主要";
+    this.currentTag = this.$route.query.tag;
+    if (this.$route.query.tag === undefined) {
+      this.currentTag = "主要";
+    }
 
-      this.load(page);
-    });
+    this.load();
   },
   props: {},
   methods: {
@@ -113,13 +82,15 @@ export default {
     },
     onClickTabButton(tag) {
       this.currentTag = tag;
-      //現在のタグで絞り込んだ記事を取得する
-      //タグが押された時は1ページ目を表示する
-      this.load(1);
 
       this.$router.push(`/?tag=${tag}`);
+      //現在のタグで絞り込んだ記事を取得する
+      //タグが押された時は1ページ目を表示する
+      this.load();
     },
-    load(page) {
+    load() {
+      const page = this.page;
+
       axios
         .get("/api/get/articles/" + this.currentTag + "?page=" + page)
         .then(({ data }) => {
@@ -133,30 +104,25 @@ export default {
     },
     change(page) {
       if (page >= 1 && page <= this.last_page) {
-        this.load(page);
-      }
-      //タグで絞り込み&ページネーションを使った時の再読み込み対策
-      if (this.currentTag === "主要") {
-        this.$router.push(`/?page=${page}`);
-      } else {
-        this.$router.push(`/?tag=${this.currentTag}&page=${page}`);
+        //タグで絞り込み&ページネーションを使った時の再読み込み対策
+        if (this.currentTag === "主要") {
+          this.$router.push(`/?page=${page}`);
+        } else {
+          this.$router.push(`/?tag=${this.currentTag}&page=${page}`);
+        }
+        this.load();
       }
     },
   },
   computed: {
-    //現在のページを中央に置いて5ページ分の配列を算出
-    pages() {
-      let start = _.max([this.current_page - 2, 1]);
-      let end = _.min([start + 5, this.last_page + 1]);
-      start = _.max([end - 5, 1]);
-      return _.range(start, end);
+    page() {
+      if (this.$route.query.page === undefined) {
+        return 1;
+      }
+      return this.$route.query.page;
     },
   },
 };
 </script>
 <style scoped>
-.nav-link {
-  background: #44739c;
-  color: white;
-}
 </style>
