@@ -22,12 +22,13 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
   public function getArticlesByTag(string $tagName): LengthAwarePaginator
   {
         //withだとtagの条件が反映されなかった
-        return Article::latest('published_at')
+        return Article::join('article_tag', 'article_tag.article_id', 'articles.id')
+        ->join('tags', 'tags.id', 'article_tag.tag_id')
+        ->where("name", $tagName)
+        ->latest('published_at')
+        ->select('articles.*')
         ->latest('created_at')
         ->published()
-        ->whereHas('tags', function ($query) use($tagName) {
-            $query->where('name', $tagName);
-          })
-          ->paginate(10);
+        ->paginate(10);
   }
 }
