@@ -17,13 +17,15 @@ export default {
   },
   data() {
     return {
-      tags: [],
+      //主要はDBから取得していないので、入れておく
+      tags: ["主要"],
     };
   },
   mounted() {
     this.$http.get("/api/tags").then((response) => {
-      //主要はDBから取得していないので、入れておく
-      this.tags = ["主要"].concat(response.data.data);
+      response.data.data.forEach((tag) => {
+        this.tags.push(tag.name);
+      });
     });
   },
   methods: {
