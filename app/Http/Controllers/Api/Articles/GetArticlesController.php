@@ -16,8 +16,13 @@ class GetArticlesController extends Controller
      */
     public function __invoke(Request $request, GetArticles $getArticles)
     {
-        $tagName = $request->route('tag');
+        /**
+         * @var array
+         */
+        $conditionsToGet = $request->query();
 
-        return $getArticles->execute($tagName);
+        //$tagName = $request->route('tag');
+
+        return $getArticles->execute($conditionsToGet);
     }
 }

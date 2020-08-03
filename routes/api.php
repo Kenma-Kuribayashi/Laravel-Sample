@@ -26,5 +26,5 @@ Route::group(['middleware' => ['api']], function () {
 });
 
 Route::group(['middleware' => ['api']], function () {
-    Route::get('get/articles/{tag}', 'Api\Articles\GetArticlesController');
+    Route::get('get/articles', 'Api\Articles\GetArticlesController');
 });
