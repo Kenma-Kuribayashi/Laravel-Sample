@@ -29,4 +29,11 @@ interface ArticleRepositoryInterface
    * @return LengthAwarePaginator
    */
   public function getArticlesByTagInOldOrder(string $tagName): LengthAwarePaginator;
+
+  /**
+   *
+   * @param string $searchWord
+   * @return LengthAwarePaginator
+   */
+  public function getArticlesByBySearchWord($searchWord): LengthAwarePaginator;
 }

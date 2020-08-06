@@ -1,10 +1,13 @@
 <template>
   <div>
     <div class="alert alert-danger" v-show="isError">キーワードを入力してください</div>
+
     <input v-model="searchWord" placeholder="キーワードを入力" />
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
 
-    <tag-list-tab v-bind:currentTag="currentTag" @click-tab="onClickTabButton" />
+    <div v-show="isSearchResult">
+      <h3 class="text-muted">検索結果  {{this.total}}件該当</h3>
+    </div>
 
     <div class="articles">
       <article v-for="(article) in articles" :key="article.id">
@@ -26,7 +29,7 @@
         </figure>
         <div class="news-li">
           <router-link
-            :to="{ name: 'articleDetail', params: { articleId: article.id }}"
+            :to="{ name: 'articleDetail', params: { articleId: article.id}}"
           >SPA{{ article.title }}</router-link>
           <a :href="`/articles/${article.id}`">{{ article.title }}</a>
         </div>
@@ -46,7 +49,6 @@
 </template>
 
 <script>
-import TagListTab from "../parts/TagListTab";
 import ThePagination from "../parts/ThePagination";
 
 import dayjs from "dayjs";
@@ -56,50 +58,41 @@ dayjs.locale("ja");
 export default {
   name: "app",
   components: {
-    TagListTab,
     ThePagination,
   },
   data() {
     return {
       articles: [],
-      currentTag: "主要",
-      //主要はDBから取得していないので、最初から入れておく
       current_page: 1,
       last_page: 1,
       total: 1,
       from: 0,
       to: 0,
-      sort: "new",
       searchWord: "",
+      isSearchResult: false,
       isError: false,
     };
   },
   mounted() {
-    this.currentTag = this.$route.query.tag;
-    if (this.$route.query.tag === undefined) {
-      this.currentTag = "主要";
+    if (this.$route.query.searchword !== undefined) {
+      this.searchWord = this.$route.query.searchword;
+      this.isSearchResult = true;
+      this.load();
     }
-
-    this.load();
   },
   props: {},
   methods: {
     createdAt(date) {
       return dayjs(date).format("M/D(ddd) HH:mm");
     },
-    onClickTabButton(tag) {
-      this.currentTag = tag;
-
-      this.$router.push(`/?tag=${tag}`);
-      //現在のタグで絞り込んだ記事を取得する
-      //タグが押された時は1ページ目を表示する
-      this.load();
-    },
     load() {
       const page = this.page;
+      const searchWord = this.searchWord;
 
       axios
-        .get("/api/get/articles/" + this.currentTag + "?page=" + page)
+        .get(
+          "/api/get/articles/" + "?page=" + page + "&searchword=" + searchWord
+        )
         .then(({ data }) => {
           this.articles = data.data;
           this.current_page = data.current_page;
@@ -112,11 +105,8 @@ export default {
     change(page) {
       if (page >= 1 && page <= this.last_page) {
         //タグで絞り込み&ページネーションを使った時の再読み込み対策
-        if (this.currentTag === "主要") {
-          this.$router.push(`/?page=${page}`);
-        } else {
-          this.$router.push(`/?tag=${this.currentTag}&page=${page}`);
-        }
+        this.$router.push(`/?page=${page}`);
+
         this.load();
       }
     },
@@ -126,8 +116,10 @@ export default {
       } else {
         this.isError = false;
         this.$router.push(
-          `/articles-search-result?searchword=${this.searchWord}`
+          `/articles-search-result?page=${this.current_page}&searchword=${this.searchWord}`
         );
+        this.isSearchResult = true;
+        this.load();
       }
     },
   },
@@ -141,5 +133,6 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 </style>

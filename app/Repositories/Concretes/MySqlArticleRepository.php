@@ -52,4 +52,15 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
         ->published()
         ->paginate(10);
   }
+
+  public function getArticlesByBySearchWord($searchWord): LengthAwarePaginator
+  {
+        return Article::
+        where('title', 'like', "%$searchWord%")
+        ->orWhere('body', 'like', "%$searchWord%")
+        ->latest('published_at')
+        ->latest('created_at')
+        ->published()
+        ->paginate(10);
+  }
 }
