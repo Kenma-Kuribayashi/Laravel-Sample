@@ -19,11 +19,7 @@ class GetArticles
 
     $displayOrder = $conditionsToGet["sort"];
     $tagName = $conditionsToGet["tag"];
-    $searchWord = $conditionsToGet["searchword"];
 
-    // if ($searchWord) {
-
-    // }
 
     if ($displayOrder === "new") {
       //タグが主要の時は全ての記事を取得し、指定のタグがあれば指定のタグの記事を取得する

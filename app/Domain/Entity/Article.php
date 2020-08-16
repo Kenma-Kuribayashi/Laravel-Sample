@@ -61,10 +61,7 @@ final class Article {
   }
 
   public function hasTags() {
-    if ($this->article_tags === NULL) {
-      return false;
-    }
-    return true;
+    return $this->article_tags->isNotEmpty();
   }
 
   public function getTags() {

@@ -6,8 +6,8 @@
 export default {
   props:{
     day: Object,
-    todayDate:Object,
-currentMonth:Number
+    todayDate: Object,
+    currentMonth: Number,
   },
   methods: {
   },

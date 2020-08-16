@@ -11042,7 +11042,6 @@ article {
 
 .articles {
   width: 75%;
-  float: left;
 }
 
 .weather {
@@ -11067,10 +11066,6 @@ article {
 .created-time {
   font-size: 14px;
   color: gray;
-}
-
-.pagination {
-  margin-top: 220px;
 }
 
 /*タグ一覧ページ*/
