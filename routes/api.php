@@ -27,4 +27,5 @@ Route::group(['middleware' => ['api']], function () {
 
 Route::group(['middleware' => ['api']], function () {
     Route::get('get/articles', 'Api\Articles\GetArticlesController');
+    Route::get('recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
 });
