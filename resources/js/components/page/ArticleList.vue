@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div v-show="hasMessage">
+      <div class="alert alert-primary">{{ message }}</div>
+    </div>
+
     <div class="alert alert-danger" v-show="isError">キーワードを入力してください</div>
     <input v-model="searchWord" placeholder="キーワードを入力" />
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
@@ -72,9 +76,21 @@ export default {
       sort: "new",
       searchWord: "",
       isError: false,
+      message: "",
     };
   },
   mounted() {
+    this.message = this.$route.query.message;
+    //メッセージがない時は初期の空文字にする
+    if (this.$route.query.message === undefined) {
+      this.message = "";
+    } else {
+      //メッセージがあった場合はmessageのクエリパラメータを削除する
+      var query = Object.assign({}, this.$route.query);
+      delete query.message;
+      this.$router.push({ query: query });
+    }
+
     this.currentTag = this.$route.query.tag;
     if (this.$route.query.tag === undefined) {
       this.currentTag = "主要";
@@ -137,6 +153,12 @@ export default {
         return 1;
       }
       return this.$route.query.page;
+    },
+    hasMessage() {
+      if (this.message != "") {
+        return true;
+      }
+      return false;
     },
   },
 };
