@@ -1,1 +1,15 @@
-require('../components/calendar');
+// require('../components/calendar');
+import Vue from 'vue'
+import router from '../router.js'
+// import App from './Calendar.vue'
+import axios from 'axios'
+import jQuery from "jquery";
+
+window.$ = window.jQuery = jQuery;
+import 'bootstrap/dist/css/bootstrap.css'
+
+Vue.prototype.$http = axios;
+
+const app = new Vue({
+  router
+}).$mount('#app')
