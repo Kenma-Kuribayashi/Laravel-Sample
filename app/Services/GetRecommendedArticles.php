@@ -67,13 +67,18 @@ class GetRecommendedArticles
       ->limit(3)
       ->get();
 
+      //同じタグの記事と最新の記事が被らないように
+      $recommended_article_ids = $recommended_articles->pluck('id');
+
     //同じタグの記事が自身の記事を含めて4記事より少ない場合
     if ($article_counts < 4) {
     /**
      * 最新記事を最大3件取得
      * @var Collection
      */
-      $latest_articles = Article::latest('published_at')
+      $latest_articles = Article::where('id', '<>', $article_id)
+      ->whereNotIn('id', $recommended_article_ids)
+      ->latest('published_at')
       ->latest('created_at')
       ->orderBy('id', 'desc')
       ->published()

@@ -125,21 +125,7 @@ export default {
 
     };
   },
-  mounted() {
-    this.articleId = this.$route.params.articleId;
-
-    //console.log(this.auth);
-
-    axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
-      this.article = data.data;
-    });
-
-    //おすすめ記事の取得
-    axios.get("/api/recommend_article/" + this.articleId).then(({ data }) => {
-      this.recommendedArticles = data;
-    });
-
-  },
+  mounted() {},
   methods: {
     createdAt(date) {
       return dayjs(date).format("M/D(ddd) HH:mm");
@@ -150,17 +136,7 @@ export default {
       this.$router.push(`/?tag=${tag}`);
     },
     onClickRecommendArticleButton(articleId) {
-      this.articleId = articleId;
       this.$router.push(`/articles/${articleId}`);
-
-      axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
-        this.article = data.data;
-      });
-
-      //おすすめ記事の取得
-      axios.get("/api/recommend_article/" + this.articleId).then(({ data }) => {
-        this.recommendedArticles = data;
-      });
     },
     onClickDeleteButton() {
        axios.delete("/api/articles/" +this.articleId).then(({data})  => {
@@ -188,6 +164,25 @@ export default {
         return true;
       }
       return false;
+    },
+  },
+  watch: {
+    $route: {
+      handler: function () {
+        this.articleId = this.$route.params.articleId;
+
+        axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
+          this.article = data.data;
+        });
+
+        //おすすめ記事の取得
+        axios
+          .get("/api/recommend_article/" + this.articleId)
+          .then(({ data }) => {
+            this.recommendedArticles = data;
+          });
+      },
+      immediate: true,
     },
   },
 };
