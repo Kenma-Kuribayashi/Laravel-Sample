@@ -31,4 +31,5 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('get/article/{articleId}', 'Api\Articles\GetOneArticleController');
 
     Route::get('recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
+    Route::delete('/articles/{article}', 'Api\Articles\DeleteOneArticleController')->middleware('can:delete,article');
 });

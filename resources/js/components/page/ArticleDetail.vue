@@ -139,9 +139,12 @@ export default {
       this.$router.push(`/articles/${articleId}`);
     },
     onClickDeleteButton() {
-       axios.delete("/api/articles/" +this.articleId).then(({data})  => {
+      axios.delete("/api/articles/" + this.articleId).then(({ data }) => {
         if (data === "success") {
-          this.$router.push({ path: '/', query: { message: '記事を削除しました。' } });
+          this.$router.push({
+            path: "/",
+            query: { message: "記事を削除しました。" },
+          });
         }
       });
     },
