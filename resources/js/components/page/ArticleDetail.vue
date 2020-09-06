@@ -29,6 +29,17 @@
       </ul>
     </div>
 
+    <div class="my-modal" v-show="isModal">
+      <div class="my-modal-dialog">
+        <div class="modal-body">
+          <p>記事を削除しました。</p>
+          </div>
+      <div class="modal-footer">
+        <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>
+      </div>
+      </div>
+    </div>
+
     <div v-if="auth.length !== 0">
       <!-- 投稿したユーザーのidとログインユーザーのidが一致する場合表示 -->
 
@@ -121,8 +132,7 @@ export default {
       csrf: document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
-      message: ""
-
+      isModal: false,
     };
   },
   mounted() {},
@@ -139,13 +149,11 @@ export default {
       this.$router.push(`/articles/${articleId}`);
     },
     onClickDeleteButton() {
-      axios.delete("/api/articles/" + this.articleId).then(({ data }) => {
-        if (data === "success") {
-          this.$router.push({
-            path: "/",
-            query: { message: "記事を削除しました。" },
-          });
+      axios.delete("/api/articles/" + this.articleId).then(({status}) => {
+        if (status === 200) {
+          this.isModal = true;
         }
+        
       });
     },
   },
@@ -192,4 +200,20 @@ export default {
 </script>
 
 <style scoped>
+.my-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.my-modal-dialog {
+  position: absolute;
+  top: 30px;
+  left: calc(50% - 150px);
+  width: 400px;
+  background: white;
+}
 </style>
