@@ -30,7 +30,7 @@ final class Article {
     return $self;
   }
 
-  public function getTitle() {
+  public function getTitle(): string {
     return $this->article_title;
   }
 

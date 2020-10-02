@@ -3,10 +3,18 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 
 class TagResource extends Resource
 {
+
+    /**
+     * Undocumented variable
+     *
+     * @var Collection
+     */
+    public $resource;
+
     /**
      * リソースを配列へ変換する
      *
@@ -16,8 +24,8 @@ class TagResource extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
         ];
     }
 }

@@ -17,6 +17,6 @@ class DeleteOneArticleController extends Controller
     {
       $destroy_article->destroy_article($article);
 
-      return response('success');
+      return response('', 200);
     }
 }

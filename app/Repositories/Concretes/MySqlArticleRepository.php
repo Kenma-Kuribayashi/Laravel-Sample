@@ -53,6 +53,11 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
         ->paginate(10);
   }
 
+  /**
+   *
+   * @param int|string $searchWord
+   * @return LengthAwarePaginator
+   */
   public function getArticlesByBySearchWord($searchWord): LengthAwarePaginator
   {
         return Article::

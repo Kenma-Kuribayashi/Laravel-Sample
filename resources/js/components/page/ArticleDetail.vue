@@ -8,7 +8,7 @@
     </ul>-->
 
     <div v-show="hasMessage">
-      <div class="alert alert-primary">{{ message }}</div>
+      <div class="alert alert-danger">{{ message }}</div>
     </div>
 
     <div class="panel panel-default">
@@ -33,10 +33,10 @@
       <div class="my-modal-dialog">
         <div class="modal-body">
           <p>記事を削除しました。</p>
-          </div>
-      <div class="modal-footer">
-        <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>
+        </div>
       </div>
     </div>
 
@@ -50,32 +50,6 @@
         class="btn btn-danger"
         @click="onClickDeleteButton()"
       >削除</button>
-
-      <!-- <form id="delete-form" :action="`api/articles/${articleId}`" method="post">
-        <input type="hidden" name="_token" :value="csrf" /> -->
-        <!-- <input type="hidden" name="_method" value="DELETE"> -->
-        <!-- <input type="submit" value="delete!!" />
-      </form> -->
-
-      <br />
-      <br />
-      <div v-show="isAuthor">
-        <div class="red">※画像ファイルは50KB以下でお願いします。(現在改良中のため)</div>
-        <!-- <form
-        action="/upload/{{ $article->getArticleId() }}"
-        method="POST"
-        enctype="multipart/form-data"
-        class="post_form"
-        >-->
-        <div class="form_parts">
-          <label for="photo">画像ファイル:</label>
-          <input type="file" class="form-control" name="image" />
-          <br />
-          <!-- {{ csrf_field() }} -->
-          <button class="btn btn-success">投稿</button>
-        </div>
-        <!-- </form> -->
-      </div>
     </div>
 
     <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>

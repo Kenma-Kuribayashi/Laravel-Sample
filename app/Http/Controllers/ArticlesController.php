@@ -26,23 +26,23 @@ class ArticlesController extends Controller
     $this->get_tag_list = $get_tag_list;
   }
 
-  public function index(GetArticles $get_articles) {
-    $articles = $get_articles->get();
-    $tag_lists = $this->get_tag_list->get_tag_list();
+  public function index() {
 
+    return view('articles.index');
 
-    return view('articles.index', compact('articles','week','tag_lists'));
   }
 
   public function show(StoreBrowsingHistory $storeBrowsingHistory, GetArticle $get_article, GetRecommendedArticles $get_recommended_articles, int $article_id, int $user_id = null) {
 
-    $storeBrowsingHistory->store($article_id, $user_id, $get_article);
+//    $storeBrowsingHistory->store($article_id, $user_id, $get_article);
+//
+//    $article = $get_article->get_article($article_id);
+//    $recommended_articles = $get_recommended_articles->get($article_id);
+//    $tag_lists = $this->get_tag_list->get_tag_list();
+//
+//    return view('articles.show', compact('article','tag_lists','week','recommended_articles'));
 
-    $article = $get_article->get_article($article_id);
-    $recommended_articles = $get_recommended_articles->get($article_id);
-    $tag_lists = $this->get_tag_list->get_tag_list();
-
-    return view('articles.show', compact('article','tag_lists','week','recommended_articles'));
+      return view('articles.show');
   }
 
   public function create() {
@@ -52,8 +52,6 @@ class ArticlesController extends Controller
   }
 
   public function store(StoreArticle $service, ArticleRequest $request) {
-
-    dd($request->file('image'));
     $service->store($request->validated(), $request->input('tags'));
 
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
@@ -87,14 +85,14 @@ class ArticlesController extends Controller
     $articles_by_tag = $get_articles_by_tag->get_articles_by_tag($tag_id);
     $tag_lists = $this->get_tag_list->get_tag_list();
 
- 
+
     return view('articles.domestic', compact('articles_by_tag','tag_id','week','tag_lists'));
   }
 
-  public function csvExport(Request $request) 
+  public function csvExport(Request $request)
   {
     $response = new StreamedResponse (function() use ($request){
- 
+
       $stream = fopen('php://output', 'w');
 
       //dd($stream);

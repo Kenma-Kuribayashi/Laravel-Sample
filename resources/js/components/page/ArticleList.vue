@@ -30,9 +30,8 @@
         </figure>
         <div class="news-li">
           <router-link
-            :to="{ name: 'articleDetail', params: { articleId: article.id }}"
-          >SPA{{ article.title }}</router-link>
-          <a :href="`/articles/${article.id}`">{{ article.title }}</a>
+            :to="{ name: 'articleDetail', params: { articleId: article.id}}"
+          >{{ article.title }}</router-link>
         </div>
         <div class="created-time">{{ createdAt(article.created_at) }}</div>
       </article>
@@ -46,12 +45,15 @@
       v-bind:to="to"
       @clicked-pagination="change"
     />
+
+    <the-calendar />
   </div>
 </template>
 
 <script>
 import TagListTab from "../parts/TagListTab";
 import ThePagination from "../parts/ThePagination";
+import TheCalendar from "../parts/Calendar.vue";
 
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
@@ -62,6 +64,7 @@ export default {
   components: {
     TagListTab,
     ThePagination,
+    TheCalendar,
   },
   data() {
     return {
