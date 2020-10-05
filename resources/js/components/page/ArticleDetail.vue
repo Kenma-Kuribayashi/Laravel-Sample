@@ -49,6 +49,7 @@
         v-show="isAuthor || auth.is_admin"
         class="btn btn-danger"
         @click="onClickDeleteButton()"
+        :disabled="isSending"
       >削除</button>
     </div>
 
@@ -106,7 +107,9 @@ export default {
       csrf: document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
+      message: "",
       isModal: false,
+      isSending: false,
     };
   },
   mounted() {},
@@ -123,12 +126,14 @@ export default {
       this.$router.push(`/articles/${articleId}`);
     },
     onClickDeleteButton() {
-      axios.delete("/api/articles/" + this.articleId).then(({status}) => {
-        if (status === 200) {
+      this.isSending = true;
+
+      axios.delete("/api/articles/" + this.articleId)
+      .then(() => {
           this.isModal = true;
-        }
-        
-      });
+      }) .catch(err => {
+        this.message = "記事の削除に失敗しました。"
+      }) .finally(() => this.isSending = false);
     },
   },
   computed: {
@@ -153,12 +158,33 @@ export default {
   },
   watch: {
     $route: {
-      handler: function () {
-        this.articleId = this.$route.params.articleId;
+      handler: async function () {
+        // this.articleId = this.$route.params.articleId;
 
-        axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
-          this.article = data.data;
-        });
+        // axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
+        //   this.article = data.data;
+        // });
+
+         this.articleId = this.$route.params.articleId;
+
+        // const article = axios.get("/api/get/article/" + this.articleId)
+        // console.log(article)
+
+        // const articleThen = article.then((res) => {
+        //   console.log(res)
+        //   return res
+        //   // this.article = res.data
+        // })
+        // console.log(articleThen)
+        // this.article = articleThen.data
+
+        this.article = (await axios.get("/api/get/article/" + this.articleId)).data
+
+        // const awaitRes = await axios.get("/api/get/article/" + this.articleId)
+        // console.log(awaitRes)
+        // this.article = awaitRes.data
+
+          console.log(this.article);
 
         //おすすめ記事の取得
         axios
