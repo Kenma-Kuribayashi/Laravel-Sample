@@ -24,14 +24,18 @@ Route::get('/browsing_history', 'BrowsingHistoryController@index');
 Route::get('/', 'ArticlesController@index');
 
 Route::prefix('articles')->name('articles.')->group(function () {
-  Route::get('/', 'ArticlesController@index')->name('index');
+//  Route::get('/', 'ArticlesController@index')->name('index');
   Route::get('/csv_export', 'ArticlesController@csvExport')->name('csvExport');
   Route::post('/', 'ArticlesController@store')->name('store');
   Route::get('/create', 'ArticlesController@create')->name('create');
   Route::get('/{article}/edit', 'ArticlesController@edit')->middleware('can:showEdit,article')->name('edit');
-  Route::get('/{article}/{user_id?}', 'ArticlesController@show')->name('show');
+  //Route::get('/{article}/{user_id?}', 'ArticlesController@show')->name('show');
   Route::post('/{article}', 'ArticlesController@update')->middleware('can:update,article')->name('update');
   Route::delete('/{article}', 'ArticlesController@destroy')->middleware('can:delete,article');
 });
 
 Auth::routes();
+
+Route::get('/{any}', function () {
+  return view('articles.index');
+})->where('any', '.*');
