@@ -6,7 +6,9 @@
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
 
     <div v-show="isSearchResult">
-      <h3 class="text-muted">検索結果  {{this.total}}件該当</h3>
+
+      <h3 v-if="isLoading" class="text-muted">読み込み中…</h3>
+      <h3 v-else class="text-muted">検索結果  {{this.total}}件該当</h3>
     </div>
 
     <div class="articles">
@@ -65,7 +67,7 @@ export default {
       articles: [],
       current_page: 1,
       last_page: 1,
-      total: 1,
+      total: null,
       from: 0,
       to: 0,
       searchWord: "",
@@ -130,6 +132,12 @@ export default {
       }
       return this.$route.query.page;
     },
+    isLoading () {
+      if (this.total === null) {
+        return true;
+      }
+      return false;
+    }
   },
 };
 </script>

@@ -25,7 +25,7 @@ class GetArticlesController extends Controller
         //キーワード検索の場合別のサービスクラス呼ぶ
         $searchWord = Arr::get($request->query(), 'searchword');
 
-        if ($searchWord) {
+        if ($searchWord !== null) {
             return $getArticlesBySearchWord->execute($searchWord);
         }
 

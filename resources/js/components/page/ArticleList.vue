@@ -4,11 +4,16 @@
       <div class="alert alert-primary">{{ message }}</div>
     </div>
 
+    <router-link to="/articles/create" class="btn btn-primary">新規作成</router-link>
+
     <div class="alert alert-danger" v-show="isError">キーワードを入力してください</div>
     <input v-model="searchWord" placeholder="キーワードを入力" />
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
 
     <tag-list-tab v-bind:currentTag="currentTag" @click-tab="onClickTabButton" />
+
+    <button @click="onClickNewSortButton()">新しい順</button>
+    <button @click="onClickOldSortButton()">古い順</button>
 
     <div class="articles">
       <article v-for="(article) in articles" :key="article.id">
@@ -116,9 +121,19 @@ export default {
     },
     load() {
       const page = this.page;
+      const tag = this.currentTag;
+      const sort = this.sort;
 
       axios
-        .get("/api/get/articles/" + this.currentTag + "?page=" + page)
+        .get(
+          "/api/get/articles/" +
+            "?page=" +
+            page +
+            "&sort=" +
+            sort +
+            "&tag=" +
+            tag
+        )
         .then(({ data }) => {
           this.articles = data.data;
           this.current_page = data.current_page;
@@ -132,12 +147,37 @@ export default {
       if (page >= 1 && page <= this.last_page) {
         //タグで絞り込み&ページネーションを使った時の再読み込み対策
         if (this.currentTag === "主要") {
-          this.$router.push(`/?page=${page}`);
+          this.$router.push({
+            path: "/",
+            query: { page: page, sort: this.sort },
+          });
         } else {
-          this.$router.push(`/?tag=${this.currentTag}&page=${page}`);
+          // this.$router.push(
+          //   `/?tag=${this.currentTag}&page=${page}&sort=${this.sort}`
+          // );
+          this.$router.push({
+            path: "/",
+            query: { tag: this.currentTag, page: page, sort: this.sort },
+          });
         }
         this.load();
       }
+    },
+    onClickNewSortButton() {
+      this.sort = "new";
+
+      this.$router.push(
+        `/?tag=${this.currentTag}&page=${this.current_page}&sort=new`
+      );
+      this.load();
+    },
+    onClickOldSortButton() {
+      this.sort = "old";
+
+      this.$router.push(
+        `/?tag=${this.currentTag}&page=${this.current_page}&sort=old`
+      );
+      this.load();
     },
     onClickSearchButton() {
       if (this.searchWord == "") {
