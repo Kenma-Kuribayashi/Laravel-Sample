@@ -22,7 +22,7 @@ class StoreImage {
     $this->transactionManagerRepository = $transactionManagerRepository;
   }
 
-  
+
   public function store_image($request, int $article_id) {
 
     $request->validate([
@@ -38,15 +38,15 @@ class StoreImage {
 
       //画像のパスを保存する
       $this->articleImagePathRepository->store($article_id, $image_path);
-  
+
       // バケットの`myprefix`フォルダへアップロード
       Storage::disk('s3')->putFileAs('myprefix', $image, $image_path, 'public');
-  
+
       $this->transactionManagerRepository->stop();
     } catch(Exception $e) {
       $this->transactionManagerRepository->rollBack();
       abort(422);
-    } 
+    }
   }
 
 }

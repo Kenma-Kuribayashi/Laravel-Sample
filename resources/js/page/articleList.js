@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import router from '../router.js'
-// import App from './Calendar.vue'
 import axios from 'axios'
 import jQuery from "jquery";
 
