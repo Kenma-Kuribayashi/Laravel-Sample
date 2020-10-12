@@ -43,11 +43,9 @@ export default {
     components: {},
     props: {
         auth: {
-            type: Object | Array,
-        },
-        errors: {
-            type: Object | Array,
-        },
+            type: Object,
+            required: true,
+        }
     },
     data() {
         return {
