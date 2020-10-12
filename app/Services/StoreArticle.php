@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repositories\Interfaces\ArticleImagePathRepositoryInterface;
 use App\Repositories\Interfaces\TransactionManagerInterface;
-use App\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +24,7 @@ class StoreArticle
         $this->transactionManagerRepository = $transactionManagerRepository;
     }
 
-    public function store(array $params, ?string $tag, $image)
+    public function store(array $params, int $tagId, $image)
     {
         $extension = $image->extension();
 
@@ -39,8 +38,6 @@ class StoreArticle
              * @var App\Article
              */
             $article = Auth::user()->articles()->create($params);
-
-            $tagId = Tag::where('name', $tag)->value('id');
 
             $article->tags()->attach($tagId); //attach多対対のとき
 

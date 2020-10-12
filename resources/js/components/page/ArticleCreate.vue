@@ -17,9 +17,9 @@
         <input class="form-control" type="date" name="published_at" v-model="publishedAt">
 
         <p>タグ:</p>
-        <select class="form-control">
+        <select class="form-control" v-model="tagId">
             <option disabled value="">1つ選択してください</option>
-            <option v-for="tag in tags" name="" v-bind:value="tags">{{ tag }}</option>
+            <option v-for="tag in tags" v-bind:value="tag.id">{{ tag.name }}</option>
         </select>
 
         <div class="form_parts">
@@ -62,6 +62,7 @@ export default {
                 image: "",
                 name: "",
             },
+            tagId: 1,
         };
     },
     mounted() {
@@ -80,7 +81,7 @@ export default {
             form.append('title', this.title);
             form.append('body', this.body);
             form.append('published_at', this.publishedAt);
-            form.append('tags', this.tag);
+            form.append('tagId', this.tagId);
             form.append('image', this.image_data);
 
             axios.post("/api/articles/",
