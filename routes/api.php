@@ -14,11 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::get('/test', function (Request $request) {
-    return ['message' => 'success!!'];
-});
-
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['auth', 'api']], function () {
     Route::get('tags', 'Api\TagsController@index');
 
     Route::get('get/articles', 'Api\Articles\GetArticlesController');
