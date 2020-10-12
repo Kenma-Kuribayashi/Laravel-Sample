@@ -68,9 +68,7 @@ export default {
         this.publishedAt = dayjs().format('YYYY-MM-DD');
 
         this.$http.get("/api/tags").then((response) => {
-            response.data.data.forEach((tag) => {
-                this.tags.push(tag.name);
-            });
+            this.tags = response.data.data;
         });
     },
     methods: {
