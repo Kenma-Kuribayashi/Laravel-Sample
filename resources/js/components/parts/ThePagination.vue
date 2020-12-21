@@ -2,24 +2,38 @@
   <div class="row">
     <div class="col-sm-6">
       <ul class="pagination">
-        <li :class="['page-item', {disabled: current_page <= 1}]">
+        <li :class="['page-item', { disabled: current_page <= 1 }]">
           <a class="page-link" href @click.prevent="change(1)">&laquo;</a>
         </li>
-        <li :class="['page-item', {disabled: current_page <= 1}]">
-          <a class="page-link" href="#" @click.prevent="change(current_page - 1)">&lt;</a>
+        <li :class="['page-item', { disabled: current_page <= 1 }]">
+          <a
+            class="page-link"
+            href="#"
+            @click.prevent="change(current_page - 1)"
+            >&lt;</a
+          >
         </li>
         <li
           v-for="page in pages"
           :key="page"
-          :class="['page-item', {active: page === current_page}]"
+          :class="['page-item', { active: page === current_page }]"
         >
-          <a class="page-link" href="#" @click.prevent="change(page)">{{page}}</a>
+          <a class="page-link" href="#" @click.prevent="change(page)">{{
+            page
+          }}</a>
         </li>
-        <li :class="['page-item', {disabled: current_page >= last_page}]">
-          <a class="page-link" href="#" @click.prevent="change(current_page + 1)">&gt;</a>
+        <li :class="['page-item', { disabled: current_page >= last_page }]">
+          <a
+            class="page-link"
+            href="#"
+            @click.prevent="change(current_page + 1)"
+            >&gt;</a
+          >
         </li>
-        <li :class="['page-item', {disabled: current_page >= last_page}]">
-          <a class="page-link" href="#" @click.prevent="change(last_page)">&raquo;</a>
+        <li :class="['page-item', { disabled: current_page >= last_page }]">
+          <a class="page-link" href="#" @click.prevent="change(last_page)"
+            >&raquo;</a
+          >
         </li>
       </ul>
     </div>
@@ -28,11 +42,26 @@
 <script>
 export default {
   props: {
-    current_page: Number,
-    last_page: Number,
-    total: Number,
-    from: Number,
-    to: Number,
+    current_page: {
+      type: Number,
+      required: true,
+    },
+    last_page: {
+      type: Number,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    from: {
+      type: Number,
+      required: true,
+    },
+    to: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {};
