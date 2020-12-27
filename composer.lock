@@ -933,6 +933,7 @@
                 "source": "https://github.com/goodby/csv/tree/master"
             },
             "time": "2015-06-29T10:28:19+00:00"
+
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3434,6 +3435,9 @@
                 "symfony/polyfill-intl-idn": "^1.10",
                 "symfony/polyfill-mbstring": "^1.0",
                 "symfony/polyfill-php80": "^1.15"
+            },
+            "conflict": {
+                "symfony/mailer": "<4.4"
             },
             "conflict": {
                 "symfony/mailer": "<4.4"
