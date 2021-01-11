@@ -10,7 +10,11 @@
       {{ error }}
     </div>
 
-    <modal v-bind:message="message" v-show="showModal" />
+    <modal
+      v-bind:modalMessage="modalMessage"
+      @click-articleList="onClickArticleListButton()"
+      v-show="showModal"
+    />
 
     <ValidationProvider rules="required|min:3|max:50" v-slot="{ errors }">
       <p>タイトル:</p>
@@ -115,6 +119,7 @@ export default {
       },
       tagId: 1,
       showModal: false,
+      modalMessage: "",
     };
   },
   mounted() {
@@ -126,9 +131,6 @@ export default {
   },
   methods: {
     async onClickSubmitButton() {
-      //console.log(this.image_data);
-
-      //const FormData = require('form-data');
       const form = new FormData();
       form.append("title", this.title);
       form.append("body", this.body);
@@ -143,13 +145,10 @@ export default {
           headers: { "content-type": "multipart/form-data;" },
         });
 
-        this.message = "記事の新規作成しました。";
+        this.modalMessage = "記事の新規作成しました。";
         this.showModal = true;
       } catch (err) {
-       // console.log(this.errors, err.response.data.errors);
-
         for (let k in err.response.data.errors) {
-          //console.log(err.response.data.errors[k]);
           err.response.data.errors[k].forEach((a) => {
             this.errors.push(a);
           });
@@ -158,19 +157,12 @@ export default {
       }
       this.isSending = false;
     },
-    //setImage(e) {
     setImage() {
-      //console.log(this.$refs.file);
       const files = this.$refs.file;
       this.image_data = files.files[0];
-      //console.log(this.image_data);
-      //const fileImg = files.files[0];
-      //console.log(fileImg);
-      // if (fileImg.type.startsWith("image/")) {
-      //     this.image_data.image = window.URL.createObjectURL(fileImg);
-      //     this.image_data.name = fileImg.name;
-      //     this.image_data.type = fileImg.type;
-      // }
+    },
+    onClickArticleListButton() {
+      this.$router.push({ name: 'articleList' });
     },
   },
   computed: {
@@ -192,5 +184,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
