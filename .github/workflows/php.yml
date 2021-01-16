@@ -57,6 +57,9 @@ jobs:
     - name: composer dump autoload
       run: composer dump-autoload
 
+    - name: copy .env
+      run: cp .env.testing .env
+
     - name: generate key
       run: php artisan key:generate
 
