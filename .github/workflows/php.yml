@@ -9,13 +9,14 @@ jobs:
 
     services:
       mysql:
-        image: mysql:5.6
-        ports:
-          - 3306:3306
-        options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
+
+        image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: pass
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test
+        ports:
+          - 33306:3306 # ここは3306:3306でも良い気はする
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     env:
       DB_CONNECTION: mysql
@@ -23,31 +24,44 @@ jobs:
       DB_PORT: 3306
       DB_DATABASE: test
       DB_USERNAME: root
-      DB_PASSWORD: pass
+      DB_PASSWORD: password
 
     steps:
-      - uses: actions/checkout@v2
-      - name: cache vendor
-        id: cache
-        uses: actions/cache@v1
-        with:
-          path: ./vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.3'
-          extensions: mbstring, gd
-      - name: composer install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: composer install -n --prefer-dist
-      - name: copy .env
-        run: cp .env.ci .env
-      - name: generate key
-        run: php artisan key:generate
-      - name: migrate
-        run: php artisan migrate
-      - name: unit test
-        run: ./vendor/bin/phpunit
+    - name: Setup PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+      
+    - name: composer dump autoload
+      run: composer dump-autoload
+    - name: generate key
+      run: php artisan key:generate --env=testing
+    - name: migrate
+      run: php artisan migrate
+    - name: unit test
+      run: ./vendor/bin/phpunit
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
