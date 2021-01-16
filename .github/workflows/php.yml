@@ -18,7 +18,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: test
         ports:
-          - 33306:3306 # ここは3306:3306でも良い気はする
+          - 3306:3306 # ここは3306:3306でも良い気はする
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     env:
@@ -61,7 +61,7 @@ jobs:
       run: cp .env.testing .env
 
     - name: generate key
-      run: php artisan key:generate
+      run: php artisan key:generate --env=testing
 
     - name: migrate
       run: php artisan migrate
