@@ -69,7 +69,7 @@ export default {
   mounted() {},
   methods: {
     change(page) {
-      this.$emit("clicked-pagination", page);
+      this.$emit('clicked-pagination', page);
     },
   },
   computed: {

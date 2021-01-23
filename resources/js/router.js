@@ -17,17 +17,20 @@ export default new Router({
         },
         {
             path: '/articles/create',
+            name: 'ArticleCreate',
             component: ArticleCreate
+        },
+        {
+            path: '/articles/articles-search-result',
+            name: 'ArticleSearchResults',
+            component: ArticleSearchResults
         },
         {
             path: '/articles/:articleId',
             name: 'articleDetail',
             component: ArticleDetail
         },
-        {
-            path: '/articles-search-result',
-            component: ArticleSearchResults
-        },
+
 
     ]
 })
