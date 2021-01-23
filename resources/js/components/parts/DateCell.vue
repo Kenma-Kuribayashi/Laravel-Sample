@@ -18,9 +18,9 @@ export default {
         this.day.month === this.todayDate.month &&
         this.day.date === this.todayDate.date
       ) {
-        return "red";
+        return 'red';
       } else {
-        return "";
+        return '';
       }
     }
   },

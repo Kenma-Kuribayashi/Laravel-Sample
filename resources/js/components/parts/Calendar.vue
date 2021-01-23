@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import DateCell from "./DateCell";
+import DateCell from './DateCell';
 
 export default {
   components: {
@@ -51,7 +51,7 @@ export default {
       year,
       month,
       todayDate,
-      lang: "ja"
+      lang: 'ja'
     };
   },
   methods: {
@@ -142,10 +142,10 @@ export default {
       return new Date(this.year, this.month - 1, 1);
     },
     weeks() {
-      if (this.lang === "en") {
-        return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      if (this.lang === 'en') {
+        return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       }
-      return ["日", "月", "火", "水", "木", "金", "土"];
+      return ['日', '月', '火', '水', '木', '金', '土'];
     }
   },
   mounted() {}
@@ -154,7 +154,7 @@ export default {
 /**
  * 配列をChunkする関数をArray自体に追加する
  */
-Object.defineProperty(Array.prototype, "chunk", {
+Object.defineProperty(Array.prototype, 'chunk', {
   value: function(chunkSize) {
     var R = [];
     for (var i = 0; i < this.length; i += chunkSize)
