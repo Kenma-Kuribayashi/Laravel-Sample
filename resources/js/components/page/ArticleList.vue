@@ -4,23 +4,30 @@
       <div class="alert alert-primary">{{ message }}</div>
     </div>
 
-    <router-link to="/articles/create" class="btn btn-primary">新規作成</router-link>
+    <router-link :to="{ name: 'ArticleCreate' }" v-show="0 !== Object.keys(auth).length" class="btn btn-primary">
+      新規作成
+    </router-link>
 
-    <div class="alert alert-danger" v-show="isError">キーワードを入力してください</div>
+    <div class="alert alert-danger" v-show="isError">
+      キーワードを入力してください
+    </div>
     <input v-model="searchWord" placeholder="キーワードを入力" />
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
 
-    <tag-list-tab v-bind:currentTag="currentTag" @click-tab="onClickTabButton" />
+    <tag-list-tab
+      v-bind:currentTag="currentTag"
+      @click-tab="onClickTabButton"
+    />
 
     <button @click="onClickNewSortButton()">新しい順</button>
     <button @click="onClickOldSortButton()">古い順</button>
 
     <div class="articles">
-      <article v-for="(article) in articles" :key="article.id">
+      <article v-for="article in articles" :key="article.id">
         <figure>
           <img
             v-if="article.image_path !== null"
-            :src="`https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/${ article.image_path }`"
+            :src="`https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/${article.image_path}`"
             class="news-image"
             width="75px"
             height="50px"
@@ -35,8 +42,10 @@
         </figure>
         <div class="news-li">
           <router-link
-            :to="{ name: 'articleDetail', params: { articleId: article.id}}"
-          >{{ article.title }}</router-link>
+            :to="{ name: 'articleDetail', params: { articleId: article.id } }"
+          >
+            {{ article.title }}
+          </router-link>
         </div>
         <div class="created-time">{{ createdAt(article.created_at) }}</div>
       </article>
@@ -64,12 +73,20 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale("ja");
 
+import axios from "axios";
+
 export default {
   name: "app",
   components: {
     TagListTab,
     ThePagination,
     TheCalendar,
+  },
+  props: {
+    auth: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -88,25 +105,22 @@ export default {
     };
   },
   mounted() {
-    this.message = this.$route.query.message;
-    //メッセージがない時は初期の空文字にする
-    if (this.$route.query.message === undefined) {
-      this.message = "";
-    } else {
+    if (this.$route.query.message !== undefined) {
+      this.message = this.$route.query.message;
       //メッセージがあった場合はmessageのクエリパラメータを削除する
       var query = Object.assign({}, this.$route.query);
       delete query.message;
       this.$router.push({ query: query });
     }
 
-    this.currentTag = this.$route.query.tag;
     if (this.$route.query.tag === undefined) {
       this.currentTag = "主要";
+    } else {
+      this.currentTag = this.$route.query.tag;
     }
 
     this.load();
   },
-  props: {},
   methods: {
     createdAt(date) {
       return dayjs(date).format("M/D(ddd) HH:mm");
@@ -114,13 +128,14 @@ export default {
     onClickTabButton(tag) {
       this.currentTag = tag;
 
-      this.$router.push(`/?tag=${tag}`);
+      this.$router.push({ name: "articleList", query: { tag: tag } });
+
       //現在のタグで絞り込んだ記事を取得する
       //タグが押された時は1ページ目を表示する
       this.load();
     },
     load() {
-      const page = this.page;
+      const page = this.current_page;
       const tag = this.currentTag;
       const sort = this.sort;
 
@@ -180,12 +195,15 @@ export default {
       this.load();
     },
     onClickSearchButton() {
-      if (this.searchWord == "") {
+      if (this.searchWord === "") {
         this.isError = true;
       } else {
+        this.$store.commit('setSearchWord', this.searchWord);
         this.isError = false;
         this.$router.push(
-          `/articles-search-result?searchword=${this.searchWord}`
+          {
+            name: 'ArticleSearchResults',
+          }
         );
       }
     },
@@ -198,7 +216,7 @@ export default {
       return this.$route.query.page;
     },
     hasMessage() {
-      if (this.message != "") {
+      if (this.message !== "") {
         return true;
       }
       return false;

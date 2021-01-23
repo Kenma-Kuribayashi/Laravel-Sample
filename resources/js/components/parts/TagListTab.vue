@@ -18,11 +18,11 @@ export default {
   data() {
     return {
       //主要はDBから取得していないので、入れておく
-      tags: ["主要"],
+      tags: ['主要'],
     };
   },
   mounted() {
-    this.$http.get("/api/tags").then((response) => {
+    this.$http.get('/api/tags').then((response) => {
       response.data.data.forEach((tag) => {
         this.tags.push(tag.name);
       });
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     onClickTabButton(tag) {
-      this.$emit("click-tab", tag);
+      this.$emit('click-tab', tag);
     },
   },
 };

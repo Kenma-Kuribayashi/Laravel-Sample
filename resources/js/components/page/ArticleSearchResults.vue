@@ -1,22 +1,23 @@
 <template>
   <div>
-    <div class="alert alert-danger" v-show="isError">キーワードを入力してください</div>
+    <div class="alert alert-danger" v-show="isError">
+      キーワードを入力してください
+    </div>
 
     <input v-model="searchWord" placeholder="キーワードを入力" />
     <button @click="onClickSearchButton()" class="btn-default">検索</button>
 
     <div v-show="isSearchResult">
-
       <h3 v-if="isLoading" class="text-muted">読み込み中…</h3>
-      <h3 v-else class="text-muted">検索結果  {{this.total}}件該当</h3>
+      <h3 v-else class="text-muted">検索結果 {{ this.total }}件該当</h3>
     </div>
 
     <div class="articles">
-      <article v-for="(article) in articles" :key="article.id">
+      <article v-for="article in articles" :key="article.id">
         <figure>
           <img
             v-if="article.image_path !== null"
-            :src="`https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/${ article.image_path }`"
+            :src="`https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/${article.image_path}`"
             class="news-image"
             width="75px"
             height="50px"
@@ -31,8 +32,9 @@
         </figure>
         <div class="news-li">
           <router-link
-            :to="{ name: 'articleDetail', params: { articleId: article.id}}"
-          >SPA{{ article.title }}</router-link>
+            :to="{ name: 'articleDetail', params: { articleId: article.id } }"
+            >SPA{{ article.title }}</router-link
+          >
           <a :href="`/articles/${article.id}`">{{ article.title }}</a>
         </div>
         <div class="created-time">{{ createdAt(article.created_at) }}</div>
@@ -76,11 +78,9 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.searchword !== undefined) {
-      this.searchWord = this.$route.query.searchword;
-      this.isSearchResult = true;
-      this.load();
-    }
+    this.searchWord = this.$store.state.SearchWord;
+    this.isSearchResult = true;
+    this.load();
   },
   props: {},
   methods: {
@@ -91,7 +91,7 @@ export default {
       const page = this.page;
       const searchWord = this.searchWord;
 
-      axios
+      this.$axios
         .get(
           "/api/get/articles/" + "?page=" + page + "&searchword=" + searchWord
         )
@@ -132,12 +132,12 @@ export default {
       }
       return this.$route.query.page;
     },
-    isLoading () {
+    isLoading() {
       if (this.total === null) {
         return true;
       }
       return false;
-    }
+    },
   },
 };
 </script>
