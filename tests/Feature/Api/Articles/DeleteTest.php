@@ -4,8 +4,8 @@ namespace Tests\Feature\Api\Articles;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
-use App\Article;
+use App\Eloquent\User;
+use App\Eloquent\Article;
 
 class DeleteTest extends TestCase
 {

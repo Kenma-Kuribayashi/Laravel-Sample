@@ -4,10 +4,10 @@ namespace Tests\Feature\Articles;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
-use App\Article;
+use App\Eloquent\User;
+use App\Eloquent\Article;
 use App\Services\GetRecommendedArticles;
-use App\Tag;
+use App\Eloquent\Tag;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetRecommendedArticlesTest extends TestCase
@@ -42,7 +42,7 @@ class GetRecommendedArticlesTest extends TestCase
     /**
      * @var Collection
      */
-    $result = $getRecommendedArticles->get($this->article);
+    $result = $getRecommendedArticles->get($this->article->id);
 
     //取得した3件の記事のidを取得した順に配列に入れる
     $plucked = $result->pluck('id');
@@ -66,7 +66,7 @@ class GetRecommendedArticlesTest extends TestCase
     /**
      * @var Collection
      */
-    $result = $getRecommendedArticles->get($this->article);
+    $result = $getRecommendedArticles->get($this->article->id);
 
     $plucked = $result->pluck('id');
 
@@ -93,7 +93,7 @@ class GetRecommendedArticlesTest extends TestCase
     $this->article_third->tags()->attach([0 => "1"]);
     $this->article_fourth->tags()->attach([0 => "1"]);
 
-    $result = $getRecommendedArticles->get($this->article);
+    $result = $getRecommendedArticles->get($this->article->id);
 
     $plucked = $result->pluck('id');
 
@@ -119,7 +119,7 @@ class GetRecommendedArticlesTest extends TestCase
     $this->article_first->tags()->attach($tag);
     $this->article_seconds->tags()->attach($tag);
 
-    $result = $getRecommendedArticles->get($this->article);
+    $result = $getRecommendedArticles->get($this->article->id);
 
     $plucked = $result->pluck('id');
 
@@ -143,7 +143,7 @@ class GetRecommendedArticlesTest extends TestCase
     //同じタグの記事を1件作成する
     $this->article_first->tags()->attach($tag);
 
-    $result = $getRecommendedArticles->get($this->article);
+    $result = $getRecommendedArticles->get($this->article->id);
     $plucked = $result->pluck('id');
 
     $this->assertEquals([

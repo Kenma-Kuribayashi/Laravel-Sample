@@ -2,27 +2,27 @@
 
 namespace App\Services;
 
-use App\Article as EloquentArticle;
 use App\Domain\Entity\Article; 
+use App\Repositories\Interfaces\ArticleRepositoryInterface;
 
 
 class GetArticle {
 
+  private $articleRepository;
+
+  public function __construct(ArticleRepositoryInterface $articleRepository)
+  {
+    $this->articleRepository = $articleRepository;
+  }
+
   /**
-   * 特定の記事を取得する。
-   * 
-   * @param int $article_id
+   * @param int $articleId
    * @return Article
    */
-  public function get_article(int $article_id): Article {
+  public function get_article(int $articleId): Article {
 
-    $article = EloquentArticle::where('id', $article_id)
-      ->with(['tags'])
-      ->get()
-      ->first();
-
-    return Article::constructByRepository($article->title, $article->body,$article->image_path, $article->user_id, $article->id, $article->tags);
-      
+    return $this->articleRepository->findOne($articleId);
+    
   }
 
 }

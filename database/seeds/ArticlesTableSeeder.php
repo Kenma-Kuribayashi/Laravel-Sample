@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-use App\Article;
+use App\Eloquent\Article;
 use Illuminate\Support\Facades\DB;
 
 class ArticlesTableSeeder extends Seeder
@@ -11,7 +11,7 @@ class ArticlesTableSeeder extends Seeder
     {
         DB::table('articles')->delete();
  
-        $user = App\User::first(); 
+        $user = App\Eloquent\User::first(); 
  
         for ($i = 0; $i < 1; $i++) {
             switch ($i) {

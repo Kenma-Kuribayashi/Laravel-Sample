@@ -69,12 +69,6 @@ class ArticlesController extends Controller
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
   }
 
-  public function destroy(DestroyArticle $destroy_article, Article $article) {
-    $destroy_article->destroy_article($article);
-
-    return redirect()->route('articles.index')->with('message', '記事を削除しました。');
-  }
-
   public function upload(StoreImage $store_image, Request $request,int $article_id) {
     $successful_upload = $store_image->store_image($request, $article_id);
 

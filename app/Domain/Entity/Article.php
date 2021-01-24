@@ -38,15 +38,20 @@ final class Article {
     return $this->article_body;
   }
 
-  public function hasImagePath(): bool
-  {
-    if ($this->article_image_path === NULL) {
-      return false;
-    }
-    return true;
-  }
+  // public function hasImagePath(): bool
+  // {
+  //   if ($this->article_image_path === NULL) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   public function getImagePath() {
+
+    if ($this->article_image_path === null) {
+      return null;
+    }
+
     $image_path = "https://test-bucket-sample-news.s3-ap-northeast-1.amazonaws.com/myprefix/{$this->article_image_path}";
 
     return $image_path;
@@ -56,15 +61,18 @@ final class Article {
     return $this->article_user_id;
   }
 
-  public function getArticleId() {
+  public function getId() {
     return $this->article_id;
   }
 
-  public function hasTags() {
-    return $this->article_tags->isNotEmpty();
-  }
+  // public function hasTags() {
+  //   return $this->article_tags->isNotEmpty();
+  // }
 
   public function getTags() {
+    if ($this->article_tags === []) {
+      return [];
+    }
     return $this->article_tags;
   }
 }
