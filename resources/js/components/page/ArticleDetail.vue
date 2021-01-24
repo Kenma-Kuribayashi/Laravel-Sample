@@ -128,7 +128,7 @@ export default {
     onClickDeleteButton() {
       this.isSending = true;
 
-      axios.delete("/api/articles/" + this.articleId)
+      this.$axios.delete("/api/articles/" + this.articleId)
       .then(() => {
           this.isModal = true;
       }) .catch(err => {
@@ -178,7 +178,7 @@ export default {
         // console.log(articleThen)
         // this.article = articleThen.data
 
-        this.article = (await axios.get("/api/get/article/" + this.articleId)).data
+        this.article = (await this.$axios.get("/api/get/article/" + this.articleId)).data
 
         // const awaitRes = await axios.get("/api/get/article/" + this.articleId)
         // console.log(awaitRes)
@@ -187,7 +187,7 @@ export default {
           console.log(this.article);
 
         //おすすめ記事の取得
-        axios
+        this.$axios
           .get("/api/recommend_article/" + this.articleId)
           .then(({ data }) => {
             this.recommendedArticles = data;

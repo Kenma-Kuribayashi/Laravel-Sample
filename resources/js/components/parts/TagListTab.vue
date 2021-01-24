@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    this.$http.get('/api/tags').then((response) => {
+    this.$axios.get('/api/tags').then((response) => {
       response.data.data.forEach((tag) => {
         this.tags.push(tag.name);
       });

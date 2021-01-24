@@ -73,8 +73,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale("ja");
 
-import axios from "axios";
-
 export default {
   name: "app",
   components: {
@@ -139,7 +137,7 @@ export default {
       const tag = this.currentTag;
       const sort = this.sort;
 
-      axios
+      this.$axios
         .get(
           "/api/get/articles/" +
             "?page=" +
