@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
-use App\Tag;
+use App\Eloquent\Tag;
 
 class TagsTableSeeder extends Seeder
 {
@@ -14,8 +14,6 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tags')->delete();
- 
         for ($i = 0; $i < 9; $i++) {
             switch ($i) {
                 case 0:
