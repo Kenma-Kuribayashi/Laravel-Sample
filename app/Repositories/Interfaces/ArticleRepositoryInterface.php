@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ArticleRepositoryInterface
 {
+  public function delete(int $articleId): void;
   /**
    * 記事を全て取得し、ページネーションで返す
    * @return LengthAwarePaginator

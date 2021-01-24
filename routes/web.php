@@ -32,7 +32,6 @@ Route::prefix('articles')->name('articles.')->group(function () {
   //Route::get('/{article}/edit', 'ArticlesController@edit')->middleware('can:showEdit,article')->name('edit');
   //Route::get('/{article}/{user_id?}', 'ArticlesController@show')->name('show');
   Route::post('/{article}', 'ArticlesController@update')->middleware('can:update,article')->name('update');
-  Route::delete('/{article}', 'ArticlesController@destroy')->middleware('can:delete,article');
 });
 
 Auth::routes();

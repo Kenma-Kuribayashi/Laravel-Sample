@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Api\Articles;
 
 use App\Http\Controllers\Controller;
-use App\Services\DestroyArticle;
-use App\Article;
+use App\Services\DestroyArticleService;
+use App\Eloquent\Article;
 
 class DeleteOneArticleController extends Controller
 {
-    /**
-     * 記事の取得
-     *
-     * @return Response
-     */
-    public function __invoke(DestroyArticle $destroy_article, Article $article)
-    {
-      $destroy_article->destroy_article($article);
+  private $destroyArticleService;
 
-      return response('', 200);
+  public function __construct(
+    DestroyArticleService $destroyArticleService) {
+    $this->destroyArticleService = $destroyArticleService;
+  }
+
+    /**
+     *
+     * @return void
+     */
+    public function __invoke(Article $article): void
+    {
+      $this->destroyArticleService->execute($article->id);
     }
 }

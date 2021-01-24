@@ -4,7 +4,7 @@ namespace App\Repositories\Concretes;
 
 
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
-use App\Article;
+use App\Eloquent\Article;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -68,4 +68,10 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
         ->published()
         ->paginate(10);
   }
+
+  public function delete(int $articleId): void
+  {
+    Article::where('id', $articleId)->delete();
+  }
+}
 }
