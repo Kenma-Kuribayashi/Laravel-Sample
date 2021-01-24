@@ -27,6 +27,7 @@ class DeleteTest extends TestCase
 
         $response = $this->actingAs($user)
           ->delete("/api/articles/{$article->id}");
+          dd($response);
 
         $this->assertDatabaseMissing('articles', [
           'id' => $article->id,
