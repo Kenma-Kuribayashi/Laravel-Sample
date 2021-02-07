@@ -2,11 +2,18 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Domain\Entity\Article;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ArticleRepositoryInterface
 {
+
+  public function findOne(int $articleId): Article;
+
   public function delete(int $articleId): void;
+
+  public function store(int $userId, string $title, string $body, string $publishedAt, string $extension): Article;
+
   /**
    * 記事を全て取得し、ページネーションで返す
    * @return LengthAwarePaginator
