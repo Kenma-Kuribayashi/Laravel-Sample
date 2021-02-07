@@ -81,5 +81,18 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
   {
     Article::where('id', $articleId)->delete();
   }
-}
+
+  public function store(int $userId, string $title, string $body, string $publishedAt, string $extension): ArticleEntity
+  {
+    $article = Article::create(['title' => $title, 'body' => $body,'published_at' => $publishedAt, 'user_id' => $userId]);
+
+    $imagePath = "article_" . $article->id . "." . $extension;
+
+    Article::where('id', $article->id)->update(['image_path' => $imagePath]);
+
+    $article = Article::find($article->id);
+
+    return ArticleEntity::constructByRepository(
+      $article->title, $article->body, $article->image_path, $article->user_id, $article->id);
+  }
 }

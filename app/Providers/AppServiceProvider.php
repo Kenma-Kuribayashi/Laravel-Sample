@@ -26,6 +26,8 @@ use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Repositories\Concretes\MySqlArticleRepository;
 use App\Repositories\Interfaces\ArticleTagRepositoryInterface;
 use App\Repositories\Concretes\MySqlArticleTagRepository;
+use App\Repositories\Concretes\S3ArticleImageRepository;
+use App\Repositories\Interfaces\ArticleImageRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ArticleTagRepositoryInterface::class,
             MySqlArticleTagRepository::class
+        );
+
+        $this->app->bind(
+            ArticleImageRepositoryInterface::class,
+            S3ArticleImageRepository::class
         );
 
         $this->app->bind(
