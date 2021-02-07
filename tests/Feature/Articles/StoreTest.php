@@ -4,242 +4,396 @@ namespace Tests\Feature\Articles;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
+use App\Eloquent\User;
+use Illuminate\Support\Str;
+use App\Repositories\Interfaces\ArticleImageRepositoryInterface;
+use Illuminate\Http\UploadedFile;
 
 class StoreTest extends TestCase
 {
-    //テスト終了後にデータベースを元に戻す
-    use DatabaseTransactions;
+  //テスト終了後にデータベースを元に戻す
+  use DatabaseTransactions;
 
-    //タイトルが3文字
-    public function test_success_title_length_min()
-    {
-        //認証用のユーザーを作成
-        $user = factory(User::class)->create();
-        //3文字のランダムの文字列
-        $new_title = str_random(3);
+  //成功
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => $new_title,
-            'body' => 'aaaaa',
-            'published_at' => now(),
-            'image' => '',
-        ]);
+  //失敗
+  //tag_idがない
+  //imageがない
+  //imageがjpeg,png形式じゃない
+  //認証ずみのユーザでない
 
-        $this->assertDatabaseHas('articles', [
-          'title' => $new_title,
-          'body' => 'aaaaa',
-        ]);
+  private $user;
+  private $file;
 
-        $response->assertRedirect();
-    }
+  protected function setUp(): void
+  {
+    parent::setUp();
 
-    //タイトルが50文字
-    public function test_success_title_length_max()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(50);
+    //認証用のユーザーを作成
+    $this->user = factory(User::class)->create();
+    $this->file = UploadedFile::fake()->create('file.png');
+  }
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => $new_title,
-            'body' => 'aaaaa',
-            'published_at' => now(),
-            'image' => '',
-        ]);
+  //タイトルが3文字
+  public function test_success_title_length_min()
+  {
+    //3文字のランダムの文字列
+    $new_title = Str::random(3);
 
-        $this->assertDatabaseHas('articles', [
-          'title' => $new_title,
-          'body' => 'aaaaa',
-        ]);
+    $this->mock(ArticleImageRepositoryInterface::class, function ($mock) {
+      $mock->shouldReceive('upload')->once();
+    });
 
-        $response->assertRedirect();
-    }
-    
-    //内容(body)が100文字
-    public function test_success_body_length_max()
-    {
-        $user = factory(User::class)->create();
-        $new_body = str_random(100);
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaaaa',
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => 'aaaaa',
-            'body' => $new_body,
-            'published_at' => now(),
-            'image' => '',
-        ]);
+    $this->assertDatabaseHas('articles', [
+      'title' => $new_title,
+      'body' => 'aaaaa',
+    ]);
 
-        $this->assertDatabaseHas('articles', [
-          'title' => 'aaaaa',
-          'body' => $new_body,
-        ]);
+    $response->assertStatus(200);
+  }
 
-        $response->assertRedirect();
-    }
+  /**
+   * Undocumented function
+   *
+   * @return response
+   */
+  private function postArticle(
+    ?int $user_id,
+    ?string $title,
+    ?string $body,
+    ?string $published_at,
+    ?int $tag_id,
+    ?UploadedFile $file
+  ) {
+    return $this->actingAs($this->user)
+      ->post("/api/articles", [
+        'user_id' => $user_id,
+        'title' => $title,
+        'body' => $body,
+        'published_at' => $published_at,
+        'tag_id' => $tag_id,
+        'image' => $file,
+      ]);
+  }
 
-    //タイトルがない
-    public function test_failure_title_null()
-    {
-        $user = factory(User::class)->create();
-        $new_body = str_random(10);
+  //タイトルが50文字
+  public function test_success_title_length_max()
+  {
+    $new_title = Str::random(50);
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => '',
-            'body' => $new_body,
-            'published_at' => now(),
-            'image' => '',
-        ]);
+    $this->mock(ArticleImageRepositoryInterface::class, function ($mock) {
+      $mock->shouldReceive('upload')->once();
+    });
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => '',
-          'body' => $new_body,
-        ]);
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaaaa',
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $response->assertRedirect();
-    }
+    $this->assertDatabaseHas('articles', [
+      'title' => $new_title,
+      'body' => 'aaaaa',
+    ]);
 
-    //タイトルが3文字より少ない
-    public function test_failure_title_length_min()
-    {
-        $user = factory(User::class)->create();
-        $new_body = str_random(10);
+    $response->assertStatus(200);
+  }
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => 'aa',
-            'body' => $new_body,
-            'published_at' => now(),
-            'image' => '',
-        ]);
+  //内容(body)が100文字
+  public function test_success_body_length_max()
+  {
+    $new_body = Str::random(100);
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => 'aa',
-          'body' => $new_body,
-        ]);
+    $this->mock(ArticleImageRepositoryInterface::class, function ($mock) {
+      $mock->shouldReceive('upload')->once();
+    });
 
-        $response->assertRedirect();
-    }
-    
-    //タイトルが50文字より多い
-    public function test_failure_title_length_max()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(51);
-        $new_body = str_random(10);
+    $response = $this->postArticle(
+      $this->user->id,
+      'aaaaa',
+      $new_body,
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => $new_title,
-            'body' => $new_body,
-            'published_at' => now(),
-            'image' => '',
-        ]);
+    $this->assertDatabaseHas('articles', [
+      'title' => 'aaaaa',
+      'body' => $new_body,
+    ]);
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => $new_title,
-          'body' => $new_body,
-        ]);
+    $response->assertStatus(200);
+  }
 
-        $response->assertRedirect();
-    }
+  //タイトルがない
+  public function test_failure_title_null()
+  {
+    $new_body = Str::random(10);
 
-    //bodyがない
-    public function test_failure_body_null()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(5);
+    $response = $this->postArticle(
+      $this->user->id,
+      '',
+      $new_body,
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'user_id' => $user->id,
-            'title' => $new_title,
-            'body' => '',
-            'published_at' => now(),
-            'image' => '',
-        ]);
+    $this->assertDatabaseMissing('articles', [
+      'title' => '',
+      'body' => $new_body,
+    ]);
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => $new_title,
-          'body' => '',
-        ]);
+    $response->assertStatus(422);
+  }
 
-        $response->assertRedirect();
-    }
+  //タイトルが3文字より少ない
+  public function test_failure_title_length_min()
+  {
+    $new_body = Str::random(10);
 
-    //bodyが100文字より多い
-    public function test_failure_body_length_max()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(5);
-        $new_body = str_random(101);
+    $file = UploadedFile::fake()->create('file.png');
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'title' => $new_title,
-            'body' => $new_body,
-            'published_at' => now(),
-            'image' => '',
-        ]);
+    $response = $this->postArticle(
+      $this->user->id,
+      'aa',
+      $new_body,
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => $new_title,
-          'body' => $new_body,
-        ]);
+    $this->assertDatabaseMissing('articles', [
+      'title' => 'aa',
+      'body' => $new_body,
+    ]);
 
-        $response->assertRedirect();
-    }
+    $response->assertStatus(422);
+  }
 
-    //published_atがない
-    public function test_failure_published_at_null()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(5);
+  //タイトルが50文字より多い
+  public function test_failure_title_length_max()
+  {
+    $new_title = Str::random(51);
+    $new_body = Str::random(10);
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'title' => $new_title,
-            'body' => 'aaa',
-            'published_at' => '',
-            'image' => '',
-        ]);
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      $new_body,
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => $new_title,
-          'body' => 'aaa',
-        ]);
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title,
+      'body' => $new_body,
+    ]);
 
-        $response->assertRedirect();
-    }
+    $response->assertStatus(422);
+  }
 
-    //published_atがdate型じゃない
-    public function test_failure_published_at_date()
-    {
-        $user = factory(User::class)->create();
-        $new_title = str_random(5);
+  //bodyがない
+  public function test_failure_body_null()
+  {
+    $new_title = Str::random(5);
 
-        $response = $this->actingAs($user)
-          ->post("/articles", [
-            'title' => $new_title,
-            'body' => 'aaa',
-            'published_at' => 'aaaa-aa',
-            'image' => '',
-        ]);
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      '',
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
 
-        $this->assertDatabaseMissing('articles', [
-          'title' => $new_title,
-          'published_at' => 'aaaa-aa',
-        ]);
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title,
+      'body' => '',
+    ]);
 
-        $response->assertRedirect();
-    }
+    $response->assertStatus(422);
+  }
 
+  //bodyが100文字より多い
+  public function test_failure_body_length_max()
+  {
+    $new_title = Str::random(5);
+    $new_body = Str::random(101);
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      $new_body,
+      now()->format('Y-m-d'),
+      1,
+      $this->file
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title,
+      'body' => $new_body,
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  //published_atがない
+  public function test_failure_published_at_null()
+  {
+    $new_title = Str::random(5);
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaa',
+      '',
+      1,
+      $this->file
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title,
+      'body' => 'aaa',
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  //published_atがdate型じゃない
+  public function test_failure_published_at_date()
+  {
+    $new_title = Str::random(5);
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaa',
+      'aaaa-aa',
+      1,
+      $this->file
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title,
+      'published_at' => 'aaaa-aa',
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  /**
+   * tag_idがない
+   *
+   * @return void
+   */
+  public function test_failure_tag_null()
+  {
+    $new_title = Str::random(5);
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaaaaa',
+      now()->format('Y-m-d'),
+      null,
+      $this->file
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  /**
+   * imageがない
+   *
+   * @return void
+   */
+  public function test_failure_image_null()
+  {
+    $new_title = Str::random(5);
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaaaaa',
+      now()->format('Y-m-d'),
+      1,
+      null
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  /**
+   * imageがjpeg,png形式じゃない
+   *
+   * @return void
+   */
+  public function test_failure_image_pdf()
+  {
+    $new_title = Str::random(5);
+
+    $pdfFile = UploadedFile::fake()->create('file.pdf');
+
+    $response = $this->postArticle(
+      $this->user->id,
+      $new_title,
+      'aaaaaa',
+      now()->format('Y-m-d'),
+      1,
+      $pdfFile
+    );
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title
+    ]);
+
+    $response->assertStatus(422);
+  }
+
+  /**
+   * 認証済みのユーザでない
+   *
+   * @return void
+   */
+  public function test_failure_not_auth()
+  {
+    $new_title = Str::random(5);
+
+    $response = $this->post("/api/articles", [
+        'user_id' => 1,
+        'title' => $new_title,
+        'body' => 'aaaaaa',
+        'published_at' => now()->format('Y-m-d'),
+        'tag_id' => 1,
+        'image' =>  $this->file
+      ]);
+
+    $this->assertDatabaseMissing('articles', [
+      'title' => $new_title
+    ]);
+
+    $response->assertStatus(401);
+  }
 }
