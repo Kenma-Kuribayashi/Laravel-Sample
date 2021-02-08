@@ -1,18 +1,21 @@
 <template>
   <div>
-    <tag-list-tab v-bind:currentTag="currentTag" @click-tab="onClickTabButton" />
+    <tag-list-tab
+      v-bind:currentTag="currentTag"
+      @click-tab="onClickTabButton"
+    />
 
     <!-- <ul v-show="hasErrors">
       <li v-for="(error, index) in errors" :key="index">{{ error }}
       </li>
     </ul>-->
 
-    <div v-show="hasMessage">
+    <div v-show="message !== ''">
       <div class="alert alert-danger">{{ message }}</div>
     </div>
 
     <div class="panel panel-default">
-      <figure v-show="article.hasImagePath">
+      <figure v-show="article.imagePath !== []">
         <img :src="article.imagePath" width="533px" height="400px" />
       </figure>
     </div>
@@ -22,23 +25,18 @@
     <article>
       <div class="body">{{ article.body }}</div>
     </article>
-    <div v-show="article.hasTags">
+    <div v-show="article.tags !== []">
       <h5>Tags:</h5>
       <ul>
-        <li v-for="(tag) in article.tags" :key="tag.id">{{ tag.name }}</li>
+        <li v-for="tag in article.tags" :key="tag.id">{{ tag.name }}</li>
       </ul>
     </div>
 
-    <div class="my-modal" v-show="isModal">
-      <div class="my-modal-dialog">
-        <div class="modal-body">
-          <p>記事を削除しました。</p>
-        </div>
-        <div class="modal-footer">
-          <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>
-        </div>
-      </div>
-    </div>
+    <modal
+      v-bind:modalMessage="modalMessage"
+      @click-articleList="onClickArticleListButton()"
+      v-show="showModal"
+    />
 
     <div v-if="auth.length !== 0">
       <!-- 投稿したユーザーのidとログインユーザーのidが一致する場合表示 -->
@@ -50,15 +48,25 @@
         class="btn btn-danger"
         @click="onClickDeleteButton()"
         :disabled="isSending"
-      >削除</button>
+      >
+        削除
+      </button>
     </div>
 
-    <router-link :to="{ name: 'articleList'}" class="btn btn-secondary float-right">一覧へ戻る</router-link>
+    <router-link
+      :to="{ name: 'articleList' }"
+      class="btn btn-secondary float-right"
+      >一覧へ戻る</router-link
+    >
 
     <br />
     <div class>おすすめの記事</div>
 
-    <div class="articles" v-for="(article, index) in recommendedArticles" :key="index">
+    <div
+      class="articles"
+      v-for="(article, index) in recommendedArticles"
+      :key="index"
+    >
       <article>
         <figure>
           <img
@@ -71,7 +79,9 @@
         <button
           class="btn btn-link"
           @click="onClickRecommendArticleButton(article.id)"
-        >{{ article.title }}</button>
+        >
+          {{ article.title }}
+        </button>
 
         <div class="created-time">{{ createdAt(article.created_at) }}</div>
       </article>
@@ -80,7 +90,9 @@
 </template>
 
 <script>
+import Modal from "../parts/Modal";
 import TagListTab from "../parts/TagListTab";
+import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 dayjs.locale("ja");
@@ -88,14 +100,16 @@ dayjs.locale("ja");
 export default {
   components: {
     TagListTab,
+    Modal,
   },
   props: {
     auth: {
-      type: Object | Array,
+      type: Object,
+      required: true,
     },
-    errors: {
-      type: Object | Array,
-    },
+    // errors: {
+    //   type: Object | Array,
+    // },
   },
   data() {
     return {
@@ -108,8 +122,9 @@ export default {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
       message: "",
-      isModal: false,
+      showModal: false,
       isSending: false,
+      modalMessage: "",
     };
   },
   mounted() {},
@@ -143,12 +158,6 @@ export default {
     //   }
     //   return false;
     // },
-    hasMessage() {
-      if (this.message != "") {
-        return true;
-      }
-      return false;
-    },
     isAuthor() {
       if (this.article.userId === this.auth.id) {
         return true;
@@ -159,23 +168,20 @@ export default {
   watch: {
     $route: {
       handler: async function () {
-        // this.articleId = this.$route.params.articleId;
+        this.articleId = this.$route.params.articleId;
 
         // axios.get("/api/get/article/" + this.articleId).then(({ data }) => {
         //   this.article = data.data;
-        // });
-
-         this.articleId = this.$route.params.articleId;
 
         // const article = axios.get("/api/get/article/" + this.articleId)
         // console.log(article)
 
         // const articleThen = article.then((res) => {
-        //   console.log(res)
-        //   return res
+        //   console.log(res);
+        //   return res;
         //   // this.article = res.data
-        // })
-        // console.log(articleThen)
+        // });
+        // console.log(articleThen);
         // this.article = articleThen.data
 
         this.article = (await this.$axios.get("/api/get/article/" + this.articleId)).data
@@ -184,7 +190,10 @@ export default {
         // console.log(awaitRes)
         // this.article = awaitRes.data
 
-          console.log(this.article);
+        const awaitRes = await axios.get("/api/get/article/" + this.articleId);
+        //console.log(awaitRes)
+        this.article = awaitRes.data.data;
+        //console.log(this.article);
 
         //おすすめ記事の取得
         this.$axios
@@ -200,20 +209,4 @@ export default {
 </script>
 
 <style scoped>
-.my-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.my-modal-dialog {
-  position: absolute;
-  top: 30px;
-  left: calc(50% - 150px);
-  width: 400px;
-  background: white;
-}
 </style>

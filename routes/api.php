@@ -22,7 +22,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
 });
 
-Route::group(['middleware' => ['auth', 'api']], function () {
+Route::group(['middleware' => ['auth:api', 'api']], function () {
     Route::post('/articles', 'Api\Articles\StoreArticleController');
 
     Route::delete('/articles/{article}', 'Api\Articles\DeleteOneArticleController')->middleware('can:delete,article');

@@ -2,15 +2,22 @@
   <div>
     <h1>記事の新規投稿</h1>
 
-    <div v-show="hasMessage">
+
+    <div v-show="message !== ''">
       <div class="alert alert-primary">{{ message }}</div>
     </div>
 
-    <!-- <modal
+    <div v-for="(error, index) in errors" :key="index" class="text-danger">
+      {{ error }}
+    </div>
+
+    <modal
       v-bind:modalMessage="modalMessage"
       @click-articleList="onClickArticleListButton()"
       v-show="showModal"
-    /> -->
+    />
+
+    <validation-observer ref="obs" v-slot="{ invalid }">
 
     <ValidationProvider rules="required|min:3|max:50" v-slot="{ errors }">
       <p>タイトル:</p>
@@ -50,6 +57,7 @@
           ref="file"
           @change="validate() && onChangeImage()"
         />
+
         <div class="text-danger" v-show="errors[0]">{{ errors[0] }}</div>
       </div>
     </ValidationProvider>
@@ -57,20 +65,24 @@
     <div class="btn-container">
       <button
         @click="onClickSubmitButton()"
+        :disabled="invalid"
         class="btn btn-primary"
       >
         新規投稿
       </button>
     </div>
+
+    </validation-observer>
   </div>
 </template>
 
 <script>
+import Modal from "../parts/Modal";
+import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
-dayjs.locale("ja");
-import { ValidationProvider, extend } from "vee-validate";
-import { required, min, max } from "vee-validate/dist/rules";
+import { ValidationProvider, ValidationObserver , extend } from "vee-validate";
+import { required, min, max, image } from "vee-validate/dist/rules";
 extend("required", {
   ...required,
   message: "{_field_}は必須です",
@@ -83,17 +95,30 @@ extend("min", {
   ...min,
   message: "{_field_}は{length}文字以上で入力してください",
 });
-// extend("image", {
-//   ...image,
-//   message: "{_field_}はjpegもしくはpngファイルを選択してください。",
-// });
+extend("image", {
+  ...image,
+  message: "{_field_}はjpegもしくはpngファイルを選択してください。",
+});
+
 
 export default {
   components: {
     ValidationProvider,
-    // Modal,
+
+    ValidationObserver,
+    Modal,
   },
-  props: {},
+  props: {
+    auth: {
+      type: Object,
+      required: true,
+    },
+    // errors: {
+    //     type: Array | Object,
+    //     required: true,
+    // }
+  },
+
   data() {
     return {
       errors: [],
@@ -114,18 +139,10 @@ export default {
       modalMessage: "",
     };
   },
-  computed: {
-    hasMessage() {
-      if (this.message !== "") {
-        return true;
-      }
-      return false;
-    },
-  },
   mounted() {
     this.publishedAt = dayjs().format("YYYY-MM-DD");
 
-    this.$axios.get("/api/tags").then((response) => {
+    this.$http.get("/api/tags").then((response) => {
       this.tags = response.data.data;
     });
   },
@@ -135,46 +152,41 @@ export default {
       form.append("title", this.title);
       form.append("body", this.body);
       form.append("published_at", this.publishedAt);
-      form.append("tag_id", this.tagId);
+      form.append("tagId", this.tagId);
       form.append("image", this.image_data);
 
       try {
         this.isSending = true;
 
-        await this.$axios.post("/api/articles/", form, {
+        await axios.post("/api/articles/", form, {
           headers: { "content-type": "multipart/form-data;" },
         });
 
-        this.isModal = true;
-      } catch (e) {
-        this.message = "記事の新規作成に失敗しました。";
+        this.modalMessage = "記事の新規作成しました。";
+        this.showModal = true;
+      } catch (err) {
+        for (let k in err.response.data.errors) {
+          err.response.data.errors[k].forEach((a) => {
+            this.errors.push(a);
+          });
+          this.message = "記事の新規作成に失敗しました。";
+        }
       }
       this.isSending = false;
     },
     onChangeImage() {
+      this.setImage();
+    },
+    setImage() {
       const files = this.$refs.file;
       this.image_data = files.files[0];
     },
+    onClickArticleListButton() {
+      this.$router.push({ name: 'articleList' });
+    },
   },
-  watch: {},
 };
 </script>
 
 <style scoped>
-.my-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.my-modal-dialog {
-  position: absolute;
-  top: 30px;
-  left: calc(50% - 150px);
-  width: 400px;
-  background: white;
-}
 </style>

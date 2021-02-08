@@ -29,6 +29,7 @@ jobs:
       DB_USERNAME: root
       DB_PASSWORD: password
 
+
     steps:
     - name: Setup PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v2
