@@ -30,25 +30,4 @@ class ArticleRequest extends FormRequest
             'image' => 'file|image|mimes:jpeg,png',
         ];
     }
-
-    /**
-     * 定義済みバリデーションルールのエラーメッセージ取得
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'title.required' => 'タイトルは必須です。',
-            'title.min' => 'タイトルは3文字以上、50文字以内で記入してください。',
-            'title.max' => 'タイトルは3文字以上、50文字以内で記入してください。',
-            'body.required' => '本文は必須です。',
-            'body.max' => '本文は100文字以内で記入してください。',
-            'published_at.required' => '記事の公開日は必須です。',
-            'published_at.date' => '記事の公開日の形式が違います。',
-            'image.file' => '画像はjpegかpngファイルを指定してください。',
-            'image.image'  => '画像はjpegかpngファイルを指定してください。',
-            'image.mimes'  => '画像はjpegかpngファイルを指定してください。',
-        ];
-    }
 }

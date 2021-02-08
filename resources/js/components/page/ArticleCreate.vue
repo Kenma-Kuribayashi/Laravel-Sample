@@ -16,6 +16,8 @@
       v-show="showModal"
     />
 
+    <validation-observer ref="obs" v-slot="{ invalid }">
+
     <ValidationProvider rules="required|min:3|max:50" v-slot="{ errors }">
       <p>タイトル:</p>
       <input class="form-control" name="title" v-model="title" />
@@ -50,7 +52,7 @@
     <ValidationProvider rules="required|image" v-slot="{ errors }">
       <p>画像:</p>
       <div class="form_parts">
-        <input type="file" name="image" ref="file" @change="setImage" />
+        <input type="file" name="image" ref="file" @change="onChangeImage" />
         <div class="text-danger" v-show="errors[0]">{{ errors[0] }}</div>
       </div>
     </ValidationProvider>
@@ -58,12 +60,13 @@
     <div class="btn-container">
       <button
         @click="onClickSubmitButton()"
-        :disabled="!ablePost"
+        :disabled="invalid"
         class="btn btn-primary"
       >
         新規投稿
       </button>
     </div>
+    </validation-observer>
   </div>
 </template>
 
@@ -72,7 +75,7 @@ import Modal from "../parts/Modal";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
-import { ValidationProvider, extend } from "vee-validate";
+import { ValidationProvider, ValidationObserver , extend } from "vee-validate";
 import { required, min, max } from "vee-validate/dist/rules";
 extend("required", {
   ...required,
@@ -90,6 +93,7 @@ extend("min", {
 export default {
   components: {
     ValidationProvider,
+    ValidationObserver,
     Modal,
   },
   props: {
@@ -157,6 +161,9 @@ export default {
       }
       this.isSending = false;
     },
+    onChangeImage() {
+      this.setImage();
+    },
     setImage() {
       const files = this.$refs.file;
       this.image_data = files.files[0];
@@ -165,21 +172,6 @@ export default {
       this.$router.push({ name: 'articleList' });
     },
   },
-  computed: {
-    ablePost() {
-      if (
-        this.title.length >= 3 &&
-        this.title.length <= 50 &&
-        this.body !== "" &&
-        this.body.length <= 100 &&
-        this.image_data.image !== ""
-      ) {
-        return true;
-      }
-      return false;
-    },
-  },
-  watch: {},
 };
 </script>
 
