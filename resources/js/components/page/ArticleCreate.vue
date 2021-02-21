@@ -142,7 +142,7 @@ export default {
   mounted() {
     this.publishedAt = dayjs().format("YYYY-MM-DD");
 
-    this.$http.get("/api/tags").then((response) => {
+    this.$axios.get("/api/tags").then((response) => {
       this.tags = response.data.data;
     });
   },
@@ -152,7 +152,7 @@ export default {
       form.append("title", this.title);
       form.append("body", this.body);
       form.append("published_at", this.publishedAt);
-      form.append("tagId", this.tagId);
+      form.append("tag_id", this.tagId);
       form.append("image", this.image_data);
 
       try {

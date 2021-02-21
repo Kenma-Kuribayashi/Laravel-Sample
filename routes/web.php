@@ -21,13 +21,12 @@ Route::get('/articles/tags/{tag_id}', 'ArticlesController@domestic');
 //閲覧履歴ページ
 Route::get('/browsing_history', 'BrowsingHistoryController@index');
 
-Route::get('/', 'ArticlesController@index');
+Route::get('/', 'ArticlesController@index')->middleware('auth:web');
 
 Route::prefix('articles')->name('articles.')->group(function () {
   Route::get('/', 'ArticlesController@index')->name('index');
   Route::view('/articles-search-result', 'articles.search-result');
   Route::get('/csv_export', 'ArticlesController@csvExport')->name('csvExport');
-  Route::post('/', 'ArticlesController@store')->name('store');
   // Route::get('/create', 'ArticlesController@create')->name('create');
   //Route::get('/{article}/edit', 'ArticlesController@edit')->middleware('can:showEdit,article')->name('edit');
   //Route::get('/{article}/{user_id?}', 'ArticlesController@show')->name('show');
