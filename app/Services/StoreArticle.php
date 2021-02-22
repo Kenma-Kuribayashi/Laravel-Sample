@@ -54,7 +54,7 @@ class StoreArticle
 
             $this->articleTagRepository->store($article->getId(), $tagId);
 
-            // $this->articleImageRepository->upload($image, $article->getImagePath());
+            $this->articleImageRepository->upload($image, $article->getImagePath());
 
             $this->transactionManagerRepository->stop();
         } catch (Exception $e) {

@@ -46,9 +46,7 @@ class ArticlesController extends Controller
   }
 
   public function create() {
-    $tag_lists = $this->get_tag_list->get_tag_list();
-
-    return view('articles.create', compact('tag_lists'));
+    return view('articles.create');
   }
 
   public function store(StoreArticle $service, ArticleRequest $request) {

@@ -2,11 +2,8 @@
 
 @section('content')
 
-    {{-- <div>{{ $errors }}</div> --}}
-
   <div id="app">
-    {{-- <router-view :errors="{{ $errors }}" :auth="{{ Auth::user() ?? '{}' }}"></router-view> --}}
-    <router-view :auth="{{ Auth::user() ?? '{}' }}"></router-view>
+    <router-view :auth="{{ Auth::user() ?? '[]' }}"></router-view>
   </div>
 
   <div class="weather">
