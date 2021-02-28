@@ -12,7 +12,18 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => ['api']], function () {
+    Route::get('tags', 'Api\TagsController@index');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('get/articles', 'Api\Articles\GetArticlesController');
+
+    Route::get('get/article/{articleId}', 'Api\Articles\GetOneArticleController');
+
+    Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
+});
+
+Route::group(['middleware' => ['auth:api', 'api']], function () {
+    Route::post('/articles', 'Api\Articles\StoreArticleController');
+
+    Route::delete('/articles/{article}', 'Api\Articles\DeleteOneArticleController')->middleware('can:delete,article');
 });

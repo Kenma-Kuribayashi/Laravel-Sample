@@ -44,14 +44,14 @@ class LoginController extends Controller
  
       if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
 
-        return redirect('/articles');
+        return redirect('/');
       }
       return redirect()->back();
     }
     
     protected function loggedOut()
     {
-      return redirect('/articles');
+      return redirect('/');
     }
 
     /**
@@ -60,6 +60,7 @@ class LoginController extends Controller
      * @return void
      */
     public function __construct() {
-      $this->middleware('guest')->except('logout'); //except～以外
+      //logoutやshowLoginFormはトレイトのメソッド
+      $this->middleware('guest')->except(['login','logout','showLoginForm']);
     }
 }

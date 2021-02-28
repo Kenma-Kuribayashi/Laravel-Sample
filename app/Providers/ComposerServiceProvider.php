@@ -25,8 +25,14 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            ['navbar', 'articles.show'],
+            ['navbar', 'articles.*'],
             'App\Http\ViewComposers\AuthComposer'
+        );
+
+        //$weekのviewComposer
+        View::composer(
+            ['articles.index', 'articles.domestic', 'articles.show'],
+            'App\Http\ViewComposers\WeekComposer'
         );
     }
 }

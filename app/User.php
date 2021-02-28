@@ -16,8 +16,14 @@ class User extends Authenticatable
      * @param
      * @return void
      */
-    public function setIsAdminAttribute()
+    public function setIsAdminAttribute(bool $value)
     {
+        if (config('app.env') === 'testing') {
+            $this->attributes['is_admin'] = $value;
+            
+            return;
+        }
+
         $this->attributes['is_admin'] = 0;
     }
 

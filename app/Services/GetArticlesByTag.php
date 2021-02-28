@@ -3,21 +3,19 @@
 namespace App\Services;
 
 use App\Article;
-use App\Tag;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetArticlesByTag {
 
-  public function get_articles_by_tag(string $tag_name) {
+  public function get_articles_by_tag(int $tag_id): LengthAwarePaginator {
 
-    return Tag::where('name', $tag_name)
-      ->with(['articles' => function ($query) {
-        $query->latest('published_at')
-        ->latest('created_at')
-        ->published()
-        ->paginate(10);
-      }])->get();
-
-      
+     return Article::join('article_tag', 'article_tag.article_id', 'articles.id')
+       ->where("tag_id", $tag_id)
+       ->latest('published_at')
+       ->select('articles.*')
+       ->latest('created_at')
+       ->published()
+       ->paginate(10); 
   }
 
 }

@@ -6,3 +6,20 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Base
+@import '_base';
+
+// Color
+@import '_color';
+
+// component
+@import '_component';
+
+// mixin
+@import '_mixin';
+
+// page
+@import '_page';
+//articles/index
+@import 'page/articles/index.scss';

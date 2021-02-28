@@ -12,7 +12,7 @@
 </div>
 <div class="form-group">
   {!! Form::label('tags', 'タグ:') !!}
-  {!! Form::select('tags[]', $tag_list, null, ['class' => 'form-control', 'multiple']) !!}
+  {!! Form::select('tags[]', $tag_lists, null, ['class' => 'form-control', 'multiple']) !!}
   <?php // Form::select('選択したタグを入れる配列', タグの配列, null, [divタグのオプション]) ?>
 </div>
  
