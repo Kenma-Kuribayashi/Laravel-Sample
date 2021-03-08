@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-use App\Article;
+use App\Eloquent\Article;
 use Illuminate\Support\Facades\DB;
 
 class ArticlesTableSeeder extends Seeder

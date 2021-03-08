@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Article;
+use App\Eloquent\Article;
 use Illuminate\Support\Collection;
 
 

@@ -143,19 +143,12 @@ export default {
     onClickDeleteButton() {
       this.isSending = true;
 
-      axios
-        .delete("/api/articles/" + this.articleId)
-        .then(() => {
-          this.modalMessage = "記事を削除しました。";
-          this.showModal = true;
-        })
-        .catch((err) => {
-          this.message = "記事の削除に失敗しました。";
-        })
-        .finally(() => (this.isSending = false));
-    },
-    onClickArticleListButton() {
-      this.$router.push({ name: "articleList" });
+      this.$axios.delete("/api/articles/" + this.articleId)
+      .then(() => {
+          this.isModal = true;
+      }) .catch(err => {
+        this.message = "記事の削除に失敗しました。"
+      }) .finally(() => this.isSending = false);
     },
   },
   computed: {
@@ -191,7 +184,11 @@ export default {
         // console.log(articleThen);
         // this.article = articleThen.data
 
-        // this.article = (await axios.get('/api/get/article/' + this.articleId)).data
+        this.article = (await this.$axios.get("/api/get/article/" + this.articleId)).data
+
+        // const awaitRes = await axios.get("/api/get/article/" + this.articleId)
+        // console.log(awaitRes)
+        // this.article = awaitRes.data
 
         const awaitRes = await axios.get("/api/get/article/" + this.articleId);
         //console.log(awaitRes)
@@ -199,7 +196,7 @@ export default {
         //console.log(this.article);
 
         //おすすめ記事の取得
-        axios
+        this.$axios
           .get("/api/recommend_article/" + this.articleId)
           .then(({ data }) => {
             this.recommendedArticles = data;
@@ -212,20 +209,4 @@ export default {
 </script>
 
 <style scoped>
-.my-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.my-modal-dialog {
-  position: absolute;
-  top: 30px;
-  left: calc(50% - 150px);
-  width: 400px;
-  background: white;
-}
 </style>

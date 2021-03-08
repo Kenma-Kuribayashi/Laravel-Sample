@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Article;
-use App\User;
+use App\Eloquent\Article;
+use App\Eloquent\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ArticlesPolicy

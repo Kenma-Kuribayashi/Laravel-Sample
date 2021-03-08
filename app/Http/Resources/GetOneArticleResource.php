@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class ArticleResource extends Resource
+class GetOneArticleResource extends Resource
 {
 
     /**
@@ -13,7 +13,6 @@ class ArticleResource extends Resource
     public $resource;
 
     /**
-     * リソースを配列へ変換する
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -23,10 +22,8 @@ class ArticleResource extends Resource
         return [
             'title' => $this->resource->getTitle(),
             'body' => $this->resource->getBody(),
-            'hasImagePath' => $this->resource->hasImagePath(),
             'imagePath' => $this->resource->getImagePath(),
             'userId' => $this->resource->getUserId(),
-            'hasTags' => $this->resource->hasTags(),
             'tags' => $this->resource->getTags(),
         ];
     }

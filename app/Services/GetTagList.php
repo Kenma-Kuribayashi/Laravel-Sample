@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Tag;
+use App\Eloquent\Tag;
 
 
 class GetTagList {

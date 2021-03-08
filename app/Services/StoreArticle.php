@@ -2,52 +2,59 @@
 
 namespace App\Services;
 
-use App\Repositories\Interfaces\ArticleImagePathRepositoryInterface;
+
 use App\Repositories\Interfaces\TransactionManagerInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-
+use App\Repositories\Interfaces\ArticleImageRepositoryInterface;
+use App\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Repositories\Interfaces\ArticleTagRepositoryInterface;
+use App\Domain\Entity\Article;
 
 class StoreArticle
 {
 
-    private $articleImagePathRepository;
+    private $articleImageRepository;
     private $transactionManagerRepository;
+    private $articleRepository;
+    private $articleTagRepository;
 
     public function __construct(
-        ArticleImagePathRepositoryInterface $articleImagePathRepository,
-        TransactionManagerInterface $transactionManagerRepository
+        ArticleImageRepositoryInterface $articleImageRepository,
+        TransactionManagerInterface $transactionManagerRepository,
+        ArticleRepositoryInterface $articleRepository,
+        ArticleTagRepositoryInterface $articleTagRepository
     )
     {
-        $this->articleImagePathRepository = $articleImagePathRepository;
+        $this->articleImageRepository = $articleImageRepository;
         $this->transactionManagerRepository = $transactionManagerRepository;
+        $this->articleRepository = $articleRepository;
+        $this->articleTagRepository = $articleTagRepository;
     }
 
-    public function store(array $params, int $tagId, $image)
+    public function store(array $request)
     {
+        $user = Auth::user();
+        $title = $request['title'];
+        
+        $body = $request['body'];
+        $publishedAt = $request['published_at'];
+        $tagId = $request['tag_id'];
+        $image =$request['image'];
+
         $extension = $image->extension();
 
         try {
             $this->transactionManagerRepository->start();
 
             /**
-             * Auth::user()のような形で Auth ファサードを使うとログイン中のユーザーの情報を取得できる。
-             * articlesメソッドはArticleモデルとTagモデルが多対多の構造をつくる。
-             *
-             * @var App\Article
+             * @var Article
              */
-            $article = Auth::user()->articles()->create($params);
+            $article = $this->articleRepository->store($user->id, $title, $body, $publishedAt, $extension);
 
-            $article->tags()->attach($tagId); //attach多対対のとき
+            $this->articleTagRepository->store($article->getId(), $tagId);
 
-            $image_path = "article_" . $article->id . "." . $extension;
-
-            //画像のパスを保存する
-            $this->articleImagePathRepository->store($article->id, $image_path);
-
-            // バケットの`myprefix`フォルダへアップロード
-            Storage::disk('s3')->putFileAs('myprefix', $image, $image_path, 'public');
+            $this->articleImageRepository->upload($image, $article->getImagePath());
 
             $this->transactionManagerRepository->stop();
         } catch (Exception $e) {
