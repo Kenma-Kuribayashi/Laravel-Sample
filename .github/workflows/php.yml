@@ -6,10 +6,29 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         php-version: ['7.3']
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+          - 3306:3306 # ここは3306:3306でも良い気はする
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: test
+      DB_USERNAME: root
+      DB_PASSWORD: password
+
 
     steps:
     - name: Setup PHP ${{ matrix.php-version }}
@@ -36,8 +55,20 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
       
-    - name: Run test suite
-      run: composer run-script test
+    - name: composer dump autoload
+      run: composer dump-autoload
+
+    - name: copy .env
+      run: cp .env.testing .env
+
+    - name: generate key
+      run: php artisan key:generate --env=testing
+
+    - name: migrate --seed
+      run: php artisan migrate --seed
+
+    - name: unit test
+      run: ./vendor/bin/phpunit
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md

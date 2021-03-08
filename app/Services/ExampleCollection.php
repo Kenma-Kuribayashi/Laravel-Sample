@@ -7,7 +7,7 @@ use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Countable;
 use IteratorAggregate;
-use App\User;
+use App\Eloquent\User;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 class ExampleCollection {

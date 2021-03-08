@@ -17,9 +17,6 @@ class StoreArticleController extends Controller
      */
     public function __invoke(StoreArticle $service, ArticleRequest $request)
     {
-        $service->store($request->validated(), $request->input('tagId'), $request->file('image'));
-
-        return response("", 200);
-
+        $service->store($request->validated());
     }
 }

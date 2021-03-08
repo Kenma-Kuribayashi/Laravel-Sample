@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 
 class ArticleRequest extends FormRequest
 {
@@ -24,10 +27,18 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:3|max:50',
-            'body' => 'required|max:100',
-            'published_at' => 'required|date',
-            'image' => 'file|image|mimes:jpeg,png',
+          'title' => 'required|min:3|max:50',
+          'body' => 'required|max:100',
+          'published_at' => 'required|date',
+          'tag_id' => 'required|int',
+          'image' => 'file|image|mimes:jpeg,png',
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $res = response()->json([
+            'errors' => $validator->errors(),
+        ], 422);
+        throw new HttpResponseException($res);
     }
 }

@@ -2,6 +2,7 @@
   <div>
     <h1>記事の新規投稿</h1>
 
+
     <div v-show="message !== ''">
       <div class="alert alert-primary">{{ message }}</div>
     </div>
@@ -41,18 +42,22 @@
       <div class="text-danger" v-show="errors[0]">{{ errors[0] }}</div>
     </ValidationProvider>
 
-    <p>タグ:</p>
+        <p>タグ:</p>
     <select class="form-control" v-model="tagId">
       <option disabled value="">1つ選択してください</option>
-      <option v-for="(tag, index) in tags" :key="index" :value="tag.id">
-        {{ tag.name }}
-      </option>
+      <option v-for="tag in tags" :key="tag.id" v-bind:value="tag.id">{{ tag.name }}</option>
     </select>
 
-    <ValidationProvider rules="required|image" v-slot="{ errors }">
+    <ValidationProvider rules="image" v-slot="{ errors, validate }">
       <p>画像:</p>
       <div class="form_parts">
-        <input type="file" name="image" ref="file" @change="onChangeImage" />
+        <input
+          type="file"
+          name="image"
+          ref="file"
+          @change="validate() && onChangeImage()"
+        />
+
         <div class="text-danger" v-show="errors[0]">{{ errors[0] }}</div>
       </div>
     </ValidationProvider>
@@ -66,6 +71,7 @@
         新規投稿
       </button>
     </div>
+
     </validation-observer>
   </div>
 </template>
@@ -76,7 +82,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { ValidationProvider, ValidationObserver , extend } from "vee-validate";
-import { required, min, max } from "vee-validate/dist/rules";
+import { required, min, max, image } from "vee-validate/dist/rules";
 extend("required", {
   ...required,
   message: "{_field_}は必須です",
@@ -89,10 +95,16 @@ extend("min", {
   ...min,
   message: "{_field_}は{length}文字以上で入力してください",
 });
+extend("image", {
+  ...image,
+  message: "{_field_}はjpegもしくはpngファイルを選択してください。",
+});
+
 
 export default {
   components: {
     ValidationProvider,
+
     ValidationObserver,
     Modal,
   },
@@ -106,6 +118,7 @@ export default {
     //     required: true,
     // }
   },
+
   data() {
     return {
       errors: [],
@@ -121,7 +134,7 @@ export default {
         image: "",
         name: "",
       },
-      tagId: 1,
+      tagId: "",
       showModal: false,
       modalMessage: "",
     };
@@ -129,7 +142,7 @@ export default {
   mounted() {
     this.publishedAt = dayjs().format("YYYY-MM-DD");
 
-    this.$http.get("/api/tags").then((response) => {
+    this.$axios.get("/api/tags").then((response) => {
       this.tags = response.data.data;
     });
   },
@@ -139,7 +152,7 @@ export default {
       form.append("title", this.title);
       form.append("body", this.body);
       form.append("published_at", this.publishedAt);
-      form.append("tagId", this.tagId);
+      form.append("tag_id", this.tagId);
       form.append("image", this.image_data);
 
       try {

@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 Vue.prototype.$axios = axios;
 
-const app = new Vue({
+new Vue({
   router,
   store
 }).$mount('#app');

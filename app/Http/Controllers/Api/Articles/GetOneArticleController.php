@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Articles;
 
 use App\Http\Controllers\Controller;
 use App\Services\GetArticle;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\GetOneArticleResource;
 
 class GetOneArticleController extends Controller
 {
@@ -17,7 +17,7 @@ class GetOneArticleController extends Controller
     {
       $article = $getArticle->get_article($articleId);
 
-      return new ArticleResource($article);
+      return new GetOneArticleResource($article);
 
     }
 }

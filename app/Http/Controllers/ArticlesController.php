@@ -46,9 +46,7 @@ class ArticlesController extends Controller
   }
 
   public function create() {
-    $tag_lists = $this->get_tag_list->get_tag_list();
-
-    return view('articles.create', compact('tag_lists'));
+    return view('articles.create');
   }
 
   public function store(StoreArticle $service, ArticleRequest $request) {
@@ -67,12 +65,6 @@ class ArticlesController extends Controller
     $update_article->update_article($request->validated(), $request->input('tags'),$article);
 
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
-  }
-
-  public function destroy(DestroyArticle $destroy_article, Article $article) {
-    $destroy_article->destroy_article($article);
-
-    return redirect()->route('articles.index')->with('message', '記事を削除しました。');
   }
 
   public function upload(StoreImage $store_image, Request $request,int $article_id) {
