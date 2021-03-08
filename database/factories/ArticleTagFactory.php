@@ -1,15 +1,16 @@
 <?php
 
+use App\Eloquent\Article;
+use App\Eloquent\ArticleTag;
+
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use Faker\Generator as Faker;
-
-$factory->define(App\Eloquent\ArticleTag::class, function (Faker $faker) {
+$factory->define(ArticleTag::class, function () {
   return [
     'article_id' => function () {
-      return factory(App\Article::class)->create()->id;
+      return factory(Article::class)->create()->id;
     },
-    'tag_id' => rand([1, 9]),
+    'tag_id' => rand(1, 9),
     'created_at' => now(),
     'updated_at' => now(),
   ];
