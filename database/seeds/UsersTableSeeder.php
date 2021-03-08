@@ -1,17 +1,25 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
  
 class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('users')->delete();
- 
-        App\Eloquent\User::create([
-            'name' => 'root',
-            'email' => 'root@example.com',
-            'password' => Hash::make('password'),
+        $now = Carbon::now();
+
+        (new User())->newQuery()->insert([
+            [
+                'name' => 'test-user',
+                'email' => 'a@sample.com',
+                'password' => Hash::make('password'), 
+                'is_contributor' => 1, 
+                'created_at' => $now, 
+                'updated_at' => $now, 
+            ]
         ]);
     }
 }

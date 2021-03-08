@@ -1,0 +1,29 @@
+version: "3.7"
+volumes:
+  db-store:
+  php-fpm-socket:
+services:
+  app:
+    container_name: laravel-sample-app
+    build: ./docker/php
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - .:/opt/laravel-sample
+
+  web:
+    container_name: laravel-sample-web
+    build: ./docker/nginx
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - .:/opt/laravel-sample
+    ports:
+      - 80:80
+
+  db:
+    container_name: laravel-sample-db
+    build: ./docker/mysql
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./docker/logs:/var/log/mysql
+    ports:
+      - 13306:3306
