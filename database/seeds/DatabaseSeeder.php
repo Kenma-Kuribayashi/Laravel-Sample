@@ -10,6 +10,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             //ArticlesTableSeeder::class,
             TagsTableSeeder::class,
+            ArticleTagTableSeeder::class,
         ]);
     }
 }
