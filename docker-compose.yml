@@ -27,3 +27,8 @@ services:
       - ./docker/logs:/var/log/mysql
     ports:
       - 13306:3306
+
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
