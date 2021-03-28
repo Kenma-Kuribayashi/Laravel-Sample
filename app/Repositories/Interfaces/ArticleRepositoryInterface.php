@@ -14,6 +14,8 @@ interface ArticleRepositoryInterface
 
   public function store(int $userId, string $title, string $body, string $publishedAt, string $extension): Article;
 
+    public function update(int $articleId, string $title, string $body, string $publishedAt, string $imagePath): void;
+
   /**
    * 記事を全て取得し、ページネーションで返す
    * @return LengthAwarePaginator
