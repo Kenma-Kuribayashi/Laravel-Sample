@@ -7,7 +7,7 @@ use App\Repositories\Interfaces\ArticleTagRepositoryInterface;
 use App\Eloquent\ArticleTag;
 
 
-class MySqlArticleTagRepository implements ArticleTagRepositoryInterface
+class MysqlArticleTagRepository implements ArticleTagRepositoryInterface
 {
 
   public function store(int $articleId, int $tagId): void
