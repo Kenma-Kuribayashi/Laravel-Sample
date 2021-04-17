@@ -19,7 +19,7 @@ use Illuminate\Database\MySqlConnection;
 use App\Repositories\Interfaces\ArticleImagePathRepositoryInterface;
 use App\Repositories\Concretes\MySqlArticleImagePathRepository;
 use App\Repositories\Concretes\MySqlTagRepository;
-use App\Repositories\Concretes\MysqlTransactionManagerRepository;
+use App\Repositories\Concretes\MySqlTransactionManagerRepository;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use App\Repositories\Interfaces\TransactionManagerInterface;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             GetBrowsingHistoriesRepositoryInterface::class,
             MySqlGetBrowsingHistoriesRepository::class
-            
+
             //CacheGetBrowsingHistoriesRepository::class
         );
 
@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             TransactionManagerInterface::class,
-            MysqlTransactionManagerRepository::class
+            MySqlTransactionManagerRepository::class
         );
 
         $this->app->bind(
