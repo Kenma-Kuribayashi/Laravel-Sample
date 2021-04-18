@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['api']], function () {
+
     Route::get('tags', 'Api\TagsController@index');
 
     Route::get('get/articles', 'Api\Articles\GetArticlesController');
@@ -20,10 +20,18 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('get/article/{articleId}', 'Api\Articles\GetOneArticleController');
 
     Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
-});
 
-Route::group(['middleware' => ['auth', 'api']], function () {
-    Route::post('/articles', 'Api\Articles\StoreArticleController');
+    //ログイン
+    Route::post('/login', 'Api\Articles\StoreArticleController');
 
-    Route::delete('/articles/{article}', 'Api\Articles\DeleteOneArticleController')->middleware('can:delete,article');
+    //パスワードリセットでEメール送る
+    // Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
+
+
+
+//article関連
+Route::prefix('/articles')->group(function () {
+    Route::post('', 'Api\Articles\StoreArticleController')->middleware('auth');
+    Route::put('/{article}', 'Api\Articles\UpdateArticleController')->middleware(['can:update,article', 'auth']);
+    Route::delete('/{article}', 'Api\Articles\DeleteOneArticleController')->middleware(['can:delete,article', 'auth']);
 });

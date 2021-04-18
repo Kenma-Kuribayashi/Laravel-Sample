@@ -46,7 +46,7 @@ class DeleteTest extends TestCase
         //管理者ユーザがユーザが作成した記事を削除する
         $response = $this->actingAs($admin_user)
           ->delete("/api/articles/{$article->id}");
-          
+
         $this->assertDatabaseMissing('articles', [
           'id' => $article->id,
           'title' => $article->title,
