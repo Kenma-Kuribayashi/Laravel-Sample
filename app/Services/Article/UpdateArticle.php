@@ -6,8 +6,7 @@ use App\Repositories\Interfaces\ArticleImageRepositoryInterface;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Repositories\Interfaces\ArticleTagRepositoryInterface;
 use App\Repositories\Interfaces\TransactionManagerInterface;
-use http\Exception;
-use Illuminate\Support\Collection;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class UpdateArticle {
@@ -26,10 +25,10 @@ class UpdateArticle {
     }
 
     /**
-     * @param Collection $request
-     * @return mixed
+     * @param array $request
+     * @return void
      */
-    public function execute(Collection $request) {
+    public function execute(array $request): void {
 
         $articleId = $request['articleId'];
 

@@ -3,10 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Collection;
-
 
 class ArticleRequest extends FormRequest
 {
@@ -36,25 +32,18 @@ class ArticleRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
-        $res = response()->json([
-            'errors' => $validator->errors(),
-        ], 422);
-        throw new HttpResponseException($res);
-    }
-
     /**
-     * @return Collection
+     * @return array
      */
-    public function convert(): Collection
+    public function convert(): array
     {
-        return collect([
+        return [
             'title' => $this->title,
             'body' => $this->body,
             'publishedAt' => $this->published_at,
             'tagId' => $this->tag_id,
             'image' => $this->image,
             'articleId' => $this->article->id,
-        ]);
+        ];
     }
 }
