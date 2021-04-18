@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\API\Controllers\Article\DeleteOneArticleController;
+use App\Http\API\Controllers\Article\GetArticlesController;
+use App\Http\API\Controllers\Article\GetOneArticleController;
+use App\Http\API\Controllers\Article\GetRecommendedArticlesController;
+use App\Http\API\Controllers\Article\StoreArticleController;
+use App\Http\API\Controllers\Article\UpdateArticleController;
+use App\Http\API\Controllers\Tag\GetTagsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,16 +21,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-    Route::get('tags', 'Api\TagsController@index');
+    Route::get('tags', GetTagsController::class);
 
-    Route::get('get/articles', 'Api\Articles\GetArticlesController');
+    Route::get('get/articles', GetArticlesController::class);
 
-    Route::get('get/article/{articleId}', 'Api\Articles\GetOneArticleController');
+    Route::get('get/article/{articleId}', GetOneArticleController::class);
 
-    Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
+    Route::get('/recommend_article/{articleId}', GetRecommendedArticlesController::class);
 
     //ログイン
-    Route::post('/login', 'Api\Articles\StoreArticleController');
+    //Route::post('/login', 'Api\Articles\StoreArticleController');
 
     //パスワードリセットでEメール送る
     // Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
@@ -31,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 //article関連
 Route::prefix('/articles')->group(function () {
-    Route::post('', 'Api\Articles\StoreArticleController')->middleware('auth');
-    Route::put('/{article}', 'Api\Articles\UpdateArticleController')->middleware(['can:update,article', 'auth']);
-    Route::delete('/{article}', 'Api\Articles\DeleteOneArticleController')->middleware(['can:delete,article', 'auth']);
+    Route::post('', StoreArticleController::class)->middleware('auth');
+    Route::put('/{article}', UpdateArticleController::class)->middleware(['can:update,article', 'auth']);
+    Route::delete('/{article}', DeleteOneArticleController::class)->middleware(['can:delete,article', 'auth']);
 });

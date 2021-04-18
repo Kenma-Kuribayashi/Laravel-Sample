@@ -3,7 +3,7 @@
 namespace App\Services\BrowsingHistory;
 
 use App\Repositories\Interfaces\ViewCountRepositoryInterface;
-use App\Services\GetArticle;
+use App\Services\Article\GetArticle;
 
 class StoreBrowsingHistory {
 
@@ -31,10 +31,10 @@ class StoreBrowsingHistory {
    * @return void
    */
   public function store(int $article_id, int $user_id = null,$get_article) {
-    
+
     if ($user_id) {
       $article = $get_article->get_article($article_id);
-      
+
       $this->viewCountRepository->incrementViewCount($article_id, $user_id, $article->getTitle());
     }
 
