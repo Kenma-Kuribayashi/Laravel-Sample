@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\API\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticleRequest extends FormRequest
+class StoreArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +23,11 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-          'title' => 'required|min:3|max:50',
-          'body' => 'required|max:100',
-          'published_at' => 'required|date',
-          'tag_id' => 'required|int',
-          'image' => 'file|image|mimes:jpeg,png',
+            'title' => 'required|min:3|max:50',
+            'body' => 'required|max:100',
+            'published_at' => 'required|date',
+            'tag_id' => 'required|int',
+            'image' => 'file|image|mimes:jpeg,png',
         ];
     }
 
