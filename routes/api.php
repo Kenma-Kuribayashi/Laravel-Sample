@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\API\Controllers\Article\DeleteOneArticleController;
 use App\Http\API\Controllers\Article\GetArticlesController;
 use App\Http\API\Controllers\Article\GetOneArticleController;

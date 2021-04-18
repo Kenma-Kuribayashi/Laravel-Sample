@@ -3,11 +3,11 @@
 namespace App\Http\web\Controllers;
 
 use App\Article;
-use App\Http\API\Requests\Article\ArticleRequest;
+use App\Http\API\Requests\Article\UpdateArticleRequest;
+use App\Http\API\Requests\Article\StoreArticleRequest;
 use Illuminate\Http\Request;
 use App\Services\Article\StoreArticle;
 use App\Services\Article\GetArticles;
-use App\Services\GetTagList;
 use App\Services\UpdateArticle;
 use App\Services\DestroyArticle;
 use App\Services\StoreImage;
@@ -19,11 +19,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticlesController extends Controller
 {
-  private $get_tag_list;
 
-  public function __construct(GetTagList $get_tag_list) {
+  public function __construct() {
     $this->middleware('auth')->except(['index', 'show', 'domestic', 'csvExport']); //ログインしなくてもみれる
-    $this->get_tag_list = $get_tag_list;
   }
 
   public function index() {
@@ -49,7 +47,7 @@ class ArticlesController extends Controller
     return view('articles.create');
   }
 
-  public function store(StoreArticle $service, ArticleRequest $request) {
+  public function store(StoreArticle $service, StoreArticleRequest $request) {
     $service->store($request->validated(), $request->input('tags'));
 
     return redirect()->route('articles.index')->with('message', '記事を追加しました。');
@@ -61,7 +59,7 @@ class ArticlesController extends Controller
     return view('articles.edit', compact('article', 'tag_lists'));
   }
 
-  public function update(UpdateArticle $update_article, ArticleRequest $request, Article $article) {
+  public function update(UpdateArticle $update_article, UpdateArticleRequest $request, Article $article) {
     $update_article->update_article($request->validated(), $request->input('tags'),$article);
 
     return redirect()->route('articles.show', [$article->id])->with('message', '記事を更新しました。');
