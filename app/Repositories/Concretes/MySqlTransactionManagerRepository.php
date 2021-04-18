@@ -5,7 +5,7 @@ namespace App\Repositories\Concretes;
 use App\Repositories\Interfaces\TransactionManagerInterface;
 use Illuminate\Support\Facades\DB;
 
-class MysqlTransactionManagerRepository implements TransactionManagerInterface
+class MySqlTransactionManagerRepository implements TransactionManagerInterface
 {
   public function __construct()
   {

@@ -37,8 +37,6 @@ class StoreTest extends TestCase
   //タイトルが3文字
   public function test_success_title_length_min()
   {
-    //dd($this->user);
-
     //3文字のランダムの文字列
     $new_title = Str::random(3);
 
@@ -63,11 +61,17 @@ class StoreTest extends TestCase
     $response->assertStatus(200);
   }
 
-  /**
-   * Undocumented function
-   *
-   * @return response
-   */
+    /**
+     * Undocumented function
+     *
+     * @param int|null $user_id
+     * @param string|null $title
+     * @param string|null $body
+     * @param string|null $published_at
+     * @param int|null $tag_id
+     * @param UploadedFile|null $file
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
   private function postArticle(
     ?int $user_id,
     ?string $title,

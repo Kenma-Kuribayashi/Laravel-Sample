@@ -18,10 +18,9 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            //アプリケーションの先へリクエストを通す
-            return $next($request); 
+            return abort(404);
         }
-        
-        return abort(404);
+
+        return $next($request);
     }
 }

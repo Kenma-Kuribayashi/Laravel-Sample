@@ -19,4 +19,9 @@ class MySqlArticleTagRepository implements ArticleTagRepositoryInterface
   {
     ArticleTag::where('article_id', $articleId)->delete();
   }
+
+    public function update(int $articleId, int $tagId): void
+    {
+        ArticleTag::where('article_id', $articleId)->update(['tag_id' => $tagId]);
+    }
 }

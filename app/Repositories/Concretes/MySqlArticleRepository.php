@@ -95,4 +95,15 @@ class MySqlArticleRepository implements ArticleRepositoryInterface
     return ArticleEntity::constructByRepository(
       $article->title, $article->body, $article->image_path, $article->user_id, $article->id);
   }
+
+    public function update(int $articleId, string $title, string $body, string $publishedAt, string $imagePath): void
+    {
+        Article::where('id', $articleId)
+            ->update([
+                'title' => $title,
+                'body' => $body,
+                'image_path' => $imagePath,
+                'published_at' => $publishedAt,
+        ]);
+    }
 }
