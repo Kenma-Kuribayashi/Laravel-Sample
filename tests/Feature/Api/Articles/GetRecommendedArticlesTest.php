@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Eloquent\User;
 use App\Eloquent\Article;
-use App\Services\GetRecommendedArticles;
+use App\Services\Article\GetRecommendedArticles;
 use App\Eloquent\Tag;
 use Illuminate\Database\Eloquent\Collection;
 
