@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Articles;
 
+use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -46,7 +47,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     //タイトルが50文字
@@ -69,7 +70,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     //内容(body)が100文字
@@ -93,7 +94,7 @@ class UpdateTest extends TestCase
             'body' => $new_body,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     //タイトルがない
@@ -117,7 +118,7 @@ class UpdateTest extends TestCase
             'body' => $new_body,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //タイトルが3文字より少ない
@@ -141,7 +142,7 @@ class UpdateTest extends TestCase
             'body' => $new_body,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //タイトルが50文字より多い
@@ -166,7 +167,7 @@ class UpdateTest extends TestCase
             'body' => $new_body,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //bodyがない
@@ -190,7 +191,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //bodyが100文字より多い
@@ -215,7 +216,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //published_atがない
@@ -239,7 +240,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     //published_atがdate型じゃない
@@ -263,7 +264,7 @@ class UpdateTest extends TestCase
             'title' => $new_title,
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
 }
