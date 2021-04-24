@@ -18,7 +18,8 @@
 2. `docker-compose` コマンドからビルド+起動
 3. データベースのテーブル作成
 4. データベースの初期データ登録
-5. `docker-compose` コマンドから停止
+5. JavaScriptの設定
+6. `docker-compose` コマンドから停止
 
 #### 1. リポジトリの Clone
 
@@ -54,7 +55,7 @@ laravel-sample-web   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:80->80/tcp
 
  ```bash
 $ docker-compose exec app composer install
-$ cp -p env/.env.local.php .env
+$ cp -p env/local.env .env
 ```
 
 #### 3. データベースのテーブル作成
@@ -73,7 +74,18 @@ $ docker-compose exec app php artisan migrate
 $ docker-compose exec app php artisan db:seed
 ```
 
-#### 5. `docker-compose` コマンドから停止
+#### 5. JavaScriptの設定
+
+既にnodeがインストールされていることが前提です。
+
+以下のコマンドを実行してください。
+
+ ```bash
+$ npm install
+$ npm run dev
+```
+
+#### 6. `docker-compose` コマンドから停止
 
 以下のコマンドを実行してください。
 
