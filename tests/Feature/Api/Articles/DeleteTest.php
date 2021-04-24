@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\Articles;
 
+use Illuminate\Http\Response;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Eloquent\User;
@@ -33,7 +34,7 @@ class DeleteTest extends TestCase
           'title' => $article->title,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     //user1が記事作成し、管理者が削除
@@ -52,7 +53,7 @@ class DeleteTest extends TestCase
           'title' => $article->title,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     //user2の記事作成しuser1が削除
@@ -72,6 +73,6 @@ class DeleteTest extends TestCase
       ]);
 
       //403コード:This action is unauthorized.
-      $response->assertStatus(403);
+      $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }
