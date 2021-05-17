@@ -19,7 +19,5 @@ class LogoutService
         Auth::logout();
 
         $request->session()->invalidate();
-
-        $request->session()->regenerate();
     }
 }

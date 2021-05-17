@@ -17,7 +17,7 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request, LoginService $loginService): Response
     {
-        $loginService->execute($request->convert());
+        $loginService->execute($request);
 
         return response()->noContent();
     }

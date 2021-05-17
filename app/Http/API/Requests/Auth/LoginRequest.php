@@ -30,14 +30,4 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function convert(): array
-    {
-        return [
-            'email' => $this->email,
-            'password' => $this->password,
-        ];
-    }
 }
