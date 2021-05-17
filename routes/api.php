@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\API\Controllers\Auth\LoginController;
+use App\Http\API\Controllers\Auth\LogoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\API\Controllers\Article\DeleteOneArticleController;
 use App\Http\API\Controllers\Article\GetArticlesController;
@@ -20,20 +22,26 @@ use App\Http\API\Controllers\Tag\GetTagsController;
 |
 */
 
-    Route::get('tags', GetTagsController::class);
-
-    Route::get('get/articles', GetArticlesController::class);
-
-    Route::get('get/article/{articleId}', GetOneArticleController::class);
-
-    Route::get('/recommend_article/{articleId}', GetRecommendedArticlesController::class);
+//article関連
+Route::prefix('/auth')->group(function () {
 
     //ログイン
-    //Route::post('/login', 'Api\Articles\StoreArticleController');
+    Route::post('/login', LoginController::class);
+
+    //ログアウト
+    Route::delete('/logout', LogoutController::class);
 
     //パスワードリセットでEメール送る
     // Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
+});
 
+
+Route::get('tags', GetTagsController::class);
+
+Route::get('get/articles', GetArticlesController::class);
+
+Route::get('get/article/{articleId}', GetOneArticleController::class);
+Route::get('/recommend_article/{articleId}', GetRecommendedArticlesController::class);
 
 
 //article関連
