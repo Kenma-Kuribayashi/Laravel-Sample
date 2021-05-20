@@ -5,6 +5,7 @@ namespace App\Http\API\Controllers\Article;
 use App\Http\web\Controllers\Controller;
 use App\Services\Article\GetArticle;
 use App\Http\API\Resources\GetOneArticleResource;
+use Illuminate\Support\Facades\Auth;
 
 class GetOneArticleController extends Controller
 {
@@ -15,9 +16,10 @@ class GetOneArticleController extends Controller
      */
     public function __invoke(int $articleId, GetArticle $getArticle): GetOneArticleResource
     {
-      $article = $getArticle->get_article($articleId);
+        $userId = Auth::id();
+        $article = $getArticle->get_article($articleId, $userId);
 
-      return new GetOneArticleResource($article);
+        return new GetOneArticleResource($article);
 
     }
 }
