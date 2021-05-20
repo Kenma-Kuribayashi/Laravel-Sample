@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concretes;
 
-use App\BrowsingHistory;
+use App\Eloquent\BrowsingHistory;
 use App\Repositories\Interfaces\ViewCountRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
