@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Repositories\Concretes\CacheGetBrowsingHistoriesRepository;
+use App\Repositories\Concretes\MySqlUserRepository;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interfaces\ViewCountRepositoryInterface;
 use App\Repositories\Concretes\MySqlViewCountRepository;
@@ -94,6 +96,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ArticleRepositoryInterface::class,
             MySqlArticleRepository::class
+        );
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            MySqlUserRepository::class
         );
     }
 

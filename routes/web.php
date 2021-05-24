@@ -26,6 +26,9 @@ Route::get('/browsing_history', 'BrowsingHistoryController@index');
 
 Route::get('/', 'ArticlesController@index');
 
+//会員登録認証画面
+Route::view('/users/register/activate', 'users.verify')->name('verification.verify');
+
 Route::prefix('articles')->name('articles.')->group(function () {
   Route::get('/', 'ArticlesController@index')->name('index');
   Route::view('/articles-search-result', 'articles.search-result');

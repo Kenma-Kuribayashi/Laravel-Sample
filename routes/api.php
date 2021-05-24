@@ -10,6 +10,7 @@ use App\Http\API\Controllers\Article\GetRecommendedArticlesController;
 use App\Http\API\Controllers\Article\StoreArticleController;
 use App\Http\API\Controllers\Article\UpdateArticleController;
 use App\Http\API\Controllers\Tag\GetTagsController;
+use App\Http\API\Controllers\User\SendRegistrationEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,19 +23,23 @@ use App\Http\API\Controllers\Tag\GetTagsController;
 |
 */
 
-//article関連
+//Auth関連
 Route::prefix('/auth')->group(function () {
-
     //ログイン
     Route::post('/login', LoginController::class);
-
     //ログアウト
     Route::delete('/logout', LogoutController::class);
-
-    //パスワードリセットでEメール送る
-    // Route::get('/recommend_article/{articleId}', 'Api\GetRecommendedArticlesController');
 });
 
+//User関連
+Route::prefix('/users')->group(function () {
+    //会員登録メール送信
+    Route::post('/register/email', SendRegistrationEmailController::class);
+    //会員登録認証 todo:コントローラ名
+    Route::post('/register/activate', LogoutController::class);
+    //パスワードリセットでEメール送る
+    //パスワードリセット
+});
 
 Route::get('tags', GetTagsController::class);
 

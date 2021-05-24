@@ -4,9 +4,9 @@ namespace App\Eloquent;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Eloquent\Article;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable
     {
         if (config('app.env') === 'testing') {
             $this->attributes['is_admin'] = $value;
-            
+
             return;
         }
 
@@ -53,8 +53,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-    public function articles() 
+
+    public function articles()
     {
         return $this->hasMany(Article::class);
     }
