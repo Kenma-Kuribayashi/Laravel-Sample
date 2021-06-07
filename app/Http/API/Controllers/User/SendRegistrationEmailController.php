@@ -6,7 +6,7 @@ namespace App\Http\API\Controllers\User;
 
 use App\Http\API\Requests\User\SendRegistrationEmailRequest;
 use App\Http\web\Controllers\Controller;
-use App\Services\User\SendRegistrationEmailService;
+use App\Services\User\RegisterUserService;
 use Illuminate\Http\Response;
 
 class SendRegistrationEmailController extends Controller
@@ -17,9 +17,9 @@ class SendRegistrationEmailController extends Controller
      */
     public function __invoke(
         SendRegistrationEmailRequest $request,
-        SendRegistrationEmailService $sendRegistrationEmailService)
+        RegisterUserService $registerUserService): Response
     {
-        $sendRegistrationEmailService->execute($request->convert());
+        $registerUserService->execute($request->convert());
 
         return response()->noContent();
     }

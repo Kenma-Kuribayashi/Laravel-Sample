@@ -34,8 +34,8 @@ Route::prefix('/auth')->group(function () {
 
 //User関連
 Route::prefix('/users')->group(function () {
-    //会員登録メール送信
-    Route::post('/register/email', SendRegistrationEmailController::class);
+    //会員登録
+    Route::post('/', SendRegistrationEmailController::class);
     //会員登録メール認証
     Route::post('/register/activate', ActivateUserController::class);
     //パスワードリセットでEメール送る
