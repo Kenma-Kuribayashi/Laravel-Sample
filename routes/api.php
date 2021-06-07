@@ -2,6 +2,7 @@
 
 use App\Http\API\Controllers\Auth\LoginController;
 use App\Http\API\Controllers\Auth\LogoutController;
+use App\Http\API\Controllers\User\ActivateUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\API\Controllers\Article\DeleteOneArticleController;
 use App\Http\API\Controllers\Article\GetArticlesController;
@@ -35,8 +36,8 @@ Route::prefix('/auth')->group(function () {
 Route::prefix('/users')->group(function () {
     //会員登録メール送信
     Route::post('/register/email', SendRegistrationEmailController::class);
-    //会員登録認証 todo:コントローラ名
-    Route::post('/register/activate', LogoutController::class);
+    //会員登録メール認証
+    Route::post('/register/activate', ActivateUserController::class);
     //パスワードリセットでEメール送る
     //パスワードリセット
 });
