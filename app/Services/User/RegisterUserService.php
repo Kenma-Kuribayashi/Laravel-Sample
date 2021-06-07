@@ -9,7 +9,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 
-class SendRegistrationEmailService
+class RegisterUserService
 {
     private $userRepository;
 

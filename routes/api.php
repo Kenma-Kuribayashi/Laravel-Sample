@@ -33,8 +33,8 @@ Route::prefix('/auth')->group(function () {
 
 //User関連
 Route::prefix('/users')->group(function () {
-    //会員登録メール送信
-    Route::post('/register/email', SendRegistrationEmailController::class);
+    //会員登録
+    Route::post('/', SendRegistrationEmailController::class);
     //会員登録認証 todo:コントローラ名
     Route::post('/register/activate', LogoutController::class);
     //パスワードリセットでEメール送る
