@@ -10,30 +10,26 @@
 
         <div v-show="isError">
             <div>登録が失敗しました。</div>
-            <p>登録が失敗した理由として以下が考えられます。</p>
-            <ul>
-                <li>①本登録用のURLの有効期限が切れてしまっている</li>
-                <li>②すでに本登録済みである</li>
-                <li>③通信エラーで失敗してしまった</li>
-            </ul>
-            <p>そのため、以下をご確認の上、再度お試し頂けますでしょうか。</p>
-            <ul>
-                <li>①の場合、再度会員登録をお願いいたします。</li>
-                <li>③の場合、時間を置いて再度メールの「メールアドレスの確認」ボタンをクリックしてください。</li>
-            </ul>
+            <p>再度メールの送信をお試し頂けますでしょうか。</p>
 
-            <!--todo:会員登録画面作成する-->
-            <!--            <router-link :to="{ name: '' }" class="btn btn-primary">-->
-            <!--                会員登録ページへ-->
-            <!--            </router-link>-->
+            <div class="btn-container">
+                <button
+                    @click="onClickSendEmailButton()"
+                    class="btn btn-primary"
+                >
+                    メールを再送信する
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 
+import axios from "axios";
+
 export default {
-    name: "Activate",
+    name: "Verification",
     data() {
         return {
             id: null,
@@ -53,7 +49,7 @@ export default {
         try {
             //会員登録メール認証API
             await this.$axios
-                .post(`/api/users/register/activate?expires=${this.expires}&id=${this.id}&signature=${this.signature}`,
+                .post(`/api/users/verifications?expires=${this.expires}&id=${this.id}&signature=${this.signature}`,
                     {
                         id: this.id
                     });
@@ -64,6 +60,11 @@ export default {
         }
 
         this.isLoading = false;
+    },
+    methods: {
+        async onClickSendEmailButton() {
+            await axios.post(`/api/users/${this.id}/emails/verifications`);
+        },
     },
 }
 </script>
