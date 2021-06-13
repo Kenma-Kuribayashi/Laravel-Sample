@@ -2,7 +2,8 @@
 
 use App\Http\API\Controllers\Auth\LoginController;
 use App\Http\API\Controllers\Auth\LogoutController;
-use App\Http\API\Controllers\User\ActivateUserController;
+use App\Http\API\Controllers\User\SendVerificationEmailController;
+use App\Http\API\Controllers\User\VerificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\API\Controllers\Article\DeleteOneArticleController;
 use App\Http\API\Controllers\Article\GetArticlesController;
@@ -11,7 +12,7 @@ use App\Http\API\Controllers\Article\GetRecommendedArticlesController;
 use App\Http\API\Controllers\Article\StoreArticleController;
 use App\Http\API\Controllers\Article\UpdateArticleController;
 use App\Http\API\Controllers\Tag\GetTagsController;
-use App\Http\API\Controllers\User\SendRegistrationEmailController;
+use App\Http\API\Controllers\User\RegisterUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,11 @@ Route::prefix('/auth')->group(function () {
 //User関連
 Route::prefix('/users')->group(function () {
     //会員登録
-    Route::post('/', SendRegistrationEmailController::class);
-    //会員登録メール認証
-    Route::post('/register/activate', ActivateUserController::class);
-    //パスワードリセットでEメール送る
-    //パスワードリセット
+    Route::post('/', RegisterUserController::class);
+    //メール認証
+    Route::post('/verifications', VerificationController::class);
+    //会員登録認証メール送信
+    Route::post('/{id}/emails/verifications', SendVerificationEmailController::class)->middleware('auth');
 });
 
 Route::get('tags', GetTagsController::class);

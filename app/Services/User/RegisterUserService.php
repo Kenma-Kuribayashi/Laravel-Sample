@@ -3,10 +3,8 @@
 
 namespace App\Services\User;
 
-
-use App\Notifications\VerifyEmailJapanese;
+use App\Eloquent\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 
 class RegisterUserService
@@ -21,9 +19,9 @@ class RegisterUserService
     /**
      *
      * @param array $request
-     * @return void
+     * @return User $user
      */
-    public function execute(array $request): void
+    public function execute(array $request): User
     {
         //既に登録されていないかチェック
         if($this->userRepository->findByEmail($request['email'])) {
@@ -36,9 +34,6 @@ class RegisterUserService
         //ログイン
         Auth::guard()->login($user);
 
-        //メール送信
-        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
-            $user->notify(new VerifyEmailJapanese);
-        }
+        return $user;
     }
 }
