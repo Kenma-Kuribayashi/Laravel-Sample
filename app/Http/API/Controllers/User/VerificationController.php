@@ -3,13 +3,13 @@
 
 namespace App\Http\API\Controllers\User;
 
-use App\Http\API\Requests\User\ActivateUserRequest;
+use App\Http\API\Requests\User\VerificationRequest;
 use App\Http\Middleware\ReplaceHostNameAndCheckSignature;
 use App\Http\web\Controllers\Controller;
-use App\Services\User\ActivateUserService;
+use App\Services\User\VerificationService;
 use Illuminate\Http\Response;
 
-class ActivateUserController extends Controller
+class VerificationController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -28,8 +28,8 @@ class ActivateUserController extends Controller
      * @return Response
      */
     public function __invoke(
-        ActivateUserRequest $request,
-        ActivateUserService $activateUserService)
+        VerificationRequest $request,
+        VerificationService $activateUserService)
     {
         $activateUserService->execute($request->convert());
 

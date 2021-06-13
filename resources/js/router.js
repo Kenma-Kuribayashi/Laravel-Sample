@@ -4,7 +4,7 @@ import ArticleList from './components/page/ArticleList'
 import ArticleDetail from './components/page/ArticleDetail'
 import ArticleSearchResults from './components/page/ArticleSearchResults'
 import ArticleCreate from './components/page/ArticleCreate'
-import Activate from "./components/page/user/Activate";
+import Verification from "./components/page/user/Verification";
 
 Vue.use(Router)
 
@@ -32,9 +32,9 @@ export default new Router({
             component: ArticleDetail
         },
         {
-            path: '/users/register/activate',
-            name: 'activate',
-            component: Activate
+            path: '/users/verifications',
+            name: 'verification',
+            component: Verification
         },
     ]
 })
