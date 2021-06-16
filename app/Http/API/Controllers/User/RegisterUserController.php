@@ -5,22 +5,21 @@ namespace App\Http\API\Controllers\User;
 
 
 use App\Http\API\Requests\User\SendRegistrationEmailRequest;
+use App\Http\API\Resources\User\UserResource;
 use App\Http\web\Controllers\Controller;
 use App\Services\User\RegisterUserService;
-use Illuminate\Http\Response;
 
-class SendRegistrationEmailController extends Controller
+
+class RegisterUserController extends Controller
 {
     /**
      *
-     * @return Response
+     * @return UserResource
      */
     public function __invoke(
         SendRegistrationEmailRequest $request,
-        RegisterUserService $registerUserService): Response
+        RegisterUserService $registerUserService): UserResource
     {
-        $registerUserService->execute($request->convert());
-
-        return response()->noContent();
+        return new UserResource($registerUserService->execute($request->convert()));
     }
 }

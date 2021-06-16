@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'ja_Ja',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,5 +231,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
+    'api_host' => env('API_HOST', 'http://127.0.0.1/api'),
+    'front_host' => env('FRONT_HOST', 'http://127.0.0.1'),
+
 
 ];
